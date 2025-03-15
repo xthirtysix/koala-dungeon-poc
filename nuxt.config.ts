@@ -7,7 +7,10 @@ export default defineNuxtConfig({
     },
     devtools: { enabled: true },
     srcDir: 'src',
-    app: { baseURL: '/' },
+    app: {
+        baseURL: '/koala-dungeon/',
+        buildAssetsDir: 'app/assets'
+    },
     dir: {
         app: 'app',
         pages: 'app/routes',
