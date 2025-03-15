@@ -1,0 +1,1 @@
+import{_ as t,c,o as e,f as a,h as o,i as s}from"./DnwzwOkV.js";const _=""+new URL("faerun.DmroZ0QQ.jpg",import.meta.url).href,m={},p={class:"rounded-[0.35rem]",src:_,alt:"Faerun"};function f(r,n){return e(),c("img",p)}const u=t(m,[["render",f]]),d=a({__name:"map",setup(r){return(n,i)=>(e(),o(s(u)))}});export{d as default};
