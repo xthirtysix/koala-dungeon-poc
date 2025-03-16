@@ -21,6 +21,7 @@ export default defineNuxtConfig({
         public: '../public',
     },
     image: {
+        domains: ['xthirtysix.ru'],
         quality: 80,
         format: ['avif', 'webp', 'png'],
         presets: {
@@ -33,4 +34,3 @@ export default defineNuxtConfig({
         },
     },
 })
-
