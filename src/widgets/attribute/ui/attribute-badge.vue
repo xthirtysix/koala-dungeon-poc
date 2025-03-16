@@ -46,7 +46,7 @@ const modifierValue = computed<string>(() => {
 
 <template>
     <span
-        class="rounded-full inline-flex items-center justify-between gap-1 p-1 border-white border-2"
+        class="rounded-full inline-flex items-center justify-between gap-1 p-1 border-(--ui-bg) border-2"
         :class="bgColor"
     >
         <figure

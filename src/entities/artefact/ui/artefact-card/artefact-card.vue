@@ -25,16 +25,9 @@ const ui = ref({ body: 'grow' })
     <UCard class="h-full flex flex-col" :ui="ui">
         <template #header>
             <div class="flex items-center justify-between gap-[0.5rem]">
-                <h3 class="text-lg font-bold truncate">
+                <h3 class="text-md font-bold truncate">
                     {{ artefact.name }}
                 </h3>
-                <UBadge
-                    :color="getTypeColor(artefact.type)"
-                    variant="subtle"
-                    class="capitalize"
-                >
-                    {{ getTypeLabel(artefact.type) }}
-                </UBadge>
             </div>
         </template>
 
@@ -49,6 +42,13 @@ const ui = ref({ body: 'grow' })
             <p class="text-sm text-gray-600">
                 {{ artefact.description }}
             </p>
+            <UBadge
+                :color="getTypeColor(artefact.type)"
+                variant="subtle"
+                class="absolute top-[-.85rem] left-[-.5rem] capitalize"
+            >
+                {{ getTypeLabel(artefact.type) }}
+            </UBadge>
             <section class="absolute top-[-1rem] right-[-2.5rem] grid gap-1">
                 <AttributeBadge
                     :attribute="Attribute.DURABILITY"
