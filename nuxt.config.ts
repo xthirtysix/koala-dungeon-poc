@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     },
     image: {
         provider: 'ipx',
+        dir: 'public',
         ipx: { baseURL: '' },
         domains: ['xthirtysix.ru'],
         quality: 80,
