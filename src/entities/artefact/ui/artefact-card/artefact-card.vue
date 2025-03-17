@@ -48,7 +48,7 @@ const onMouseLeave = () => {
                     preset="artefact"
                     :src="`/artefacts/${artefact.id}.png`"
                     :alt="artefact.name"
-                    class="relative z-1 hover-image"
+                    class="relative hover-image"
                     :class="{ animate: isHovering }"
                     @mouseenter="onMouseEnter"
                     @mouseleave="onMouseLeave"
