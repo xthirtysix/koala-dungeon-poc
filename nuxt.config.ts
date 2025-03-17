@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    ssr: false,
+    // ssr: false,
     compatibilityDate: '2025-03-12',
     future: {
         compatibilityVersion: 4,
@@ -21,9 +21,6 @@ export default defineNuxtConfig({
         public: '../public',
     },
     image: {
-        provider: 'ipx',
-        dir: 'public',
-        ipx: { baseURL: '' },
         domains: ['xthirtysix.ru'],
         quality: 80,
         format: ['avif', 'webp', 'png'],
