@@ -42,7 +42,7 @@ const onMouseLeave = () => {
 
         <div class="inline-flex m-auto flex-col h-full relative gap-2">
             <figure
-                class="relative flex justify-center min-h-[150px] before:z-[0] before:absolute before:left-[50%] before:top-[50%] before:w-[68%] before:-translate-[50%] before:pb-[68%] before:h-auto before:mr-4 before:bg-purple-100 before:rounded-full"
+                class="relative flex justify-center min-h-[150px] before:z-[0] before:absolute before:left-[50%] before:top-[50%] before:w-[68%] before:-translate-[50%] before:pb-[68%] before:h-auto before:mr-4 before:bg-purple-100 before:rounded-full dark:before:bg-purple-400 dark:before:opacity-35"
             >
                 <NuxtImg
                     preset="artefact"
@@ -83,34 +83,34 @@ const onMouseLeave = () => {
 
 <style scoped>
 .image-container {
-  display: inline-block;
-  overflow: hidden;
-  padding: 5px;
+    display: inline-block;
+    overflow: hidden;
+    padding: 5px;
 }
 
 .hover-image {
-  display: block;
-  max-width: 100%;
-  transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    display: block;
+    max-width: 100%;
+    transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .hover-image.animate {
-  animation: continuousSway 3s ease-in-out infinite;
-  animation-timing-function: linear;
+    animation: continuousSway 3s ease-in-out infinite;
+    animation-timing-function: linear;
 }
 
 @keyframes continuousSway {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  33% {
-    transform: rotate(2deg) scale(1.015);
-  }
-  66% {
-    transform: rotate(-3deg) scale(1.02);
-  }
-  100% {
-    transform: rotate(0deg) scale(1);
-  }
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    33% {
+        transform: rotate(2deg) scale(1.015);
+    }
+    66% {
+        transform: rotate(-3deg) scale(1.02);
+    }
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
 }
 </style>

@@ -18,22 +18,22 @@ const props = defineProps<{
 const bgColor = computed<string>(() =>{
     switch (props.modifierType) {
         case '+':
-            return 'bg-green-100'
+            return 'bg-green-100 dark:bg-green-300'
         case '-':
-            return 'bg-red-100'
+            return 'bg-red-100 dark:bg-red-300'
         default:
-            return 'bg-gray-100'
+            return 'bg-gray-100 dark:bg-gray-200'
     }
 })
 
 const fgColor = computed<string>(() => {
     switch (props.modifierType) {
         case '+':
-            return 'text-green-100'
+            return 'text-green-100 dark:text-green-300'
         case '-':
-            return 'text-red-100'
+            return 'text-red-100 dark:text-red-300'
         default:
-            return 'text-gray-100'
+            return 'text-gray-100 dark:text-gray-200'
     }
 })
 
