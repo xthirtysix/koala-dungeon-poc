@@ -6,7 +6,7 @@
     "dev": "docker-compose --env-file ./apps/server/.env up -d && pnpm -r dev",
     "build": "pnpm -r build",
     "start": "pnpm -r start",
-    "generate": "pnpm --filter generate",
+    "generate": "pnpm --filter client generate",
     "client:dev": "pnpm --filter client dev",
     "client:build": "pnpm --filter client build",
     "client:start": "pnpm --filter client start",
