@@ -1,0 +1,21 @@
+{
+  "name": "koala-dungeon",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "docker-compose --env-file ./apps/server/.env up -d && pnpm -r dev",
+    "build": "pnpm -r build",
+    "start": "pnpm -r start",
+    "client:dev": "pnpm --filter client dev",
+    "client:build": "pnpm --filter client build",
+    "client:start": "pnpm --filter client start",
+    "server:dev": "pnpm --filter server develop",
+    "server:build": "pnpm --filter server build",
+    "server:start": "pnpm --filter server start",
+    "client": "pnpm --filter client",
+    "server": "pnpm --filter server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

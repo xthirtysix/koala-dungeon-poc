@@ -1,0 +1,1 @@
+export { default as LeaderCard } from './ui/leader-card.vue'

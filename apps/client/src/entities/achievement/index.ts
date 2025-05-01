@@ -1,0 +1,5 @@
+export { default as AchievementBadge } from './ui/achievement-badge.vue'
+export { default as Achievement } from './model/achievement-model'
+export { achievementPathByType } from './consts/achievementPathByType'
+export { achievementNameByType } from './consts/achievementNameByType'
+export { achievementDescriptionByType } from './consts/achievementDescriptionByType'
