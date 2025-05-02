@@ -1,4 +1,9 @@
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
 export function useMainHeader() {
+    const route = useRoute()
+
     const menuItems = computed(() => [
         {
             label: 'Главная',
@@ -8,7 +13,7 @@ export function useMainHeader() {
         {
             label: 'Библиотека',
             icon: 'i-game-icons:black-book',
-            active: useRoute().path.includes('library'),
+            active: route.path.includes('library'),
             children: [
                 {
                     label: 'Правила',

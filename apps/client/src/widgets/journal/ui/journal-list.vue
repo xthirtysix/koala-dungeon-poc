@@ -2,7 +2,14 @@
 import { type JournalEntry, journalApi } from '@/entities/journal'
 import { JournalEntry as JournalEntryComponent } from '@/widgets/journal'
 import { useWindowVirtualizer } from '@tanstack/vue-virtual'
-import { type ComponentPublicInstance, ref, computed, onMounted, watch, shallowRef } from 'vue'
+import {
+    type ComponentPublicInstance,
+    ref,
+    computed,
+    onMounted,
+    watch,
+    shallowRef,
+} from 'vue'
 
 const PAGE_SIZE = 50
 const parentRef = ref<HTMLElement | null>(null)
@@ -39,7 +46,7 @@ const loadPage = async (page: number) => {
     try {
         const { entries, pagination } = await journalApi.fetchEntries({
             page,
-            pageSize: PAGE_SIZE
+            pageSize: PAGE_SIZE,
         })
 
         allEntries.value = [...allEntries.value, ...entries]
@@ -56,19 +63,27 @@ const measureElement = (el: Element | ComponentPublicInstance | null) => {
 }
 
 // Проверка необходимости подгрузки следующей страницы
-watch(() => virtualItems.value, (items) => {
-    if (!items?.length) return
+watch(
+    () => virtualItems.value,
+    (items) => {
+        if (!items?.length) return
 
-    const lastVisibleIndex = items[items.length - 1]?.index
-    if (typeof lastVisibleIndex !== 'number') return
+        const lastVisibleIndex = items[items.length - 1]?.index
+        if (typeof lastVisibleIndex !== 'number') return
 
-    const totalItems = allEntries.value.length
+        const totalItems = allEntries.value.length
 
-    // Если один из последних 5 элементов видим и есть следующая страница
-    if (lastVisibleIndex >= totalItems - 5 && hasNextPage.value && !isLoading.value) {
-        loadPage(currentPage.value + 1)
-    }
-}, { deep: true })
+        // Если один из последних 5 элементов видим и есть следующая страница
+        if (
+            lastVisibleIndex >= totalItems - 5 &&
+            hasNextPage.value &&
+            !isLoading.value
+        ) {
+            loadPage(currentPage.value + 1)
+        }
+    },
+    { deep: true },
+)
 
 onMounted(async () => {
     await loadPage(1)
@@ -104,11 +119,17 @@ onMounted(async () => {
                 >
                     <template v-if="getEntry(virtualItem.index)">
                         <div
-                            v-if="virtualItem.index === 0 || getEntry(virtualItem.index)?.marathon_day !== getEntry(virtualItem.index - 1)?.marathon_day"
+                            v-if="
+                                virtualItem.index === 0 ||
+                                getEntry(virtualItem.index)?.marathon_day !==
+                                    getEntry(virtualItem.index - 1)
+                                        ?.marathon_day
+                            "
                             class="flex items-center gap-3 mb-4"
                         >
                             <h2 class="text-lg font-semibold">
-                                День {{ getEntry(virtualItem.index)?.marathon_day }}
+                                День
+                                {{ getEntry(virtualItem.index)?.marathon_day }}
                             </h2>
                         </div>
                         <journal-entry-component

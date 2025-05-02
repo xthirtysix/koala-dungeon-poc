@@ -1,1 +1,3 @@
-export { default as JournalPage } from './ui/journal-page.vue'
+import JournalPage from './ui/journal-page.vue'
+
+export default JournalPage
