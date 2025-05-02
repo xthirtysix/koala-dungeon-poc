@@ -3,6 +3,7 @@ import type {
     MetaResponsePaginationByOffset,
     MetaResponsePaginationByPage,
 } from '@nuxtjs/strapi'
+import { buildQuery } from '@/shared/api'
 
 interface FetchJournalEntriesParams {
     page: number
@@ -12,17 +13,6 @@ interface FetchJournalEntriesParams {
 interface FetchJournalEntriesResult {
     entries: JournalEntry[]
     pagination: MetaResponsePaginationByPage | MetaResponsePaginationByOffset
-}
-
-function buildQuery(params: Record<string, any>): string {
-    const esc = encodeURIComponent
-    return Object.entries(params)
-        .map(([k, v]) =>
-            Array.isArray(v)
-                ? v.map((val) => `${esc(k)}=${esc(val)}`).join('&')
-                : `${esc(k)}=${esc(v)}`,
-        )
-        .join('&')
 }
 
 export default {

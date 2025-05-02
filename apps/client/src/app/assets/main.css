@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
 
+@plugin '@tailwindcss/typography';
+
 @theme static {
     --color-green-50: oklch(90.98% 0.04338 166.72);
     --color-green-100: oklch(88.46% 0.05417 166.29);
@@ -12,4 +14,45 @@
     --color-green-700: oklch(45.657% 0.08188 161.06);
     --color-green-800: oklch(32.298% 0.05338 161.83);
     --color-green-900: oklch(17.276% 0.02184 161.78);
+}
+
+@layer base {
+    html,
+    body {
+        @apply min-h-screen antialiased;
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+.layout {
+    @apply min-h-screen flex flex-col;
+}
+
+.layout__main {
+    @apply flex-1 flex flex-col;
+}
+
+.layout__content {
+    @apply flex-1 flex flex-col;
+}
+
+@utility kd-h1 {
+    @apply text-3xl font-bold mb-8;
+}
+
+@utility kd-h2 {
+    @apply text-2xl font-bold mb-6;
+}
+
+@utility kd-h3 {
+    @apply text-xl font-bold mb-4;
+}
+
+@utility kd-h4 {
+    @apply text-lg font-bold mb-2;
 }
