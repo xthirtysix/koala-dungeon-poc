@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { journalMockData } from '@/entities/journal'
 import type { Journal } from '@/entities/journal'
 import { JournalList } from '@/widgets/journal'
 
