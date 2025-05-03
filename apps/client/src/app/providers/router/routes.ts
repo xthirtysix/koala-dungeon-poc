@@ -18,6 +18,14 @@ export const routes = [
         },
     },
     {
+        path: '/library/obstacles',
+        name: 'obstacles',
+        component: () => import('@/pages/obstacles'),
+        meta: {
+            layout: DefaultLayout,
+        },
+    },
+    {
         path: '/:pathMatch(.*)',
         component: () => import('@/pages/home'),
         meta: {
