@@ -45,7 +45,6 @@ export default {
                 pagination: response.meta.pagination,
             }
         } catch (error) {
-            // Логируем ошибку
             console.error('Ошибка при загрузке записей журнала:', error)
             throw error
         }
