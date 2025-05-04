@@ -2,6 +2,14 @@ import { DefaultLayout } from '@/shared/ui/layouts'
 
 export const routes = [
     {
+        path: '/library/artefacts',
+        name: 'artefacts',
+        component: () => import('@/pages/artefacts'),
+        meta: {
+            layout: DefaultLayout
+        }
+    },
+    {
         path: '/library/events',
         name: 'journal',
         component: () => import('@/pages/journal'),
