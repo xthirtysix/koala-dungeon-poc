@@ -94,7 +94,7 @@ onMounted(async () => {
                     :data-index="virtualRow.index"
                     class="transition-transform duration-200"
                 >
-                    <div class="grid grid-cols-3 gap-6 py-3">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-3">
                         <ArtefactCard
                             v-for="artefact in getRowItems(virtualRow.index)"
                             :key="artefact.id"
