@@ -65,7 +65,8 @@ const getEventTypeIcon = (type: JournalEntry['type']) => {
                 'bg-blue-50/35 dark:bg-orange-700/35': entry.type === 'dice',
                 'bg-purple-50/35 dark:bg-purple-800/35':
                     entry.type === 'game' && entry.hero === 'Нет',
-                'bg-yellow-50/35 dark:bg-emerald-800/35': entry.type === 'wheel',
+                'bg-yellow-50/35 dark:bg-emerald-800/35':
+                    entry.type === 'wheel',
                 'bg-green-50/35 dark:bg-blue-700/35': entry.type === 'gift',
                 'bg-orange-50/35 dark:bg-pink-900/35': entry.type === 'shop',
                 'bg-red-50/35 dark:bg-amber-700/35': entry.type === 'boss',
@@ -78,7 +79,9 @@ const getEventTypeIcon = (type: JournalEntry['type']) => {
             }}</span>
         </div>
         <div class="flex-1 relative z-1">
-            <div class="flex flex-col gap-y-1 sm:flex-row sm:items-center sm:gap-x-2">
+            <div
+                class="flex flex-col gap-y-1 sm:flex-row sm:items-center sm:gap-x-2"
+            >
                 <span
                     v-if="entry.time"
                     class="text-sm text-gray-600 dark:text-gray-300 font-medium bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded"

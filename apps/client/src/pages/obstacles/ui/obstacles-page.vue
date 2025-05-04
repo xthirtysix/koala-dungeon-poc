@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import {
-    ObstacleCard,
-} from '@/entities/obstacle'
+import { ObstacleCard } from '@/entities/obstacle'
 import type { Obstacle } from '@/entities/obstacle'
 import obstaclesApi from '../api/obstacles'
 import { useWindowVirtualizer } from '@tanstack/vue-virtual'
-import { computed, onMounted, ref, watch, type ComponentPublicInstance } from 'vue'
+import {
+    computed,
+    onMounted,
+    ref,
+    watch,
+    type ComponentPublicInstance,
+} from 'vue'
 
 const PAGE_SIZE = 30
 const currentPage = ref(1)
@@ -52,7 +56,9 @@ onMounted(() => {
 })
 
 const ITEMS_PER_ROW = 3
-const rowsCount = computed(() => Math.ceil(obstacles.value.length / ITEMS_PER_ROW))
+const rowsCount = computed(() =>
+    Math.ceil(obstacles.value.length / ITEMS_PER_ROW),
+)
 
 const parentRef = ref<HTMLElement | null>(null)
 const parentOffsetRef = ref(0)
@@ -87,7 +93,13 @@ const getRowItems = (rowIndex: number) => {
 watch(
     () => virtualRows.value,
     (rows) => {
-        if (!rows?.length || isLoadingMore.value || isLoading.value || !hasNextPage.value) return
+        if (
+            !rows?.length ||
+            isLoadingMore.value ||
+            isLoading.value ||
+            !hasNextPage.value
+        )
+            return
         const lastVisibleIndex = rows[rows.length - 1]?.index
         if (typeof lastVisibleIndex !== 'number') return
         const totalRows = rowsCount.value
@@ -96,7 +108,7 @@ watch(
             fetchData(currentPage.value + 1, true)
         }
     },
-    { deep: true }
+    { deep: true },
 )
 </script>
 
@@ -132,16 +144,25 @@ watch(
                             :data-index="virtualRow.index"
                             class="transition-transform duration-200"
                         >
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-3">
+                            <div
+                                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-3"
+                            >
                                 <obstacle-card
-                                    v-for="obstacle in getRowItems(virtualRow.index)"
+                                    v-for="obstacle in getRowItems(
+                                        virtualRow.index,
+                                    )"
                                     :key="obstacle.id"
                                     :obstacle="obstacle"
                                     :is-unlocked="!!obstacle.description"
                                 />
                             </div>
                         </div>
-                        <div v-if="isLoadingMore" class="text-center py-4 text-gray-500">Загрузка ещё...</div>
+                        <div
+                            v-if="isLoadingMore"
+                            class="text-center py-4 text-gray-500"
+                        >
+                            Загрузка ещё...
+                        </div>
                     </div>
                 </div>
             </div>

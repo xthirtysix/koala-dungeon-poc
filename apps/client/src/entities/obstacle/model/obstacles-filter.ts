@@ -30,7 +30,7 @@ export function useObstacles({ data }: { data: MaybeRef<Obstacle[]> }) {
 
         if (selectedType.value.length > 0) {
             filtered = filtered.filter((obstacle) =>
-                selectedType.value.some(type => type.value === obstacle.type)
+                selectedType.value.some((type) => type.value === obstacle.type),
             )
         }
 

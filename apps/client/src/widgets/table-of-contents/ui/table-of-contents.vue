@@ -44,7 +44,9 @@ const { indicator, isActive, scrollToHeading, activeElementsClass } =
                         <a
                             :href="`#${link.id}`"
                             class="block no-underline py-0.5 transition-colors duration-200 hover:text-primary-500"
-                            @click.prevent="scrollToHeading(link.id, index === 0)"
+                            @click.prevent="
+                                scrollToHeading(link.id, index === 0)
+                            "
                         >
                             {{ link.text }}
                         </a>

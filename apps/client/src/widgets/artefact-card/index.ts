@@ -1,0 +1,1 @@
+export { default as ArtefactCard } from './ui/artefact-card.vue'

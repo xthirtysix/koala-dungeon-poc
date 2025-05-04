@@ -45,7 +45,9 @@ const getBadgeColor = (type: ObstacleType) => {
                 class="absolute w-full left-1/2 grid items-center transform -translate-x-1/2 -translate-y-1/2 text-4xl text-gray-400"
             >
                 <u-icon name="i-heroicons-lock-closed" class="mx-auto mb-2" />
-                <p class="text-sm text-center text-gray-500 dark:text-gray-400 italic">
+                <p
+                    class="text-sm text-center text-gray-500 dark:text-gray-400 italic"
+                >
                     Помеха еще не активирована
                 </p>
             </div>

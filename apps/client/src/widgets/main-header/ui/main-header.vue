@@ -27,9 +27,18 @@ const toggleMenu = () => {
                     @click="toggleMenu"
                     aria-label="Открыть меню"
                 >
-                    <span class="block w-6 h-0.5 bg-white mb-1 rounded transition-all" :class="{ 'rotate-45 translate-y-1.5': isMenuOpen }"></span>
-                    <span class="block w-6 h-0.5 bg-white mb-1 rounded transition-all" :class="{ 'opacity-0': isMenuOpen }"></span>
-                    <span class="block w-6 h-0.5 bg-white rounded transition-all" :class="{ '-rotate-45 -translate-y-1.5': isMenuOpen }"></span>
+                    <span
+                        class="block w-6 h-0.5 bg-white mb-1 rounded transition-all"
+                        :class="{ 'rotate-45 translate-y-1.5': isMenuOpen }"
+                    ></span>
+                    <span
+                        class="block w-6 h-0.5 bg-white mb-1 rounded transition-all"
+                        :class="{ 'opacity-0': isMenuOpen }"
+                    ></span>
+                    <span
+                        class="block w-6 h-0.5 bg-white rounded transition-all"
+                        :class="{ '-rotate-45 -translate-y-1.5': isMenuOpen }"
+                    ></span>
                 </button>
                 <!-- Меню: скрыто на мобилках, видно на md+ -->
                 <u-navigation-menu
@@ -48,7 +57,9 @@ const toggleMenu = () => {
         class="fixed inset-0 z-50 flex md:hidden"
         @click.self="toggleMenu"
     >
-        <nav class="fixed inset-0 bg-neutral-900/95 text-white flex flex-col justify-center gap-4 px-[10px]">
+        <nav
+            class="fixed inset-0 bg-neutral-900/95 text-white flex flex-col justify-center gap-4 px-[10px]"
+        >
             <template v-for="item in items" :key="item.label">
                 <router-link
                     v-if="!item.children"
@@ -59,7 +70,11 @@ const toggleMenu = () => {
                     {{ item.label }}
                 </router-link>
                 <div v-else class="w-full flex flex-col items-center">
-                    <div class="font-bold text-xl mt-4 mb-2 w-full max-w-xs mx-auto text-center">{{ item.label }}</div>
+                    <div
+                        class="font-bold text-xl mt-4 mb-2 w-full max-w-xs mx-auto text-center"
+                    >
+                        {{ item.label }}
+                    </div>
                     <div class="flex flex-col gap-2 w-full max-w-xs mx-auto">
                         <router-link
                             v-for="child in item.children"

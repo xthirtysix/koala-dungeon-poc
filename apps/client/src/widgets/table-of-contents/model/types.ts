@@ -1,1 +1,4 @@
-export interface IndicatorPosition { top: number; height: number; }
+export interface IndicatorPosition {
+    top: number
+    height: number
+}
