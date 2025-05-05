@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useMainHeader } from '../model/main-header'
-import ThemeSwitcher from './theme-switcher.vue'
 import { ref } from 'vue'
 
 defineOptions({
@@ -19,7 +18,9 @@ const toggleMenu = () => {
         <div class="max-w-7xl container mx-auto">
             <div class="header__content mx-4 sm:mx-0">
                 <router-link to="/" class="header__logo min-w-[11rem]">
-                    <span class="header__logo-text">Подземелья и Коалы</span>
+                    <span class="header__logo-text font-amatic uppercase"
+                        >Подземелья и Коалы</span
+                    >
                 </router-link>
                 <!-- Бургер-кнопка для мобильных -->
                 <button
@@ -42,11 +43,14 @@ const toggleMenu = () => {
                 </button>
                 <!-- Меню: скрыто на мобилках, видно на md+ -->
                 <u-navigation-menu
-                    class="hidden md:block"
+                    class="hidden md:block font-amatic font-bold text-3xl"
                     highlight
                     highlight-color="primary"
                     content-orientation="vertical"
                     :items="items"
+                    :ui="{
+                        link: 'text-xl font-bold'
+                    }"
                 />
             </div>
         </div>
@@ -110,14 +114,42 @@ const toggleMenu = () => {
 }
 
 .header__logo {
+    position: relative;
     display: flex;
+    padding-left: 0.5rem;
     align-items: center;
     transition: opacity 0.2s;
     text-decoration: none;
+    overflow: visible;
+}
+
+.header__logo::before {
+    content: '';
+    position: absolute;
+    top: -2rem;
+    left: -1.5rem;
+    display: block;
+    width: 55px;
+    height: 88px;
+    background-image: url('@/app/assets/images/logo_left.png');
+    transform: scale(50%);
+}
+
+.header__logo::after{
+    content: '';
+    position: absolute;
+    top: -1.85rem;
+    right: -2.5rem;
+    display: block;
+    width: 89px;
+    height: 100px;
+    background-image: url('@/app/assets/images/logo_right.png');
+    transform: scale(50%);
 }
 
 .header__logo-text {
-    font-size: 1.5rem;
+    z-index: 1;
+    font-size: 1.75rem;
     font-weight: bold;
 }
 

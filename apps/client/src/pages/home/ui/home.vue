@@ -1,3 +1,3 @@
 <template>
-    <h1>Страница в разработке</h1>
+    <h1 class="text-3xl font-bold">Страница в разработке</h1>
 </template>

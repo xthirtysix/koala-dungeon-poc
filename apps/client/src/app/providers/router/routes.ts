@@ -6,8 +6,8 @@ export const routes = [
         name: 'artefacts',
         component: () => import('@/pages/artefacts'),
         meta: {
-            layout: DefaultLayout
-        }
+            layout: DefaultLayout,
+        },
     },
     {
         path: '/library/events',
@@ -29,6 +29,14 @@ export const routes = [
         path: '/library/obstacles',
         name: 'obstacles',
         component: () => import('@/pages/obstacles'),
+        meta: {
+            layout: DefaultLayout,
+        },
+    },
+    {
+        path: '/about',
+        name: 'about',
+        component: () => import('@/pages/about'),
         meta: {
             layout: DefaultLayout,
         },

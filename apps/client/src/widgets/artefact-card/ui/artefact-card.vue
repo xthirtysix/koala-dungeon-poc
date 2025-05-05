@@ -23,7 +23,7 @@ defineProps<Props>()
             <div class="text-center mb-4">
                 <h3
                     :id="artefact.name"
-                    class="kd-h3 text-gray-900 dark:text-gray-200"
+                    class="kd-h3 text-gray-900 dark:text-gray-200 text-2xl"
                 >
                     {{ artefact.name }}
                 </h3>

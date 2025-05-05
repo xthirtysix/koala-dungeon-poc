@@ -7,12 +7,12 @@ export function useMainHeader() {
     const menuItems = computed(() => [
         {
             label: 'Главная',
-            icon: 'i-game-icons:house',
+            icon: 'i-material-symbols:home-rounded',
             to: '/',
         },
         {
             label: 'Библиотека',
-            icon: 'i-game-icons:black-book',
+            icon: 'i-material-symbols:book-2-rounded',
             active: route.path.includes('library'),
             children: [
                 {
@@ -43,12 +43,12 @@ export function useMainHeader() {
         },
         {
             label: 'Зал славы',
-            icon: 'i-game-icons:queen-crown',
+            icon: 'i-material-symbols:crown-rounded',
             to: '/leaderboard',
         },
         {
             label: 'О нас',
-            icon: 'i-game-icons:info',
+            icon: 'i-material-symbols:info-rounded',
             to: '/about',
         },
     ])

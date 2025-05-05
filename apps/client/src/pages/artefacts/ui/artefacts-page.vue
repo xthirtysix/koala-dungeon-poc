@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { fetchArtefacts } from '@/entities/artefact'
+import { ref, computed, watch, onMounted } from 'vue'
+import { Artefact, fetchArtefacts } from '@/entities/artefact'
 import { ArtefactCard } from '@/widgets/artefact-card'
 import { useWindowVirtualizer } from '@tanstack/vue-virtual'
 import type { ComponentPublicInstance } from 'vue'
@@ -9,12 +9,51 @@ defineOptions({
     name: 'ArtefactsPage',
 })
 
-const ITEMS_PER_ROW = 3
-const artefacts = ref([])
-const isLoading = ref(true)
+const PAGE_SIZE = 30
+const currentPage = ref(1)
+const total = ref(0)
+const isLoading = ref(false)
+const isLoadingMore = ref(false)
 const error = ref<string | null>(null)
-const page = ref(1)
-const pageSize = ref(30)
+const artefacts = ref<Artefact[]>([])
+const pagination = ref()
+
+const hasNextPage = computed(() => {
+    if (!pagination.value) return false
+    return pagination.value.page < pagination.value.pageCount
+})
+
+const fetchData = async (page = 1, append = false) => {
+    if (isLoading.value || isLoadingMore.value) return
+    if (page === 1) isLoading.value = true
+    else isLoadingMore.value = true
+    error.value = null
+    try {
+        const res = await fetchArtefacts.fetch({
+            page,
+            pageSize: PAGE_SIZE,
+        })
+        if (append) {
+            artefacts.value = [...artefacts.value, ...res.artefacts]
+        } else {
+            artefacts.value = res.artefacts
+        }
+        pagination.value = res.pagination
+        total.value = res.pagination.total
+        currentPage.value = page
+    } catch (e: any) {
+        error.value = e?.message || 'Ошибка загрузки'
+    } finally {
+        isLoading.value = false
+        isLoadingMore.value = false
+    }
+}
+
+onMounted(() => {
+    fetchData(1)
+})
+
+const ITEMS_PER_ROW = 3
 
 const rowsCount = computed(() => Math.ceil(artefacts.value.length / ITEMS_PER_ROW))
 
@@ -47,22 +86,27 @@ const getRowItems = (rowIndex: number) => {
     return artefacts.value.slice(startIndex, startIndex + ITEMS_PER_ROW)
 }
 
-onMounted(async () => {
-    parentOffsetRef.value = parentRef.value?.offsetTop ?? 0
-    try {
-        isLoading.value = true
-        error.value = null
-        const { artefacts: data } = await fetchArtefacts.fetch({
-            page: page.value,
-            pageSize: pageSize.value,
-        })
-        artefacts.value = data
-    } catch (e: any) {
-        error.value = e.message || 'Ошибка загрузки артефактов'
-    } finally {
-        isLoading.value = false
-    }
-})
+// Бесконечная прокрутка: следим за виртуальными рядами
+watch(
+    () => virtualRows.value,
+    (rows) => {
+        if (
+            !rows?.length ||
+            isLoadingMore.value ||
+            isLoading.value ||
+            !hasNextPage.value
+        )
+            return
+        const lastVisibleIndex = rows[rows.length - 1]?.index
+        if (typeof lastVisibleIndex !== 'number') return
+        const totalRows = rowsCount.value
+        // Если один из последних 3 рядов видим и есть следующая страница
+        if (lastVisibleIndex >= totalRows - 3 && hasNextPage.value) {
+            fetchData(currentPage.value + 1, true)
+        }
+    },
+    { deep: true },
+)
 </script>
 
 <template>
@@ -94,7 +138,7 @@ onMounted(async () => {
                     :data-index="virtualRow.index"
                     class="transition-transform duration-200"
                 >
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-3">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-3">
                         <ArtefactCard
                             v-for="artefact in getRowItems(virtualRow.index)"
                             :key="artefact.id"
