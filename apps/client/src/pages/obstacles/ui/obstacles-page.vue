@@ -110,60 +110,73 @@ watch(
     },
     { deep: true },
 )
+
+const loadingMessages = [
+    'Помехи строят коварные планы...',
+    'Новые препятствия уже на подходе!',
+    'Проверяем, не спрятались ли помехи за углом...',
+    'Помехи собираются в очередь...',
+    'Загружаем самые хитрые ловушки...'
+]
+
+const currentLoadingMessage = ref(loadingMessages[0])
+
+watch(isLoadingMore, (val) => {
+    if (val) {
+        const idx = Math.floor(Math.random() * loadingMessages.length)
+        currentLoadingMessage.value = loadingMessages[idx]
+    }
+})
 </script>
 
 <template>
     <h1 class="kd-h1">Помехи</h1>
 
+    <div v-if="isLoading" class="text-center text-2xl font-amatic py-8">
+        Загрузка...
+    </div>
     <div v-if="error" class="text-red-500 py-4">{{ error }}</div>
-    <div v-else>
-        <div v-if="isLoading" class="text-center py-8">Загрузка...</div>
-        <div v-else>
-            <div ref="parentRef" class="relative">
+    <div v-else ref="parentRef" class="relative">
+        <div
+            :style="{
+                height: `${totalSize}px`,
+                width: '100%',
+                position: 'relative',
+                overflowAnchor: 'none',
+            }"
+        >
+            <div
+                :style="{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    transform: `translateY(${containerOffset}px)`,
+                }"
+            >
                 <div
-                    :style="{
-                        height: `${totalSize}px`,
-                        width: '100%',
-                        position: 'relative',
-                        overflowAnchor: 'none',
-                    }"
+                    v-for="virtualRow in virtualRows"
+                    :key="String(virtualRow.key)"
+                    :ref="measureElement"
+                    :data-index="virtualRow.index"
+                    class="transition-transform duration-200"
                 >
                     <div
-                        :style="{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            transform: `translateY(${containerOffset}px)`,
-                        }"
+                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-3"
                     >
-                        <div
-                            v-for="virtualRow in virtualRows"
-                            :key="String(virtualRow.key)"
-                            :ref="measureElement"
-                            :data-index="virtualRow.index"
-                            class="transition-transform duration-200"
-                        >
-                            <div
-                                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-3"
-                            >
-                                <obstacle-card
-                                    v-for="obstacle in getRowItems(
-                                        virtualRow.index,
-                                    )"
-                                    :key="obstacle.id"
-                                    :obstacle="obstacle"
-                                    :is-unlocked="!!obstacle.description"
-                                />
-                            </div>
-                        </div>
-                        <div
-                            v-if="isLoadingMore"
-                            class="text-center py-4 text-gray-500"
-                        >
-                            Загрузка ещё...
-                        </div>
+                        <obstacle-card
+                            v-for="obstacle in getRowItems(virtualRow.index)"
+                            :key="obstacle.id"
+                            :obstacle="obstacle"
+                            :is-unlocked="!!obstacle.description"
+                        />
                     </div>
+                </div>
+                <div
+                    v-if="isLoadingMore"
+                    class="py-4 text-center font-amatic font-bold text-2xl text-gray-500"
+                >
+                    {{ currentLoadingMessage }}
                 </div>
             </div>
         </div>

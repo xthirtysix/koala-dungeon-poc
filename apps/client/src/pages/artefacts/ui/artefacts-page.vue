@@ -107,11 +107,28 @@ watch(
     },
     { deep: true },
 )
+
+const loadingMessages = [
+    'Колдуем новые артефакты из воздуха...',
+    'Ищем древние артефакты в пыльных сундуках...',
+    'Призываем артефакты из параллельной вселенной...',
+    'Собираем артефакты по кусочкам...',
+    'Археологи уже бегут с новыми находками!'
+]
+
+const currentLoadingMessage = ref(loadingMessages[0])
+
+watch(isLoadingMore, (val) => {
+    if (val) {
+        const idx = Math.floor(Math.random() * loadingMessages.length)
+        currentLoadingMessage.value = loadingMessages[idx]
+    }
+})
 </script>
 
 <template>
     <h1 class="kd-h1">Артефакты</h1>
-    <div v-if="isLoading" class="text-center py-10">Загрузка...</div>
+    <div v-if="isLoading" class="text-center text-2xl font-amatic py-10">Загрузка...</div>
     <div v-else-if="error" class="text-center text-red-500 py-10">{{ error }}</div>
     <div v-else ref="parentRef" class="relative">
         <div
@@ -145,6 +162,12 @@ watch(
                             :artefact="artefact"
                         />
                     </div>
+                </div>
+                <div
+                    v-if="isLoadingMore"
+                    class="py-4 text-center font-amatic font-bold text-2xl text-gray-500"
+                >
+                    {{ currentLoadingMessage }}
                 </div>
             </div>
         </div>

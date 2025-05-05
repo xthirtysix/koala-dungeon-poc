@@ -16,13 +16,13 @@ const toggleMenu = () => {
 <template>
     <header class="header drop-shadow-md">
         <div class="max-w-7xl container mx-auto">
-            <div class="header__content mx-4 sm:mx-0">
+            <div class="header__content px-4 sm:mx-0">
                 <router-link to="/" class="header__logo min-w-[11rem]">
                     <span class="header__logo-text font-amatic uppercase"
                         >Подземелья и Коалы</span
                     >
                 </router-link>
-                <!-- Бургер-кнопка для мобильных -->
+
                 <button
                     class="md:hidden flex flex-col justify-center items-center w-10 h-10 ml-2"
                     @click="toggleMenu"
@@ -41,15 +41,17 @@ const toggleMenu = () => {
                         :class="{ '-rotate-45 -translate-y-1.5': isMenuOpen }"
                     ></span>
                 </button>
-                <!-- Меню: скрыто на мобилках, видно на md+ -->
+
                 <u-navigation-menu
                     class="hidden md:block font-amatic font-bold text-3xl"
                     highlight
                     highlight-color="primary"
-                    content-orientation="vertical"
+                    content-orientation="horizontal"
                     :items="items"
                     :ui="{
-                        link: 'text-xl font-bold'
+                        link: 'text-xl font-bold',
+                        childLinkLabel: 'text-xl font-bold',
+                        childLinkIcon: 'relative top-1',
                     }"
                 />
             </div>
