@@ -34,7 +34,7 @@ onBeforeMount(async () => {
 
 <template>
     <h1 class="kd-h1 hidden">Правила марафона</h1>
-    <div v-if="loading" class="text-center py-8">Загрузка...</div>
+    <div v-if="loading" class="text-center text-2xl font-amatic py-8">Загрузка...</div>
     <div v-else-if="error" class="text-red-500 py-8">{{ error }}</div>
     <div v-else class="grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-8 w-full">
         <suspense>

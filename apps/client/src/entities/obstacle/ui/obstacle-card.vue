@@ -55,7 +55,7 @@ const getBadgeColor = (type: ObstacleType) => {
 
         <template #header>
             <div class="relative content-center min-h-[4rem]">
-                <h4 class="text-md font-semibold line-clamp-2">
+                <h4 class="text-xl font-semibold line-clamp-2">
                     {{ obstacle.name }}
                 </h4>
                 <u-badge

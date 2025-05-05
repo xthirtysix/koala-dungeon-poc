@@ -1,6 +1,6 @@
 export enum ArtefactSlot {
   Belt = 'пояс',
-  Chest = 'грудь',
+  Chest = 'нагрудник',
   Feet = 'ноги',
   Hands = 'руки',
   Head = 'голова',
