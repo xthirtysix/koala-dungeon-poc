@@ -128,7 +128,7 @@ watch(isLoadingMore, (val) => {
 
 <template>
     <h1 class="kd-h1">Артефакты</h1>
-    <div v-if="isLoading" class="text-center text-2xl font-amatic py-10">Загрузка...</div>
+    <div v-if="isLoading" class="text-center text-3xl font-amatic py-10">Загрузка...</div>
     <div v-else-if="error" class="text-center text-red-500 py-10">{{ error }}</div>
     <div v-else ref="parentRef" class="relative">
         <div

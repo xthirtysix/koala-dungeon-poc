@@ -9,7 +9,7 @@ defineOptions({
 
 <template>
     <u-container>
-        <h1 class="text-3xl font-bold mb-8">О проекте</h1>
+        <h1 class="kd-h1">О проекте</h1>
 
         <div class="space-y-8">
             <div class="prose max-w-none dark:prose-invert">
