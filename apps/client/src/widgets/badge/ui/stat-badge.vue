@@ -1,18 +1,16 @@
 <script setup lang="ts">
-import type { ArtefactBonus } from '@/entities/artefact'
-
 defineProps<{
     characteristic: string
     value: number
     isNegative: boolean
 }>()
 
-const getStatIcon = (characteristic): string => {
-    const icons = {
-        'сила': 'i-game-icons-biceps',
-        'ловкость': 'i-game-icons-body-balance',
-        'телосложение': 'i-game-icons-muscular-torso',
-        'мудрость': 'i-game-icons-barn-owl',
+const getStatIcon = (characteristic: string): string => {
+    const icons: Record<string, string> = {
+        сила: 'i-game-icons:biceps',
+        ловкость: 'i-game-icons:body-balance',
+        телосложение: 'i-game-icons:muscular-torso',
+        мудрость: 'i-game-icons:barn-owl',
     }
     return icons[characteristic]
 }
@@ -21,10 +19,6 @@ const getStatValueClass = (isNegative: boolean): string => {
     return isNegative
         ? 'text-red-600 capitalize dark:text-red-400'
         : 'text-emerald-600 capitalize dark:text-emerald-400'
-}
-
-const formatValue = (value: number): string => {
-    return value > 0 ? '+' + value : value.toString()
 }
 </script>
 

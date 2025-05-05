@@ -16,7 +16,7 @@ const { indicator, isActive, scrollToHeading, activeElementsClass } =
 
 <template>
     <div class="max-h-full overflow-y-auto scrollbar-thin">
-        <h4 v-if="title" class="font-medium mb-3 text-sm">{{ title }}</h4>
+        <h4 v-if="title" class="kd-h4 font-default mb-3 text-sm">{{ title }}</h4>
         <div ref="tocContainerRef" class="relative pl-3">
             <div
                 class="absolute left-0 top-0 bottom-0 w-0.5 bg-gray-500/10 rounded-sm"

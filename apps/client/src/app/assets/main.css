@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');
 @import 'tailwindcss';
 @import '@nuxt/ui';
 
 @plugin '@tailwindcss/typography';
 
 @theme static {
+    --font-amatic: "Amatic SC", sans-serif;
     --color-green-50: oklch(90.98% 0.04338 166.72);
     --color-green-100: oklch(88.46% 0.05417 166.29);
     --color-green-200: oklch(83.957% 0.07763 165.13);
@@ -55,4 +57,13 @@
 
 @utility kd-h4 {
     @apply text-lg font-bold mb-2;
+}
+
+h1,
+h2,
+h3,
+h4:not(.kd-h4),
+h5,
+h6 {
+    font-family: "Amatic SC", sans-serif;
 }
