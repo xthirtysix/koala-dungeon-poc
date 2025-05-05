@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-    <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
+    <h2 class="kd-h2">{{ title }}</h2>
 
     <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
         <li v-for="member in members" :key="member.name">

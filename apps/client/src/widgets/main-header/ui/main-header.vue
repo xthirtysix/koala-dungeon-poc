@@ -43,14 +43,14 @@ const toggleMenu = () => {
                 </button>
 
                 <u-navigation-menu
-                    class="hidden md:block font-amatic font-bold text-3xl"
+                    class="hidden md:block text-3xl"
                     highlight
                     highlight-color="primary"
                     content-orientation="horizontal"
                     :items="items"
                     :ui="{
-                        link: 'text-xl font-bold',
-                        childLinkLabel: 'text-xl font-bold',
+                        link: 'text-2xl font-amatic font-bold',
+                        childLinkLabel: 'text-2xl font-amatic font-bold',
                         childLinkIcon: 'relative top-1',
                     }"
                 />
@@ -100,7 +100,7 @@ const toggleMenu = () => {
 
 <style scoped>
 .header {
-    padding: 1rem 0;
+    padding: 0.25rem 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -128,7 +128,7 @@ const toggleMenu = () => {
 .header__logo::before {
     content: '';
     position: absolute;
-    top: -2rem;
+    top: -1.5rem;
     left: -1.5rem;
     display: block;
     width: 55px;
@@ -140,8 +140,8 @@ const toggleMenu = () => {
 .header__logo::after{
     content: '';
     position: absolute;
-    top: -1.85rem;
-    right: -2.5rem;
+    top: -1.5rem;
+    right: -3rem;
     display: block;
     width: 89px;
     height: 100px;
@@ -151,7 +151,7 @@ const toggleMenu = () => {
 
 .header__logo-text {
     z-index: 1;
-    font-size: 1.75rem;
+    font-size: 2.25rem;
     font-weight: bold;
 }
 
