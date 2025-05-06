@@ -61,7 +61,7 @@ defineProps<{
                     />
                 </div>
                 <div class="font-amatic truncate text-2xl font-bold">
-                    {{ spirit.name }}
+                    {{ spirit.nickname }}
                 </div>
             </div>
 

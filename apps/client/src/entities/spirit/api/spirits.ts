@@ -3,6 +3,7 @@ import type {
     MetaResponsePaginationByPage,
 } from '@nuxtjs/strapi'
 import { buildQuery } from '@/shared/api'
+import type { Spirit } from '@/entities/spirit/model/types'
 
 export interface SpiritAchievement {
     id: number
@@ -28,7 +29,7 @@ interface FetchSpiritsParams {
 }
 
 interface FetchSpiritsResult {
-    spirits: SpiritApi[]
+    spirits: Spirit[]
     pagination: MetaResponsePaginationByPage | MetaResponsePaginationByOffset
 }
 

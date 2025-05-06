@@ -11,6 +11,7 @@ const props = defineProps<{
     totalDonations: number
     achievements: Achievement[]
     rerolls: number
+    hideStats?: boolean
 }>()
 
 const filteredAchievements = computed(() => {
@@ -99,7 +100,7 @@ const medalIcon = computed(() => {
                 </div>
 
                 <!-- Статистика -->
-                <div class="grid grid-cols-2 gap-4">
+                <div v-if="!hideStats" class="grid grid-cols-2 gap-4">
                     <div
                         class="flex h-20 flex-col justify-center rounded-lg p-2 text-center"
                         :class="statClasses"
@@ -169,7 +170,7 @@ const medalIcon = computed(() => {
 
             <!-- Достижения справа -->
             <div
-                v-if="filteredAchievements.length > 0"
+                v-if="!hideStats && filteredAchievements.length > 0"
                 class="flex w-[82px] flex-col items-center border-l border-gray-200 pl-4 md:hidden lg:flex dark:border-gray-700"
             >
                 <u-carousel

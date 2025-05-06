@@ -75,7 +75,7 @@ const getBadgeColor = (type: ObstacleType) => {
         <div class="flex h-[5rem] flex-1 items-center">
             <p
                 v-if="obstacle.description && obstacle.isUnlocked"
-                class="m-0 overflow-y-auto text-sm"
+                class="m-0 overflow-y-auto text-sm line-clamp-5"
             >
                 {{ obstacle.description }}
             </p>

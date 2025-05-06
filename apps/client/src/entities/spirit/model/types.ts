@@ -2,7 +2,7 @@ import type { Achievement } from '@/entities/achievement'
 
 export interface Spirit {
     id: number
-    name: string
+    nickname: string
     obstacleSpins?: number
     helpSpins?: number
     scheduledSpins?: number
