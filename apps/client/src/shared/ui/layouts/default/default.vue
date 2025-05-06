@@ -109,7 +109,7 @@ const isLibraryPage = computed(() => route.path.startsWith('/library'))
                 href="https://t.me/aloe_koala"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-1 text-violet-500 hover:underline"
+                class="inline-flex items-center gap-1 text-blue-400 hover:underline"
             >
                 <u-icon name="i-simple-icons:telegram" class="text-base" />
                 @aloe_koala
