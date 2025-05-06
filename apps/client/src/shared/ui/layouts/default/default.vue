@@ -104,12 +104,12 @@ const isLibraryPage = computed(() => route.path.startsWith('/library'))
                 <u-icon name="i-simple-icons:twitch" class="text-base" />
                 twitch.tv/aloekoala
             </a>
-            <span class="hidden sm:inline text-gray-500">|</span>
+            <span class="hidden sm:inline">|</span>
             <a
                 href="https://t.me/aloe_koala"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-1 text-violet-500 hover:underline"
+                class="inline-flex items-center gap-1 text-blue-400 hover:underline"
             >
                 <u-icon name="i-simple-icons:telegram" class="text-base" />
                 @aloe_koala
