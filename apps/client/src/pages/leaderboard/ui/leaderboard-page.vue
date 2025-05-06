@@ -25,21 +25,10 @@ const loadPage = async (page: number, append = false) => {
             isHidden: false,
         })
         // Приводим к типу Spirit (name = nickname)
-        const mapped = spirits.map((s: any) => ({
-            id: s.id,
-            name: s.nickname,
-            obstacleSpins: s.obstacleSpins ?? 0,
-            helpSpins: s.helpSpins ?? 0,
-            scheduledSpins: s.scheduledSpins ?? 0,
-            amount: s.amount ?? 0,
-            reroll: s.reroll ?? 0,
-            achievements: s.achievements,
-            isHidden: s.isHidden ?? false,
-        })) as Spirit[]
         if (append) {
-            allSpirits.value = [...allSpirits.value, ...mapped]
+            allSpirits.value = [...allSpirits.value, ...spirits]
         } else {
-            allSpirits.value = mapped
+            allSpirits.value = spirits
         }
         hasNextPage.value = pagination.total > page * PAGE_SIZE
         currentPage.value = page
@@ -76,7 +65,7 @@ const topHeroes = computed<Spirit[]>(() => allSpirits.value.slice(0, 3))
 
 const getLeaderCardProps = (spirit: Spirit, index: number) => ({
     place: index + 1,
-    name: spirit.name,
+    name: spirit.nickname,
     interferenceWheelSpins: spirit.obstacleSpins ?? 0,
     helpWheelSpins: spirit.helpSpins ?? 0,
     deferredInterferences: spirit.scheduledSpins ?? 0,
