@@ -11,4 +11,5 @@ export interface Obstacle {
     type: ObstacleType
     isUnlocked: boolean
     isActive: boolean
+    updatedAt: string
 }
