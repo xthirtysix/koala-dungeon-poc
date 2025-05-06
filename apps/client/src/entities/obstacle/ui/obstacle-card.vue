@@ -39,14 +39,14 @@ const getBadgeColor = (type: ObstacleType) => {
         <!-- Туман войны для неоткрытых помех -->
         <div
             v-if="!obstacle.description || !obstacle.isUnlocked"
-            class="relative grid inset-0 bg-gradient-to-b from-transparent to-gray-200 dark:to-gray-800 z-10"
+            class="relative inset-0 z-10 grid bg-gradient-to-b from-transparent to-gray-200 dark:to-gray-800"
         >
             <div
-                class="absolute w-full left-1/2 grid items-center transform -translate-x-1/2 -translate-y-1/2 text-4xl text-gray-400"
+                class="absolute left-1/2 grid w-full -translate-x-1/2 -translate-y-1/2 transform items-center text-4xl text-gray-400"
             >
                 <u-icon name="i-heroicons-lock-closed" class="mx-auto mb-2" />
                 <p
-                    class="text-sm text-center text-gray-500 dark:text-gray-400 italic"
+                    class="text-center text-sm text-gray-500 italic dark:text-gray-400"
                 >
                     Помеха еще не активирована
                 </p>
@@ -54,15 +54,15 @@ const getBadgeColor = (type: ObstacleType) => {
         </div>
 
         <template #header>
-            <div class="relative content-center min-h-[4rem]">
-                <h4 class="text-2xl text-center font-semibold line-clamp-2">
+            <div class="relative min-h-[4rem] content-center">
+                <h4 class="line-clamp-2 text-center text-2xl font-semibold">
                     {{ obstacle.name }}
                 </h4>
                 <u-badge
                     :color="getBadgeColor(obstacle.type)"
                     variant="subtle"
                     size="sm"
-                    class="absolute -top-2 -right-4"
+                    class="absolute -top-2 -right-2 md:-right-4"
                 >
                     {{
                         typeOptions.find((t) => t.value === obstacle.type)
@@ -72,10 +72,10 @@ const getBadgeColor = (type: ObstacleType) => {
             </div>
         </template>
 
-        <div class="flex-1 flex items-center h-[5rem]">
+        <div class="flex h-[5rem] flex-1 items-center">
             <p
                 v-if="obstacle.description && obstacle.isUnlocked"
-                class="text-sm overflow-y-auto m-0"
+                class="m-0 overflow-y-auto text-sm"
             >
                 {{ obstacle.description }}
             </p>

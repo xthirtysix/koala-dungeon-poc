@@ -43,7 +43,7 @@ const loadingMessages = [
     'Записи ищут свою ручку...',
     'Дневник вспоминает, что было вчера...',
     'Новые истории уже бегут к вам!',
-    'Пишем новые главы приключений...'
+    'Пишем новые главы приключений...',
 ]
 
 const currentLoadingMessage = ref(loadingMessages[0])
@@ -66,15 +66,18 @@ onMounted(async () => {
         В подземелье могут происходить различные события, которые влияют на ход
         игры и создают уникальные ситуации.
     </p>
-    <div v-if="isLoading" class="py-10 text-center font-amatic text-2xl">
+    <div
+        v-if="isLoading"
+        class="font-amatic py-10 text-center text-4xl font-bold"
+    >
         Загрузка...
     </div>
-    <div v-else-if="error" class="text-center text-red-500 py-10">
+    <div v-else-if="error" class="py-10 text-center text-red-500">
         {{ error }}
     </div>
     <journal-list
         v-else
-        class="block mb-4"
+        class="mb-4 block"
         :entries="allEntries"
         :is-loading-more="isLoadingMore"
         :current-loading-message="currentLoadingMessage"

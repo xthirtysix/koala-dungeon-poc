@@ -11,14 +11,14 @@ const isLibraryPage = computed(() => route.path.startsWith('/library'))
 
 <template>
     <div class="layout w-full">
-        <main-header class="w-full max-w-auto mx-auto" />
+        <main-header class="max-w-auto mx-auto w-full" />
 
         <main class="layout__main relative">
             <svg
                 viewBox="0 0 1440 181"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class="pointer-events-none absolute w-full -top-px transition-all text-(--ui-primary) shrink-0 -z-10 opacity-30 duration-[400ms]"
+                class="pointer-events-none absolute -top-px -z-10 w-full shrink-0 text-(--ui-primary) opacity-30 transition-all duration-[400ms]"
                 style=""
             >
                 <mask id="path-1-inside-1_414_5526" fill="white">
@@ -90,10 +90,17 @@ const isLibraryPage = computed(() => route.path.startsWith('/library'))
                 </div>
             </div>
         </main>
-        <footer class="w-full py-6 text-xs text-gray-500 border-t border-gray-800 mt-auto flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4 sm:justify-center">
+        <footer
+            class="mt-auto flex w-full flex-col items-center justify-center gap-2 border-t border-gray-200 dark:border-gray-800 py-6 text-xs text-gray-500 sm:flex-row sm:justify-center sm:gap-4"
+        >
             <span>© Подземелья и коалы 2025. Все права защищены</span>
             <span class="hidden sm:inline">|</span>
-            <a href="https://twitch.tv/aloekoala" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-violet-500 hover:underline">
+            <a
+                href="https://twitch.tv/aloekoala"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1 text-violet-500 hover:underline"
+            >
                 <u-icon name="i-simple-icons:twitch" class="text-base" />
                 twitch.tv/aloekoala
             </a>

@@ -1,0 +1,117 @@
+<script setup lang="ts">
+import { ref, shallowRef, watch, onMounted, computed } from 'vue'
+import { spiritApi, type Spirit } from '@/entities/spirit'
+import { LeaderCard } from '@/widgets/leader-card'
+import { SpiritList } from '@/widgets/spirit-list'
+
+const PAGE_SIZE = 25
+const currentPage = ref(1)
+const isLoading = ref(false)
+const isLoadingMore = ref(false)
+const hasNextPage = ref(true)
+const allSpirits = shallowRef<Spirit[]>([])
+const error = ref<string | null>(null)
+
+const loadPage = async (page: number, append = false) => {
+    if (isLoading.value || isLoadingMore.value || !hasNextPage.value) return
+
+    if (page === 1) isLoading.value = true
+    else isLoadingMore.value = true
+    error.value = null
+    try {
+        const { spirits, pagination } = await spiritApi.fetchSpirits({
+            page,
+            pageSize: PAGE_SIZE,
+            isHidden: false,
+        })
+        // Приводим к типу Spirit (name = nickname)
+        const mapped = spirits.map((s: any) => ({
+            id: s.id,
+            name: s.nickname,
+            obstacleSpins: s.obstacleSpins ?? 0,
+            helpSpins: s.helpSpins ?? 0,
+            scheduledSpins: s.scheduledSpins ?? 0,
+            amount: s.amount ?? 0,
+            reroll: s.reroll ?? 0,
+            achievements: s.achievements,
+            isHidden: s.isHidden ?? false,
+        })) as Spirit[]
+        if (append) {
+            allSpirits.value = [...allSpirits.value, ...mapped]
+        } else {
+            allSpirits.value = mapped
+        }
+        hasNextPage.value = pagination.total > page * PAGE_SIZE
+        currentPage.value = page
+    } catch (e: any) {
+        error.value = 'Ошибка загрузки'
+    } finally {
+        isLoading.value = false
+        isLoadingMore.value = false
+    }
+}
+
+const loadingMessages = [
+    'Духи собираются на совет...',
+    'Считаем донаты духов...',
+    'Духи спорят за лидерство...',
+    'Призываем новых духов в зал славы...',
+    'Духи готовят свои достижения...',
+]
+
+const currentLoadingMessage = ref(loadingMessages[0])
+
+watch(isLoadingMore, (val) => {
+    if (val) {
+        const idx = Math.floor(Math.random() * loadingMessages.length)
+        currentLoadingMessage.value = loadingMessages[idx]
+    }
+})
+
+onMounted(async () => {
+    await loadPage(1)
+})
+
+const topHeroes = computed<Spirit[]>(() => allSpirits.value.slice(0, 3))
+
+const getLeaderCardProps = (spirit: Spirit, index: number) => ({
+    place: index + 1,
+    name: spirit.name,
+    interferenceWheelSpins: spirit.obstacleSpins ?? 0,
+    helpWheelSpins: spirit.helpSpins ?? 0,
+    deferredInterferences: spirit.scheduledSpins ?? 0,
+    totalDonations: spirit.amount ?? 0,
+    achievements: spirit.achievements ?? [],
+    rerolls: spirit.reroll ?? 0,
+})
+</script>
+
+<template>
+    <h1 class="kd-h1">Зал славы</h1>
+    <div
+        v-if="isLoading"
+        class="font-amatic py-10 text-center text-4xl font-bold"
+    >
+        Загрузка...
+    </div>
+    <div v-else-if="error" class="py-10 text-center text-red-500">
+        {{ error }}
+    </div>
+    <u-container v-else>
+        <div
+            class="mb-8 grid grid-cols-1 gap-10 py-8 md:mb-16 md:grid-cols-3 md:gap-6"
+        >
+            <leader-card
+                v-for="(hero, index) in topHeroes"
+                :key="hero.id"
+                v-bind="getLeaderCardProps(hero, index)"
+            />
+        </div>
+        <spirit-list
+            :spirits="allSpirits"
+            :is-loading-more="isLoadingMore"
+            :current-loading-message="currentLoadingMessage"
+            @load-more="loadPage(currentPage + 1, true)"
+        />
+    </u-container>
+</template>

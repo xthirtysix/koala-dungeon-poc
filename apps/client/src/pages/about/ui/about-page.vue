@@ -12,7 +12,7 @@ defineOptions({
         <h1 class="kd-h1">О проекте</h1>
 
         <div class="space-y-8">
-            <div class="prose max-w-none dark:prose-invert">
+            <div class="prose dark:prose-invert max-w-none">
                 <p>
                     Koala Dungeon - это увлекательная игра, созданная командой
                     энтузиастов. В игре вы сможете исследовать подземелья,

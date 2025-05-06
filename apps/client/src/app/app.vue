@@ -13,7 +13,7 @@ const layout = computed(() => route.meta.layout || DefaultLayout)
     <u-app>
         <component :is="layout">
             <template #header>
-                <main-header class="w-full max-w-auto mx-auto" />
+                <main-header class="max-w-auto mx-auto w-full" />
             </template>
 
             <template #default>

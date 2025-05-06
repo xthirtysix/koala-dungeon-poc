@@ -15,7 +15,7 @@ const toggleMenu = () => {
 
 <template>
     <header class="header drop-shadow-md">
-        <div class="max-w-7xl container mx-auto">
+        <div class="container mx-auto max-w-7xl">
             <div class="header__content px-4 sm:mx-0">
                 <router-link to="/" class="header__logo min-w-[11rem]">
                     <span class="header__logo-text font-amatic uppercase"
@@ -24,26 +24,26 @@ const toggleMenu = () => {
                 </router-link>
 
                 <button
-                    class="md:hidden flex flex-col justify-center items-center w-10 h-10 ml-2"
+                    class="ml-2 flex h-10 w-10 flex-col items-center justify-center md:hidden"
                     @click="toggleMenu"
                     aria-label="Открыть меню"
                 >
                     <span
-                        class="block w-6 h-0.5 bg-white mb-1 rounded transition-all"
-                        :class="{ 'rotate-45 translate-y-1.5': isMenuOpen }"
+                        class="mb-1 block h-0.5 w-6 rounded bg-black dark:bg-white transition-all"
+                        :class="{ 'translate-y-1.5 rotate-45': isMenuOpen }"
                     ></span>
                     <span
-                        class="block w-6 h-0.5 bg-white mb-1 rounded transition-all"
+                        class="mb-1 block h-0.5 w-6 rounded bg-black dark:bg-white transition-all"
                         :class="{ 'opacity-0': isMenuOpen }"
                     ></span>
                     <span
-                        class="block w-6 h-0.5 bg-white rounded transition-all"
-                        :class="{ '-rotate-45 -translate-y-1.5': isMenuOpen }"
+                        class="block h-0.5 w-6 rounded bg-black dark:bg-white transition-all"
+                        :class="{ '-translate-y-1.5 -rotate-45': isMenuOpen }"
                     ></span>
                 </button>
 
                 <u-navigation-menu
-                    class="hidden md:block text-3xl"
+                    class="hidden text-3xl md:block"
                     highlight
                     highlight-color="primary"
                     content-orientation="horizontal"
@@ -64,29 +64,24 @@ const toggleMenu = () => {
         @click.self="toggleMenu"
     >
         <nav
-            class="fixed inset-0 bg-neutral-900/95 text-white flex flex-col justify-center gap-4 px-[10px]"
+            class="fixed inset-0 flex flex-col justify-center gap-4 bg-white text-black dark:bg-neutral-900/95 dark:text-white px-[10px]"
         >
             <template v-for="item in items" :key="item.label">
                 <router-link
                     v-if="!item.children"
                     :to="item.to"
-                    class="text-2xl py-3 px-8 rounded hover:bg-primary-700 transition-colors w-full max-w-xs mx-auto text-center"
+                    class="hover:bg-primary-700 mx-auto w-full max-w-xs rounded px-8 py-3 text-center text-2xl transition-colors"
                     @click="toggleMenu"
                 >
                     {{ item.label }}
                 </router-link>
-                <div v-else class="w-full flex flex-col items-center">
-                    <div
-                        class="font-bold text-xl mt-4 mb-2 w-full max-w-xs mx-auto text-center"
-                    >
-                        {{ item.label }}
-                    </div>
-                    <div class="flex flex-col gap-2 w-full max-w-xs mx-auto">
+                <div v-else class="flex w-full flex-col items-center">
+                    <div class="mx-auto flex w-full max-w-xs flex-col gap-2">
                         <router-link
                             v-for="child in item.children"
                             :key="child.label"
                             :to="child.to"
-                            class="text-lg py-2 px-6 rounded hover:bg-primary-700 transition-colors w-full text-center"
+                            class="hover:bg-primary-700 mx-auto w-full max-w-xs rounded px-8 py-3 text-center text-2xl transition-colors"
                             @click="toggleMenu"
                         >
                             {{ child.label }}
@@ -137,7 +132,7 @@ const toggleMenu = () => {
     transform: scale(50%);
 }
 
-.header__logo::after{
+.header__logo::after {
     content: '';
     position: absolute;
     top: -1.5rem;
