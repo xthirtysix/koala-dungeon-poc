@@ -121,7 +121,7 @@ function isVideo(url?: string) {
         </a>
     </div>
     <div
-        class="font-amatic mx-auto mt-6 w-full rounded-lg bg-white p-6 text-center text-3xl font-bold shadow dark:bg-gray-800"
+        class="font-amatic mx-auto mt-6 w-full p-6 text-center text-3xl font-bold"
     >
         <div class="flex flex-col items-center gap-4 py-6">
             <div
