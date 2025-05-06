@@ -24,7 +24,7 @@ const getStatValueClass = (isNegative: boolean): string => {
 
 <template>
     <div
-        class="stat-badge flex items-center text-sm gap-1 px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded"
+        class="stat-badge flex items-center gap-1 rounded bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800"
     >
         <u-icon
             :name="getStatIcon(characteristic)"

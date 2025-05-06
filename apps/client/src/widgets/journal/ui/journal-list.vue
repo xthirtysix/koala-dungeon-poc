@@ -53,12 +53,12 @@ watch(
             emit('load-more')
         }
     },
-    { deep: true }
+    { deep: true },
 )
 </script>
 
 <template>
-    <div ref="parentRef" class="relative">
+    <div ref="parentRef" class="relative pb-32">
         <div
             :style="{
                 height: `${totalSize}px`,
@@ -88,28 +88,33 @@ watch(
                             <div
                                 v-if="
                                     virtualItem.index === 0 ||
-                                    getEntry(virtualItem.index)?.marathon_day !==
-                                        getEntry(virtualItem.index - 1)?.marathon_day
+                                    getEntry(virtualItem.index)
+                                        ?.marathon_day !==
+                                        getEntry(virtualItem.index - 1)
+                                            ?.marathon_day
                                 "
-                                class="flex items-center gap-3 mb-4"
+                                class="mb-4 flex items-center gap-3"
                             >
                                 <h2 class="text-2xl font-semibold">
                                     День
                                     {{
-                                        getEntry(virtualItem.index)?.marathon_day
+                                        getEntry(virtualItem.index)
+                                            ?.marathon_day
                                     }}
                                 </h2>
                             </div>
                             <journal-entry-component
                                 v-if="getEntry(virtualItem.index)"
-                                :entry="getEntry(virtualItem.index) as JournalEntry"
+                                :entry="
+                                    getEntry(virtualItem.index) as JournalEntry
+                                "
                             />
                         </template>
                     </li>
                 </ul>
                 <div
                     v-if="isLoadingMore"
-                    class="py-4 text-center font-amatic font-bold text-2xl text-gray-500"
+                    class="font-amatic py-4 text-center text-2xl font-bold text-gray-500"
                 >
                     {{ currentLoadingMessage }}
                 </div>

@@ -34,6 +34,14 @@ export const routes = [
         },
     },
     {
+        path: '/leaderboard',
+        name: 'leaderboard',
+        component: () => import('@/pages/leaderboard'),
+        meta: {
+            layout: DefaultLayout,
+        },
+    },
+    {
         path: '/about',
         name: 'about',
         component: () => import('@/pages/about'),

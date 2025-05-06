@@ -16,18 +16,18 @@ defineOptions({
         target="_blank"
         class="block"
     >
-        <u-card class="py-0.5 px-1">
+        <u-card class="px-1 py-0.5">
             <div>
                 <div class="flex items-center gap-2">
-                    <h3 class="font-bold text-xl">
+                    <h3 class="text-xl font-bold">
                         {{ member.name }}
                     </h3>
                     <u-icon
                         name="i-simple-icons:twitch"
-                        class="text-[#9146FF] text-sm"
+                        class="text-sm text-[#9146FF]"
                     />
                 </div>
-                <p class="text-gray-500 text-sm">
+                <p class="text-sm text-gray-500">
                     {{ member.role }}
                 </p>
             </div>

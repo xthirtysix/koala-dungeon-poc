@@ -116,7 +116,7 @@ const loadingMessages = [
     'Новые препятствия уже на подходе!',
     'Проверяем, не спрятались ли помехи за углом...',
     'Помехи собираются в очередь...',
-    'Загружаем самые хитрые ловушки...'
+    'Загружаем самые хитрые ловушки...',
 ]
 
 const currentLoadingMessage = ref(loadingMessages[0])
@@ -132,10 +132,13 @@ watch(isLoadingMore, (val) => {
 <template>
     <h1 class="kd-h1">Помехи</h1>
 
-    <div v-if="isLoading" class="text-center text-2xl font-amatic py-8">
+    <div
+        v-if="isLoading"
+        class="font-amatic py-8 text-center text-4xl font-bold"
+    >
         Загрузка...
     </div>
-    <div v-if="error" class="text-red-500 py-4">{{ error }}</div>
+    <div v-if="error" class="py-4 text-red-500">{{ error }}</div>
     <div v-else ref="parentRef" class="relative">
         <div
             :style="{
@@ -162,7 +165,7 @@ watch(isLoadingMore, (val) => {
                     class="transition-transform duration-200"
                 >
                     <div
-                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-3"
+                        class="grid grid-cols-1 gap-4 py-3 md:grid-cols-3 lg:grid-cols-3"
                     >
                         <obstacle-card
                             v-for="obstacle in getRowItems(virtualRow.index)"
@@ -174,7 +177,7 @@ watch(isLoadingMore, (val) => {
                 </div>
                 <div
                     v-if="isLoadingMore"
-                    class="py-4 text-center font-amatic font-bold text-2xl text-gray-500"
+                    class="font-amatic py-4 text-center text-2xl font-bold text-gray-500"
                 >
                     {{ currentLoadingMessage }}
                 </div>

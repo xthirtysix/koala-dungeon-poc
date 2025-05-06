@@ -10,7 +10,7 @@ defineProps<{
 <template>
     <h2 class="kd-h2">{{ title }}</h2>
 
-    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
+    <ul class="grid max-w-4xl grid-cols-1 gap-4 md:grid-cols-2">
         <li v-for="member in members" :key="member.name">
             <team-member-card :member="member" />
         </li>

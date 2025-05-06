@@ -8,7 +8,6 @@ interface Props {
 }
 
 defineProps<Props>()
-
 </script>
 
 <template>
@@ -19,26 +18,27 @@ defineProps<Props>()
             body: 'h-full',
         }"
     >
-        <div class="flex flex-col gap-4 h-full">
-            <div class="text-center mb-4">
+        <div class="flex h-full flex-col gap-4">
+            <div class="mb-4 text-center">
                 <h3
                     :id="artefact.name"
-                    class="kd-h3 text-gray-900 dark:text-gray-200 text-2xl"
+                    class="kd-h3 text-2xl text-gray-900 dark:text-gray-200"
                 >
                     {{ artefact.name }}
                 </h3>
-                <span class="text-sm capitalize text-gray-600 dark:text-gray-400 capi">{{
-                    artefact.slot
-                }}</span>
+                <span
+                    class="capi text-sm text-gray-600 capitalize dark:text-gray-400"
+                    >{{ artefact.slot }}</span
+                >
             </div>
 
             <figure
-                class="relative flex min-h-[120px] justify-center before:absolute before:top-[50%] before:left-[50%] before:z-[0] before:mr-4 before:h-auto before:w-[65%] before:-translate-[50%] before:rounded-full before:bg-purple-50 before:pb-[65%] dark:before:bg-purple-400 dark:before:opacity-35"
+                class="relative mx-auto flex min-h-[120px] w-full max-w-[350px] justify-center before:absolute before:top-[50%] before:left-[50%] before:z-[0] before:mr-4 before:h-auto before:w-[65%] before:-translate-[50%] before:rounded-full before:bg-purple-50 before:pb-[65%] dark:before:bg-purple-400 dark:before:opacity-35"
             >
                 <img
                     :src="artefact.image.url"
                     :alt="artefact.name"
-                    class="w-full h-48 object-contain z-10"
+                    class="z-10 h-48 w-full object-contain"
                 />
             </figure>
 
@@ -56,7 +56,7 @@ defineProps<Props>()
                 </div>
             </div>
 
-            <p class="text-sm mt-auto text-gray-600 dark:text-gray-400">
+            <p class="mt-auto text-sm text-gray-600 dark:text-gray-400">
                 {{ artefact.description }}
             </p>
         </div>

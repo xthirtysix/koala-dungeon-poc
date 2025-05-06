@@ -15,16 +15,18 @@ const { indicator, isActive, scrollToHeading, activeElementsClass } =
 </script>
 
 <template>
-    <div class="max-h-full overflow-y-auto scrollbar-thin">
-        <h4 v-if="title" class="kd-h4 font-default mb-3 text-sm">{{ title }}</h4>
+    <div class="scrollbar-thin max-h-full overflow-y-auto">
+        <h4 v-if="title" class="kd-h4 font-default mb-3 text-sm">
+            {{ title }}
+        </h4>
         <div ref="tocContainerRef" class="relative pl-3">
             <div
-                class="absolute left-0 top-0 bottom-0 w-0.5 bg-gray-500/10 rounded-sm"
+                class="absolute top-0 bottom-0 left-0 w-0.5 rounded-sm bg-gray-500/10"
             />
 
             <div
                 v-if="indicator"
-                class="absolute left-0 w-0.5 bg-primary-500 rounded-sm z-10 transition-all duration-200 ease-in-out"
+                class="bg-primary-500 absolute left-0 z-10 w-0.5 rounded-sm transition-all duration-200 ease-in-out"
                 :style="{
                     top: `${indicator.top}px`,
                     height: `${indicator.height}px`,
@@ -43,7 +45,7 @@ const { indicator, isActive, scrollToHeading, activeElementsClass } =
                     >
                         <a
                             :href="`#${link.id}`"
-                            class="block no-underline py-0.5 transition-colors duration-200 hover:text-primary-500"
+                            class="hover:text-primary-500 block py-0.5 no-underline transition-colors duration-200"
                             @click.prevent="
                                 scrollToHeading(link.id, index === 0)
                             "
@@ -53,7 +55,7 @@ const { indicator, isActive, scrollToHeading, activeElementsClass } =
                     </div>
                     <ul
                         v-if="link.children"
-                        class="ml-2 my-0 list-none pl-4 relative"
+                        class="relative my-0 ml-2 list-none pl-4"
                     >
                         <li
                             v-for="child in link.children"
@@ -68,7 +70,7 @@ const { indicator, isActive, scrollToHeading, activeElementsClass } =
                             >
                                 <a
                                     :href="`#${child.id}`"
-                                    class="block no-underline py-0.5 transition-colors duration-200 hover:text-primary-500"
+                                    class="hover:text-primary-500 block py-0.5 no-underline transition-colors duration-200"
                                     @click.prevent="scrollToHeading(child.id)"
                                 >
                                     {{ child.text }}

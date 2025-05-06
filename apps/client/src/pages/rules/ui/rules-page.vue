@@ -34,9 +34,11 @@ onBeforeMount(async () => {
 
 <template>
     <h1 class="kd-h1 hidden">Правила марафона</h1>
-    <div v-if="loading" class="text-center text-2xl font-amatic py-8">Загрузка...</div>
-    <div v-else-if="error" class="text-red-500 py-8">{{ error }}</div>
-    <div v-else class="grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-8 w-full">
+    <div v-if="loading" class="font-amatic py-8 text-center text-4xl font-bold">
+        Загрузка...
+    </div>
+    <div v-else-if="error" class="py-8 text-red-500">{{ error }}</div>
+    <div v-else class="grid w-full grid-cols-1 gap-8 lg:grid-cols-[1fr_250px]">
         <suspense>
             <m-d-c-renderer
                 v-if="ast?.body"
@@ -47,13 +49,13 @@ onBeforeMount(async () => {
         </suspense>
         <div
             v-if="ast?.toc?.links"
-            class="grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-8 w-full"
+            class="grid w-full grid-cols-1 gap-8 lg:grid-cols-[1fr_250px]"
         >
             <div class="hidden lg:block">
                 <table-of-contents
                     :links="ast?.toc?.links"
                     title="На этой странице"
-                    class="fixed mt-0 pr-4 overflow-y-auto toc-el hidden lg:block"
+                    class="toc-el fixed mt-0 hidden overflow-y-auto pr-4 lg:block"
                 />
             </div>
         </div>

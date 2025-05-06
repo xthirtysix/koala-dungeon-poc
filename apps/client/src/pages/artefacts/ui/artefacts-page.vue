@@ -55,7 +55,9 @@ onMounted(() => {
 
 const ITEMS_PER_ROW = 3
 
-const rowsCount = computed(() => Math.ceil(artefacts.value.length / ITEMS_PER_ROW))
+const rowsCount = computed(() =>
+    Math.ceil(artefacts.value.length / ITEMS_PER_ROW),
+)
 
 const parentRef = ref<HTMLElement | null>(null)
 const parentOffsetRef = ref(0)
@@ -113,7 +115,7 @@ const loadingMessages = [
     'Ищем древние артефакты в пыльных сундуках...',
     'Призываем артефакты из параллельной вселенной...',
     'Собираем артефакты по кусочкам...',
-    'Археологи уже бегут с новыми находками!'
+    'Археологи уже бегут с новыми находками!',
 ]
 
 const currentLoadingMessage = ref(loadingMessages[0])
@@ -128,8 +130,15 @@ watch(isLoadingMore, (val) => {
 
 <template>
     <h1 class="kd-h1">Артефакты</h1>
-    <div v-if="isLoading" class="text-center text-3xl font-amatic py-10">Загрузка...</div>
-    <div v-else-if="error" class="text-center text-red-500 py-10">{{ error }}</div>
+    <div
+        v-if="isLoading"
+        class="font-amatic py-10 text-center text-4xl font-bold"
+    >
+        Загрузка...
+    </div>
+    <div v-else-if="error" class="py-10 text-center text-red-500">
+        {{ error }}
+    </div>
     <div v-else ref="parentRef" class="relative">
         <div
             :style="{
@@ -145,7 +154,7 @@ watch(isLoadingMore, (val) => {
                     top: 0,
                     left: 0,
                     width: '100%',
-                    transform: `translateY(${containerOffset}px)`
+                    transform: `translateY(${containerOffset}px)`,
                 }"
             >
                 <div
@@ -155,7 +164,7 @@ watch(isLoadingMore, (val) => {
                     :data-index="virtualRow.index"
                     class="transition-transform duration-200"
                 >
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-3">
+                    <div class="grid grid-cols-1 gap-6 py-3 md:grid-cols-3">
                         <ArtefactCard
                             v-for="artefact in getRowItems(virtualRow.index)"
                             :key="artefact.id"
@@ -165,7 +174,7 @@ watch(isLoadingMore, (val) => {
                 </div>
                 <div
                     v-if="isLoadingMore"
-                    class="py-4 text-center font-amatic font-bold text-2xl text-gray-500"
+                    class="font-amatic py-4 text-center text-2xl font-bold text-gray-500"
                 >
                     {{ currentLoadingMessage }}
                 </div>

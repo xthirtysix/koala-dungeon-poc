@@ -51,7 +51,7 @@ const getEventTypeIcon = (type: JournalEntry['type']) => {
         <img
             v-if="entry.hero"
             :src="heroImageByName.get(entry.hero)"
-            class="h-full absolute top-0 -left-20 bottom-0 object-cover max-w-full sm:max-w-none opacity-25 sm:opacity-65"
+            class="absolute top-0 bottom-0 -left-20 h-full max-w-full object-cover opacity-25 sm:max-w-none sm:opacity-65"
             :style="{
                 maskImage: 'linear-gradient(to right, black 30%, transparent)',
                 WebkitMaskImage:
@@ -59,7 +59,7 @@ const getEventTypeIcon = (type: JournalEntry['type']) => {
             }"
         />
         <div
-            class="text-xl p-2.5 w-15 flex items-center justify-center relative z-1"
+            class="relative z-1 flex w-15 items-center justify-center p-2.5 text-xl"
             :class="{
                 'rounded-lg shadow-inner': entry.hero === 'Нет',
                 'bg-blue-50/35 dark:bg-orange-700/35': entry.type === 'dice',
@@ -78,24 +78,24 @@ const getEventTypeIcon = (type: JournalEntry['type']) => {
                 getEventTypeIcon(entry.type)
             }}</span>
         </div>
-        <div class="flex-1 relative z-1">
+        <div class="relative z-1 flex-1">
             <div
                 class="flex flex-col gap-y-1 sm:flex-row sm:items-center sm:gap-x-2"
             >
                 <span
                     v-if="entry.time"
-                    class="text-sm text-gray-600 dark:text-gray-300 font-medium bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded"
+                    class="rounded bg-gray-100 px-2 py-0.5 text-sm font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300"
                 >
                     {{ formatDate(entry.time) }}
                 </span>
                 <span
                     v-if="entry.cell"
-                    class="text-sm font-medium text-primary bg-primary/35 px-2 py-0.5 rounded"
+                    class="text-primary bg-primary/35 rounded px-2 py-0.5 text-sm font-medium"
                 >
                     Клетка {{ entry.cell }}
                 </span>
             </div>
-            <p class="text-gray-700 dark:text-gray-200 mt-2 sm:mt-0">
+            <p class="mt-2 text-gray-700 sm:mt-0 dark:text-gray-200">
                 {{ entry.description }}
             </p>
         </div>
