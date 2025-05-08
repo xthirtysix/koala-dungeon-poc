@@ -70,7 +70,9 @@ defineProps<{
                     <div class="text-sm text-gray-500 dark:text-gray-400">
                         Помехи
                     </div>
-                    <div class="font-medium">{{ spirit.obstacleSpins || 0 }}</div>
+                    <div class="font-medium">
+                        {{ spirit.obstacleSpins || 0 }}
+                    </div>
                 </div>
                 <div class="w-[100px] text-center">
                     <div class="text-sm text-gray-500 dark:text-gray-400">
@@ -82,7 +84,9 @@ defineProps<{
                     <div class="text-sm text-gray-500 dark:text-gray-400">
                         Отложено
                     </div>
-                    <div class="font-medium">{{ spirit.scheduledSpins || 0 }}</div>
+                    <div class="font-medium">
+                        {{ spirit.scheduledSpins || 0 }}
+                    </div>
                 </div>
                 <div class="w-[100px] text-center">
                     <div class="text-sm text-gray-500 dark:text-gray-400">
@@ -94,7 +98,7 @@ defineProps<{
                     <div class="text-sm text-gray-500 dark:text-gray-400">
                         Реролл
                     </div>
-                    <div class="font-medium">{{ spirit.reroll || 0  }}</div>
+                    <div class="font-medium">{{ spirit.reroll || 0 }}</div>
                 </div>
             </div>
         </div>

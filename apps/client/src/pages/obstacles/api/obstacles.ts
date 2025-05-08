@@ -87,7 +87,11 @@ export default {
             // Возвращаем 3 активные моки, если есть
             return mockObstacles
                 .filter((o) => o.isActive)
-                .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+                .sort(
+                    (a, b) =>
+                        new Date(b.updatedAt).getTime() -
+                        new Date(a.updatedAt).getTime(),
+                )
                 .slice(0, 3)
         }
     },

@@ -30,7 +30,9 @@ defineProps<{
                     <h3 class="kd-h2 text-center">
                         {{ achievement.name }}
                     </h3>
-                    <p class="text-center text-sm text-gray-800 dark:text-gray-200">
+                    <p
+                        class="text-center text-sm text-gray-800 dark:text-gray-200"
+                    >
                         {{ achievement.description }}
                     </p>
                 </div>

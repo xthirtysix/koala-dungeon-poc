@@ -8,24 +8,18 @@ defineOptions({
 </script>
 
 <template>
-    <u-container>
-        <h1 class="kd-h1">О проекте</h1>
+    <h1 class="kd-h1">О проекте</h1>
 
-        <div class="space-y-8">
-            <div class="prose dark:prose-invert max-w-none">
-                <p>
-                    Koala Dungeon - это увлекательная игра, созданная командой
-                    энтузиастов. В игре вы сможете исследовать подземелья,
-                    сражаться с монстрами, собирать сокровища и развивать своего
-                    персонажа.
-                </p>
-            </div>
-
-            <team-members-list title="Команда разработчиков" :members="team" />
-            <technologies-list
-                title="Технологии"
-                :technologies="technologies"
-            />
+    <div class="space-y-8">
+        <div class="prose dark:prose-invert max-w-none">
+            <p>
+                Koala Dungeon - это увлекательная игра, созданная командой
+                энтузиастов. В игре вы сможете исследовать подземелья, сражаться
+                с монстрами, собирать сокровища и развивать своего персонажа.
+            </p>
         </div>
-    </u-container>
+
+        <team-members-list title="Команда разработчиков" :members="team" />
+        <technologies-list title="Технологии" :technologies="technologies" />
+    </div>
 </template>

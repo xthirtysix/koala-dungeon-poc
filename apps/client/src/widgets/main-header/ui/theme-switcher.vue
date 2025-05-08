@@ -10,7 +10,8 @@ const isDark = computed({
         return colorMode.value === Theme.DARK
     },
     set() {
-        colorMode.value = colorMode.value === Theme.DARK ? Theme.LIGHT : Theme.DARK
+        colorMode.value =
+            colorMode.value === Theme.DARK ? Theme.LIGHT : Theme.DARK
     },
 })
 </script>
@@ -21,6 +22,7 @@ const isDark = computed({
             :icon="isDark ? 'i-lucide:moon' : 'i-lucide:sun'"
             color="neutral"
             variant="ghost"
+            class="text-muted"
             @click="isDark = !isDark"
         />
 

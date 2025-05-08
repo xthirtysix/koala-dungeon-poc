@@ -4,7 +4,11 @@ import { Artefact, fetchArtefacts } from '@/entities/artefact'
 import { ArtefactCard } from '@/widgets/artefact-card'
 import { useWindowVirtualizer } from '@tanstack/vue-virtual'
 import type { ComponentPublicInstance } from 'vue'
-import { type Banner, useBannerStore, AdvertisingBanner } from '@/entities/banner'
+import {
+    type Banner,
+    useBannerStore,
+    AdvertisingBanner,
+} from '@/entities/banner'
 
 defineOptions({
     name: 'ArtefactsPage',
@@ -131,7 +135,9 @@ watch(isLoadingMore, (val) => {
 const bannerStore = useBannerStore()
 
 const artefactsBanner = computed<Banner | undefined>(() => {
-    return bannerStore.banners.find((banner) => banner.pageName === 'artefacts')
+    return bannerStore.banners.find(
+        (banner) => banner.pageName === 'artefacts' && banner.isActive,
+    )
 })
 </script>
 

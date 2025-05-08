@@ -8,7 +8,9 @@ import { type Banner, AdvertisingBanner } from '@/entities/banner'
 const bannerStore = useBannerStore()
 
 const homeBanner = computed<Banner | undefined>(() => {
-    return bannerStore.banners.find((banner) => banner.pageName === 'main')
+    return bannerStore.banners.find(
+        (banner) => banner.pageName === 'main' && banner.isActive,
+    )
 })
 </script>
 

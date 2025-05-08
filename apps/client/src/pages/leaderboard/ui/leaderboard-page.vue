@@ -79,7 +79,7 @@ const bannerStore = useBannerStore()
 
 const leaderboardsBanner = computed<Banner | undefined>(() => {
     return bannerStore.banners.find(
-        (banner) => banner.pageName === 'leaderboard',
+        (banner) => banner.pageName === 'leaderboard' && banner.isActive,
     )
 })
 

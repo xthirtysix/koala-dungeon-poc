@@ -19,7 +19,10 @@ defineProps<{
             </li>
         </ul>
 
-        <div v-else-if="spirits.length === 0" class="font-amatic text-center text-2xl font-bold text-gray-500">
+        <div
+            v-else-if="spirits.length === 0"
+            class="font-amatic text-center text-2xl font-bold text-gray-500"
+        >
             Призываем духов 👻
         </div>
 
