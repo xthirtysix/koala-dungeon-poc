@@ -74,9 +74,9 @@ const getEventTypeIcon = (type: JournalEntry['type']) => {
             }"
             :title="entry.type"
         >
-            <span v-if="entry.hero === 'Нет'">{{
-                getEventTypeIcon(entry.type)
-            }}</span>
+            <span v-if="entry.hero === 'Нет' || !entry.hero">
+                {{ getEventTypeIcon(entry.type) }}
+            </span>
         </div>
         <div class="relative z-1 flex-1">
             <div

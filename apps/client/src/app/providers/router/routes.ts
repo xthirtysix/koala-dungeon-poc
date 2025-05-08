@@ -2,6 +2,14 @@ import { DefaultLayout } from '@/shared/ui/layouts'
 
 export const routes = [
     {
+        path: '/',
+        name: 'main',
+        component: () => import('@/pages/home'),
+        meta: {
+            layout: DefaultLayout,
+        },
+    },
+    {
         path: '/library/artefacts',
         name: 'artefacts',
         component: () => import('@/pages/artefacts'),
@@ -45,13 +53,6 @@ export const routes = [
         path: '/about',
         name: 'about',
         component: () => import('@/pages/about'),
-        meta: {
-            layout: DefaultLayout,
-        },
-    },
-    {
-        path: '/:pathMatch(.*)',
-        component: () => import('@/pages/home'),
         meta: {
             layout: DefaultLayout,
         },

@@ -91,7 +91,7 @@ const isLibraryPage = computed(() => route.path.startsWith('/library'))
             </div>
         </main>
         <footer
-            class="mt-auto flex w-full flex-col items-center justify-center gap-2 border-t border-gray-200 dark:border-gray-800 py-6 text-xs text-gray-500 sm:flex-row sm:justify-center sm:gap-4"
+            class="mt-auto flex w-full flex-col items-center justify-center gap-2 border-t border-gray-200 py-6 text-xs text-gray-500 sm:flex-row sm:justify-center sm:gap-4 dark:border-gray-800"
         >
             <span>© Подземелья и коалы 2025. Все права защищены</span>
             <span class="hidden sm:inline">|</span>
@@ -104,7 +104,7 @@ const isLibraryPage = computed(() => route.path.startsWith('/library'))
                 <u-icon name="i-simple-icons:twitch" class="text-base" />
                 twitch.tv/aloekoala
             </a>
-            <span class="hidden sm:inline">|</span>
+            <span class="hidden text-gray-500 sm:inline">|</span>
             <a
                 href="https://t.me/aloe_koala"
                 target="_blank"

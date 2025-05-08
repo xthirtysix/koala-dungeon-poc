@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { useMainHeader } from '../model/main-header'
+import { useMainHeader, ThemeSwitcher } from '@/widgets/main-header'
 import { ref } from 'vue'
-
 defineOptions({
     name: 'main-header',
 })
@@ -43,7 +42,7 @@ const toggleMenu = () => {
                 </button>
 
                 <u-navigation-menu
-                    class="hidden text-3xl md:block"
+                    class="hidden text-3xl md:block ml-auto"
                     highlight
                     highlight-color="primary"
                     content-orientation="horizontal"
@@ -54,6 +53,8 @@ const toggleMenu = () => {
                         childLinkIcon: 'relative top-1',
                     }"
                 />
+
+                <theme-switcher class="ml-4" />
             </div>
         </div>
     </header>

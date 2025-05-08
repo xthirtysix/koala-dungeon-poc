@@ -90,36 +90,9 @@ const status = computed(() => {
     }
     return ''
 })
-
-function isVideo(url?: string) {
-    return url ? url.endsWith('.mp4') : false
-}
 </script>
 
 <template>
-    <div class="flex items-center justify-center">
-        <a :href="marathon?.bannerLink" target="_blank">
-            <video
-                v-if="isVideo(marathon?.banner?.url)"
-                autoplay
-                muted
-                loop
-                width="730"
-                height="180"
-                class="mx-auto"
-            >
-                <source :src="marathon?.banner?.url" type="video/mp4" />
-            </video>
-            <img
-                v-else-if="marathon?.banner?.url"
-                :src="marathon.banner.url"
-                width="730"
-                height="180"
-                class="mx-auto"
-                alt="Баннер марафона"
-            />
-        </a>
-    </div>
     <div
         class="font-amatic mx-auto mt-6 w-full p-6 text-center text-3xl font-bold"
     >
