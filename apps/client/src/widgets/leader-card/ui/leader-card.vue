@@ -163,7 +163,9 @@ const medalIcon = computed(() => {
                         <div class="text-sm text-gray-500 dark:text-gray-400">
                             Реролл
                         </div>
-                        <div class="text-lg font-semibold">{{ rerolls || 0 }}</div>
+                        <div class="text-lg font-semibold">
+                            {{ rerolls || 0 }}
+                        </div>
                     </div>
                 </div>
             </div>

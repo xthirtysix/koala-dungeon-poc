@@ -2259,16 +2259,18 @@ export const journalMockData: JournalDay[] = [
 
 export function getLastJournalEntriesMock() {
     // Собираем все записи из всех дней
-    const allEntries = journalMockData.flatMap(day => day.entries.map(entry => ({
-        // Приводим к типу JournalEntry
-        time: (entry.timestamp || ''),
-        description: (entry.event || ''),
-        cell: entry.cell,
-        type: entry.type,
-        hero: (entry.character || ''),
-        marathon_day: Number(day.date),
-        game_result: entry.game_result ?? 0,
-    })))
+    const allEntries = journalMockData.flatMap((day) =>
+        day.entries.map((entry) => ({
+            // Приводим к типу JournalEntry
+            time: entry.timestamp || '',
+            description: entry.event || '',
+            cell: entry.cell,
+            type: entry.type,
+            hero: entry.character || '',
+            marathon_day: Number(day.date),
+            game_result: entry.game_result ?? 0,
+        })),
+    )
     // Сортируем по дню и времени (по убыванию)
     allEntries.sort((a, b) => {
         if (a.marathon_day !== b.marathon_day) {

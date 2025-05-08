@@ -15,7 +15,7 @@ const toggleMenu = () => {
 <template>
     <header class="header drop-shadow-md">
         <div class="container mx-auto max-w-7xl">
-            <div class="header__content px-4 sm:mx-0">
+            <div class="header__content px-4 sm:mx-0 sm:flex">
                 <router-link to="/" class="header__logo min-w-[11rem]">
                     <span class="header__logo-text font-amatic uppercase"
                         >Подземелья и Коалы</span
@@ -23,26 +23,26 @@ const toggleMenu = () => {
                 </router-link>
 
                 <button
-                    class="ml-2 flex h-10 w-10 flex-col items-center justify-center md:hidden"
+                    class="order-2 ml-4 flex h-10 w-10 flex-col items-center justify-center md:hidden"
                     @click="toggleMenu"
                     aria-label="Открыть меню"
                 >
                     <span
-                        class="mb-1 block h-0.5 w-6 rounded bg-black dark:bg-white transition-all"
+                        class="mb-1 block h-0.5 w-6 rounded bg-black transition-all dark:bg-white"
                         :class="{ 'translate-y-1.5 rotate-45': isMenuOpen }"
                     ></span>
                     <span
-                        class="mb-1 block h-0.5 w-6 rounded bg-black dark:bg-white transition-all"
+                        class="mb-1 block h-0.5 w-6 rounded bg-black transition-all dark:bg-white"
                         :class="{ 'opacity-0': isMenuOpen }"
                     ></span>
                     <span
-                        class="block h-0.5 w-6 rounded bg-black dark:bg-white transition-all"
+                        class="block h-0.5 w-6 rounded bg-black transition-all dark:bg-white"
                         :class="{ '-translate-y-1.5 -rotate-45': isMenuOpen }"
                     ></span>
                 </button>
 
                 <u-navigation-menu
-                    class="hidden text-3xl md:block ml-auto"
+                    class="ml-auto hidden text-3xl md:block"
                     highlight
                     highlight-color="primary"
                     content-orientation="horizontal"
@@ -54,7 +54,7 @@ const toggleMenu = () => {
                     }"
                 />
 
-                <theme-switcher class="ml-4" />
+                <theme-switcher class="order-1 ml-auto md:ml-4" />
             </div>
         </div>
     </header>
@@ -65,7 +65,7 @@ const toggleMenu = () => {
         @click.self="toggleMenu"
     >
         <nav
-            class="fixed inset-0 flex flex-col justify-center gap-4 bg-white text-black dark:bg-neutral-900/95 dark:text-white px-[10px]"
+            class="fixed inset-0 flex flex-col justify-center gap-4 bg-white px-[10px] text-black dark:bg-neutral-900/95 dark:text-white"
         >
             <template v-for="item in items" :key="item.label">
                 <router-link

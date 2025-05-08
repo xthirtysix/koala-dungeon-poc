@@ -37,7 +37,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
         <latest-journal-entries
             :entries="journalEntries"
             :is-loading="isLoading"

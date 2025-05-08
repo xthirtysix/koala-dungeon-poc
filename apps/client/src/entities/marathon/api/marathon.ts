@@ -12,7 +12,7 @@ const mockMarathon: Marathon = {
 
 export default {
     fetchMarathon: async (): Promise<Marathon> => {
-        const query = buildQuery({ populate: 'banner' })
+        const query = buildQuery({})
 
         try {
             const res = await fetch(
@@ -27,8 +27,6 @@ export default {
                 totalTime: response.data.totalTime,
                 passedTime: response.data.passedTime,
                 isPaused: response.data.isPaused,
-                banner: response.data.banner,
-                bannerLink: response.data.bannerLink,
             }
         } catch (error) {
             console.error('Ошибка при загрузке марафона:', error)
