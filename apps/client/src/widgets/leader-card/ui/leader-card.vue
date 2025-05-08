@@ -109,7 +109,7 @@ const medalIcon = computed(() => {
                             Помехи
                         </div>
                         <div class="text-lg font-semibold">
-                            {{ interferenceWheelSpins }}
+                            {{ interferenceWheelSpins || 0 }}
                         </div>
                     </div>
                     <div
@@ -120,7 +120,7 @@ const medalIcon = computed(() => {
                             Помощь
                         </div>
                         <div class="text-lg font-semibold">
-                            {{ helpWheelSpins }}
+                            {{ helpWheelSpins || 0 }}
                         </div>
                     </div>
                     <div
@@ -131,7 +131,7 @@ const medalIcon = computed(() => {
                             Отложено
                         </div>
                         <div class="text-lg font-semibold">
-                            {{ deferredInterferences }}
+                            {{ deferredInterferences || 0 }}
                         </div>
                     </div>
                     <div
@@ -142,7 +142,7 @@ const medalIcon = computed(() => {
                             Донаты
                         </div>
                         <div class="text-lg font-semibold">
-                            {{ totalDonations }}
+                            {{ totalDonations || 0 }}
                         </div>
                     </div>
                     <div
@@ -163,7 +163,7 @@ const medalIcon = computed(() => {
                         <div class="text-sm text-gray-500 dark:text-gray-400">
                             Реролл
                         </div>
-                        <div class="text-lg font-semibold">{{ rerolls }}</div>
+                        <div class="text-lg font-semibold">{{ rerolls || 0 }}</div>
                     </div>
                 </div>
             </div>

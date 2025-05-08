@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import { DefaultLayout } from '@/shared/ui/layouts'
 import { MainHeader } from '@/widgets/main-header'
+import { useBannerStore } from '@/entities/banner/model/store'
 
 const route = useRoute()
 
+const bannerStore = useBannerStore()
+
 const layout = computed(() => route.meta.layout || DefaultLayout)
+
+onMounted(async () => {
+    await bannerStore.fetchBanners()
+})
 </script>
 
 <template>

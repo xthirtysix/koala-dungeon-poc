@@ -3,6 +3,11 @@ import { ref, shallowRef, watch, onMounted, computed } from 'vue'
 import { spiritApi, type Spirit } from '@/entities/spirit'
 import { LeaderCard } from '@/widgets/leader-card'
 import { SpiritList } from '@/widgets/spirit-list'
+import {
+    type Banner,
+    useBannerStore,
+    AdvertisingBanner,
+} from '@/entities/banner'
 
 const PAGE_SIZE = 25
 const currentPage = ref(1)
@@ -57,10 +62,6 @@ watch(isLoadingMore, (val) => {
     }
 })
 
-onMounted(async () => {
-    await loadPage(1)
-})
-
 const topHeroes = computed<Spirit[]>(() => allSpirits.value.slice(0, 3))
 
 const getLeaderCardProps = (spirit: Spirit, index: number) => ({
@@ -72,6 +73,18 @@ const getLeaderCardProps = (spirit: Spirit, index: number) => ({
     totalDonations: spirit.amount ?? 0,
     achievements: spirit.achievements ?? [],
     rerolls: spirit.reroll ?? 0,
+})
+
+const bannerStore = useBannerStore()
+
+const leaderboardsBanner = computed<Banner | undefined>(() => {
+    return bannerStore.banners.find(
+        (banner) => banner.pageName === 'leaderboard',
+    )
+})
+
+onMounted(async () => {
+    await loadPage(1)
 })
 </script>
 
@@ -86,8 +99,22 @@ const getLeaderCardProps = (spirit: Spirit, index: number) => ({
     <div v-else-if="error" class="py-10 text-center text-red-500">
         {{ error }}
     </div>
-    <u-container v-else>
+    <u-container v-else class="px-0 md:px-0 lg:px-0">
         <div
+            v-if="leaderboardsBanner"
+            class="mb-8 grid grid-cols-1 gap-10 py-8 md:grid-cols-2 md:gap-12 lg:mb-16 lg:grid-cols-[auto_1fr_1fr_1fr] lg:gap-4"
+        >
+            <advertising-banner :banner="leaderboardsBanner" :width="200" />
+
+            <leader-card
+                v-for="(hero, index) in topHeroes"
+                :key="hero.id"
+                v-bind="getLeaderCardProps(hero, index)"
+            />
+        </div>
+
+        <div
+            v-else
             class="mb-8 grid grid-cols-1 gap-10 py-8 md:mb-16 md:grid-cols-3 md:gap-6"
         >
             <leader-card
@@ -96,6 +123,7 @@ const getLeaderCardProps = (spirit: Spirit, index: number) => ({
                 v-bind="getLeaderCardProps(hero, index)"
             />
         </div>
+
         <spirit-list
             :spirits="allSpirits"
             :is-loading-more="isLoadingMore"
