@@ -1,10 +1,6 @@
 // composables/useMarkdownParser.ts
 // Import package exports
-import {
-    createMarkdownParser,
-    rehypeHighlight,
-    createShikiHighlighter,
-} from '@nuxtjs/mdc/runtime'
+import { createMarkdownParser, rehypeHighlight } from '@nuxtjs/mdc/runtime'
 
 export default function useMarkdownParser() {
     let parser: Awaited<ReturnType<typeof createMarkdownParser>>

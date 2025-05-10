@@ -2,13 +2,13 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { Artefact, fetchArtefacts } from '@/entities/artefact'
 import { ArtefactCard } from '@/widgets/artefact-card'
+import { LOADING_LABELS } from '@/pages/artefacts'
 import { useWindowVirtualizer } from '@tanstack/vue-virtual'
 import type { ComponentPublicInstance } from 'vue'
-import {
-    type Banner,
-    useBannerStore,
-    AdvertisingBanner,
-} from '@/entities/banner'
+import { type Banner, AdvertisingBanner } from '@/entities/banner'
+import { usePageBanner } from '@/entities/banner/model/usePageBanner'
+import { PageName } from '@/shared/config'
+import { useLoadingLabels } from '@/shared/composables'
 
 defineOptions({
     name: 'ArtefactsPage',
@@ -115,30 +115,9 @@ watch(
     { deep: true },
 )
 
-const loadingMessages = [
-    'Колдуем новые артефакты из воздуха...',
-    'Ищем древние артефакты в пыльных сундуках...',
-    'Призываем артефакты из параллельной вселенной...',
-    'Собираем артефакты по кусочкам...',
-    'Археологи уже бегут с новыми находками!',
-]
+const { loadingLabel } = useLoadingLabels(LOADING_LABELS, isLoadingMore)
 
-const currentLoadingMessage = ref(loadingMessages[0])
-
-watch(isLoadingMore, (val) => {
-    if (val) {
-        const idx = Math.floor(Math.random() * loadingMessages.length)
-        currentLoadingMessage.value = loadingMessages[idx]
-    }
-})
-
-const bannerStore = useBannerStore()
-
-const artefactsBanner = computed<Banner | undefined>(() => {
-    return bannerStore.banners.find(
-        (banner) => banner.pageName === 'artefacts' && banner.isActive,
-    )
-})
+const { pageBanner: artefactsBanner } = usePageBanner(PageName.ARTEFACTS)
 </script>
 
 <template>
@@ -184,7 +163,7 @@ const artefactsBanner = computed<Banner | undefined>(() => {
                     class="transition-transform duration-200"
                 >
                     <div class="grid grid-cols-1 gap-6 py-3 md:grid-cols-3">
-                        <ArtefactCard
+                        <artefact-card
                             v-for="artefact in getRowItems(virtualRow.index)"
                             :key="artefact.id"
                             :artefact="artefact"
@@ -195,7 +174,7 @@ const artefactsBanner = computed<Banner | undefined>(() => {
                     v-if="isLoadingMore"
                     class="font-amatic py-4 text-center text-2xl font-bold text-gray-500"
                 >
-                    {{ currentLoadingMessage }}
+                    {{ loadingLabel }}
                 </div>
             </div>
         </div>

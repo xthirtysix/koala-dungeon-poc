@@ -195,8 +195,8 @@ const medalIcon = computed(() => {
                         root: 'h-full content-center',
                         container: 'h-[360px]',
                         item: 'basis-1/5',
-                        prev: '-top-2 left-1/2 -translate-x-1/2 !bg-gray-100 dark:!bg-gray-800 size-8',
-                        next: '-bottom-2 left-1/2 -translate-x-1/2 !bg-gray-100 dark:!bg-gray-800 size-8',
+                        prev: '-translate-y-8 left-1/2 translate-y-8 -translate-x-1/2 !bg-gray-100 dark:!bg-gray-800 size-8',
+                        next: '-translate-y-8 bottom-2 left-1/2 -translate-x-1/2 !bg-gray-100 dark:!bg-gray-800 size-8',
                     }"
                 >
                     <achievement-badge :achievement="item" side="right" />

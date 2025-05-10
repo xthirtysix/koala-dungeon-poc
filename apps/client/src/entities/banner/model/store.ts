@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { Banner } from './types'
-import { bannerApi } from '@/entities/banner'
+import { bannerApi, type Banner } from '@/entities/banner'
 
 export const useBannerStore = defineStore('banner', () => {
     const banners = ref<Banner[]>([])

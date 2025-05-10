@@ -1,17 +1,12 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { MarathonTimer } from '@/widgets/marathon-timer'
 import { HomeLatestWidget } from '@/widgets/home-latest'
-import { useBannerStore } from '@/entities/banner/model/store'
-import { computed } from 'vue'
 import { type Banner, AdvertisingBanner } from '@/entities/banner'
+import { usePageBanner } from '@/entities/banner/model/usePageBanner'
+import { PageName } from '@/shared/config'
 
-const bannerStore = useBannerStore()
-
-const homeBanner = computed<Banner | undefined>(() => {
-    return bannerStore.banners.find(
-        (banner) => banner.pageName === 'main' && banner.isActive,
-    )
-})
+const { pageBanner: homeBanner } = usePageBanner(PageName.MAIN)
 </script>
 
 <template>
