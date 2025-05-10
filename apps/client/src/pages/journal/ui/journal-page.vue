@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref, shallowRef, watch, onMounted } from 'vue'
+import { ref, shallowRef, onMounted } from 'vue'
 import { type JournalEntry, journalApi } from '@/entities/journal'
 import { JournalList } from '@/widgets/journal'
+import { useLoadingLabels } from '@/shared/composables'
+import { LOADING_LABELS } from '@/pages/journal'
 
 const PAGE_SIZE = 50
 const currentPage = ref(1)
@@ -38,22 +40,7 @@ const loadPage = async (page: number, append = false) => {
     }
 }
 
-const loadingMessages = [
-    'Перелистываем страницы дневника...',
-    'Записи ищут свою ручку...',
-    'Дневник вспоминает, что было вчера...',
-    'Новые истории уже бегут к вам!',
-    'Пишем новые главы приключений...',
-]
-
-const currentLoadingMessage = ref(loadingMessages[0])
-
-watch(isLoadingMore, (val) => {
-    if (val) {
-        const idx = Math.floor(Math.random() * loadingMessages.length)
-        currentLoadingMessage.value = loadingMessages[idx]
-    }
-})
+const { loadingLabel } = useLoadingLabels(LOADING_LABELS, isLoadingMore)
 
 onMounted(async () => {
     await loadPage(1)
@@ -80,7 +67,7 @@ onMounted(async () => {
         class="mb-4 block"
         :entries="allEntries"
         :is-loading-more="isLoadingMore"
-        :current-loading-message="currentLoadingMessage"
+        :loading-label="loadingLabel"
         @load-more="loadPage(currentPage + 1, true)"
     />
 </template>

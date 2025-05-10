@@ -8,7 +8,7 @@ import type { ComponentPublicInstance } from 'vue'
 const props = defineProps<{
     spirits: Spirit[]
     isLoadingMore?: boolean
-    currentLoadingMessage?: string
+    loadingLabel?: string
 }>()
 
 const showAchievements = ref(true)
@@ -125,7 +125,7 @@ onBeforeUnmount(() => {
                     v-if="isLoadingMore"
                     class="font-amatic py-4 text-center text-2xl font-bold text-gray-500"
                 >
-                    {{ currentLoadingMessage }}
+                    {{ loadingLabel }}
                 </div>
             </div>
         </div>

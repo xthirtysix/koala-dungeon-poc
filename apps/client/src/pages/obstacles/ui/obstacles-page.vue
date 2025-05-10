@@ -10,6 +10,8 @@ import {
     watch,
     type ComponentPublicInstance,
 } from 'vue'
+import { useLoadingLabels } from '@/shared/composables'
+import { LOADING_LABELS } from '@/pages/journal'
 
 const PAGE_SIZE = 30
 const currentPage = ref(1)
@@ -111,22 +113,7 @@ watch(
     { deep: true },
 )
 
-const loadingMessages = [
-    'Помехи строят коварные планы...',
-    'Новые препятствия уже на подходе!',
-    'Проверяем, не спрятались ли помехи за углом...',
-    'Помехи собираются в очередь...',
-    'Загружаем самые хитрые ловушки...',
-]
-
-const currentLoadingMessage = ref(loadingMessages[0])
-
-watch(isLoadingMore, (val) => {
-    if (val) {
-        const idx = Math.floor(Math.random() * loadingMessages.length)
-        currentLoadingMessage.value = loadingMessages[idx]
-    }
-})
+const { loadingLabel } = useLoadingLabels(LOADING_LABELS, isLoadingMore)
 </script>
 
 <template>
@@ -179,7 +166,7 @@ watch(isLoadingMore, (val) => {
                     v-if="isLoadingMore"
                     class="font-amatic py-4 text-center text-2xl font-bold text-gray-500"
                 >
-                    {{ currentLoadingMessage }}
+                    {{ loadingLabel }}
                 </div>
             </div>
         </div>

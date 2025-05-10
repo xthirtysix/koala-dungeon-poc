@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, shallowRef, watch, onMounted, computed } from 'vue'
+import { ref, shallowRef, onMounted, computed } from 'vue'
 import { spiritApi, type Spirit } from '@/entities/spirit'
+import { type Banner, AdvertisingBanner } from '@/entities/banner'
+import { usePageBanner } from '@/entities/banner/model/usePageBanner'
 import { LeaderCard } from '@/widgets/leader-card'
 import { SpiritList } from '@/widgets/spirit-list'
-import {
-    type Banner,
-    useBannerStore,
-    AdvertisingBanner,
-} from '@/entities/banner'
+import { PageName } from '@/shared/config'
+import { useLoadingLabels } from '@/shared/composables'
+import { LOADING_LABELS } from '@/pages/leaderboard'
 
 const PAGE_SIZE = 25
 const currentPage = ref(1)
@@ -29,7 +29,6 @@ const loadPage = async (page: number, append = false) => {
             pageSize: PAGE_SIZE,
             isHidden: false,
         })
-        // Приводим к типу Spirit (name = nickname)
         if (append) {
             allSpirits.value = [...allSpirits.value, ...spirits]
         } else {
@@ -45,22 +44,7 @@ const loadPage = async (page: number, append = false) => {
     }
 }
 
-const loadingMessages = [
-    'Духи собираются на совет...',
-    'Считаем донаты духов...',
-    'Духи спорят за лидерство...',
-    'Призываем новых духов в зал славы...',
-    'Духи готовят свои достижения...',
-]
-
-const currentLoadingMessage = ref(loadingMessages[0])
-
-watch(isLoadingMore, (val) => {
-    if (val) {
-        const idx = Math.floor(Math.random() * loadingMessages.length)
-        currentLoadingMessage.value = loadingMessages[idx]
-    }
-})
+const { loadingLabel } = useLoadingLabels(LOADING_LABELS, isLoadingMore)
 
 const topHeroes = computed<Spirit[]>(() => allSpirits.value.slice(0, 3))
 
@@ -75,12 +59,12 @@ const getLeaderCardProps = (spirit: Spirit, index: number) => ({
     rerolls: spirit.reroll ?? 0,
 })
 
-const bannerStore = useBannerStore()
+const { pageBanner: leaderboardsBanner } = usePageBanner(PageName.LEADERBOARD)
 
-const leaderboardsBanner = computed<Banner | undefined>(() => {
-    return bannerStore.banners.find(
-        (banner) => banner.pageName === 'leaderboard' && banner.isActive,
-    )
+const topThreeClasses = computed<string>(() => {
+    return leaderboardsBanner.value
+        ? 'mb-8 grid grid-cols-1 gap-10 py-8 md:grid-cols-2 md:gap-12 lg:mb-16 lg:grid-cols-[auto_1fr_1fr_1fr] lg:gap-4'
+        : 'mb-8 grid grid-cols-1 gap-10 py-8 md:mb-16 md:grid-cols-3 md:gap-6'
 })
 
 onMounted(async () => {
@@ -100,23 +84,13 @@ onMounted(async () => {
         {{ error }}
     </div>
     <u-container v-else class="px-0 md:px-0 lg:px-0">
-        <div
-            v-if="leaderboardsBanner"
-            class="mb-8 grid grid-cols-1 gap-10 py-8 md:grid-cols-2 md:gap-12 lg:mb-16 lg:grid-cols-[auto_1fr_1fr_1fr] lg:gap-4"
-        >
-            <advertising-banner :banner="leaderboardsBanner" :width="200" />
-
-            <leader-card
-                v-for="(hero, index) in topHeroes"
-                :key="hero.id"
-                v-bind="getLeaderCardProps(hero, index)"
+        <div :class="topThreeClasses">
+            <advertising-banner
+                v-if="leaderboardsBanner"
+                :banner="leaderboardsBanner"
+                :width="190"
             />
-        </div>
 
-        <div
-            v-else
-            class="mb-8 grid grid-cols-1 gap-10 py-8 md:mb-16 md:grid-cols-3 md:gap-6"
-        >
             <leader-card
                 v-for="(hero, index) in topHeroes"
                 :key="hero.id"
@@ -127,7 +101,7 @@ onMounted(async () => {
         <spirit-list
             :spirits="allSpirits"
             :is-loading-more="isLoadingMore"
-            :current-loading-message="currentLoadingMessage"
+            :loading-label="loadingLabel"
             @load-more="loadPage(currentPage + 1, true)"
         />
     </u-container>
