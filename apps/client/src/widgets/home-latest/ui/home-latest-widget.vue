@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { journalApi } from '@/entities/journal'
-import obstaclesApi from '@/pages/obstacles/api/obstacles'
+import { type JournalEntry, journalApi } from '@/entities/journal'
+import { type Obstacle, obstaclesApi } from '@/entities/obstacle'
+import { type Spirit, spiritApi } from '@/entities/spirit'
 import { LatestJournalEntries } from '@/widgets/journal'
 import { LatestObstaclesWidget } from '@/widgets/latest-obstacles'
-import { spiritApi } from '@/entities/spirit'
-import type { JournalEntry } from '@/entities/journal/model/types'
-import type { Obstacle } from '@/entities/obstacle/model/types'
-import type { Spirit } from '@/entities/spirit/model/types'
 import { HomeLeadersWidget } from '@/widgets/home-latest'
 
 const journalEntries = ref<JournalEntry[]>([])

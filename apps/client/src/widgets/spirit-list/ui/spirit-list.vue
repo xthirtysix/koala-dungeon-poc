@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import type { ComponentPublicInstance } from 'vue'
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
+import { useWindowVirtualizer } from '@tanstack/vue-virtual'
 import type { Spirit } from '@/entities/spirit'
 import { SpiritCard } from '@/widgets/spirit-card'
-import { useWindowVirtualizer } from '@tanstack/vue-virtual'
-import type { ComponentPublicInstance } from 'vue'
 
 const props = defineProps<{
     spirits: Spirit[]

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import marathonApi from '@/entities/marathon/api/marathon'
-import type { Marathon } from '@/entities/marathon'
+import { type Marathon, marathonApi } from '@/entities/marathon'
 
 const marathon = ref<Marathon | null>(null)
 const loading = ref(true)
@@ -21,7 +20,6 @@ onMounted(() => {
     }, 1000)
 })
 
-// Очищаем таймер при размонтировании
 onUnmounted(() => {
     if (timer) clearInterval(timer)
 })

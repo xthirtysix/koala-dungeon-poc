@@ -10,10 +10,10 @@ const isLibraryPage = computed(() => route.path.startsWith('/library'))
 </script>
 
 <template>
-    <div class="layout w-full">
-        <main-header class="max-w-auto mx-auto w-full" />
+    <div class="layout grid min-h-screen w-full grid-rows-[auto,1fr]">
+        <slot name="header" />
 
-        <main class="layout__main relative">
+        <main class="layout__main relative py-8">
             <svg
                 viewBox="0 0 1440 181"
                 fill="none"
@@ -69,24 +69,10 @@ const isLibraryPage = computed(() => route.path.startsWith('/library'))
                 </defs>
             </svg>
             <div class="container mx-auto max-w-7xl">
-                <div class="layout__content">
-                    <!-- <aside v-if="isLibraryPage" class="layout__sidebar">
-                        <u-card>
-                            <u-navigation-menu
-                                orientation="vertical"
-                                :items="libraryPages"
-                                :ui="{ item: 'py-3' }"
-                            />
-                        </u-card>
-                    </aside> -->
-                    <div
-                        class="layout__page"
-                        :class="{ 'layout__page--full': !isLibraryPage }"
-                    >
-                        <main>
-                            <slot />
-                        </main>
-                    </div>
+                <div class="layout__content grid gap-8 px-4">
+                    <main>
+                        <slot />
+                    </main>
                 </div>
             </div>
         </main>
@@ -117,39 +103,3 @@ const isLibraryPage = computed(() => route.path.startsWith('/library'))
         </footer>
     </div>
 </template>
-
-<style scoped>
-.layout {
-    min-height: 100vh;
-    display: grid;
-    grid-template-rows: auto 1fr;
-}
-
-.layout__main {
-    padding: 2rem 0;
-}
-
-.layout__content {
-    display: grid;
-    gap: 2rem;
-}
-
-.layout__content:has(.layout__sidebar) {
-    grid-template-columns: 250px 1fr;
-}
-
-.layout__sidebar {
-    padding: 1rem;
-    border-radius: 0.5rem;
-    height: fit-content;
-}
-
-.layout__page {
-    padding: 1rem;
-    min-height: 300px;
-}
-
-.layout__page--full {
-    grid-column: 1 / -1;
-}
-</style>

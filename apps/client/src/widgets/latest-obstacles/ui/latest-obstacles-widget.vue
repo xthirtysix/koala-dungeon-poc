@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { Obstacle } from '@/entities/obstacle'
-import ObstacleCard from '@/entities/obstacle/ui/obstacle-card.vue'
+import { type Obstacle, ObstacleCard } from '@/entities/obstacle'
 
 defineProps<{
     obstacles: Obstacle[]

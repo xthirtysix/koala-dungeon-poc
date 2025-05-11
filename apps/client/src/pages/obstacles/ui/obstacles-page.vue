@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { ObstacleCard } from '@/entities/obstacle'
-import type { Obstacle } from '@/entities/obstacle'
-import obstaclesApi from '../api/obstacles'
-import { useWindowVirtualizer } from '@tanstack/vue-virtual'
 import {
     computed,
     onMounted,
@@ -10,8 +6,10 @@ import {
     watch,
     type ComponentPublicInstance,
 } from 'vue'
+import { useWindowVirtualizer } from '@tanstack/vue-virtual'
+import { obstaclesApi, LOADING_LABELS } from '@/entities/obstacle'
+import { type Obstacle, ObstacleCard } from '@/entities/obstacle'
 import { useLoadingLabels } from '@/shared/composables'
-import { LOADING_LABELS } from '@/pages/journal'
 
 const PAGE_SIZE = 30
 const currentPage = ref(1)

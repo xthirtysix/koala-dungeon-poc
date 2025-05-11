@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
-import { DefaultLayout } from '@/shared/ui/layouts'
+import { useBannerStore } from '@/entities/banner'
 import { MainHeader } from '@/widgets/main-header'
-import { useBannerStore } from '@/entities/banner/model/store'
+import { DefaultLayout } from '@/shared/ui/layouts'
 
 const route = useRoute()
 
@@ -20,7 +20,7 @@ onMounted(async () => {
     <u-app>
         <component :is="layout">
             <template #header>
-                <main-header class="max-w-auto mx-auto w-full" />
+                <main-header />
             </template>
 
             <template #default>

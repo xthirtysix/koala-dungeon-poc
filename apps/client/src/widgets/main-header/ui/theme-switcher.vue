@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
-import { Theme } from '@/widgets/main-header'
 import { useColorMode } from '@vueuse/core'
+import { Theme } from '@/widgets/main-header'
 
 const colorMode = useColorMode()
 
@@ -17,17 +17,11 @@ const isDark = computed({
 </script>
 
 <template>
-    <client-only v-if="!colorMode?.forced">
-        <u-button
-            :icon="isDark ? 'i-lucide:moon' : 'i-lucide:sun'"
-            color="neutral"
-            variant="ghost"
-            class="text-muted"
-            @click="isDark = !isDark"
-        />
-
-        <template #fallback>
-            <div class="size-8" />
-        </template>
-    </client-only>
+    <u-button
+        :icon="isDark ? 'i-lucide:moon' : 'i-lucide:sun'"
+        color="neutral"
+        variant="ghost"
+        class="text-muted"
+        @click="isDark = !isDark"
+    />
 </template>

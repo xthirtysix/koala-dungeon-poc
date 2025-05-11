@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { Artefact } from '@/entities/artefact'
-import { ArtefactSlot } from '@/entities/artefact'
+import { type Artefact, ArtefactSlot } from '@/entities/artefact'
 import { DurabilityBadge, StatBadge } from '@/widgets/badge'
 
 interface Props {
