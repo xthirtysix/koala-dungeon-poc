@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Spirit } from '@/entities/spirit/model/types'
+import type { Spirit } from '@/entities/spirit'
 import { LeaderCard } from '@/widgets/leader-card'
 
 defineProps<{

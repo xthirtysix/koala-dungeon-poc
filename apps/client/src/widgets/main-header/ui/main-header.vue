@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useMainHeader, ThemeSwitcher } from '@/widgets/main-header'
 import { ref } from 'vue'
+
 defineOptions({
     name: 'main-header',
 })
@@ -13,11 +14,11 @@ const toggleMenu = () => {
 </script>
 
 <template>
-    <header class="header drop-shadow-md">
+    <header class="max-w-auto mx-auto w-full sticky top-0 z-[100] border-b border-white/10 bg-[var(--ui-bg)] py-1 h-[var(--header-height)] drop-shadow-md">
         <div class="container mx-auto max-w-7xl">
-            <div class="header__content px-4 sm:mx-0 sm:flex">
-                <router-link to="/" class="header__logo min-w-[11rem]">
-                    <span class="header__logo-text font-amatic uppercase"
+            <div class="flex items-center justify-between px-4 sm:mx-0 sm:flex">
+                <router-link to="/" class="header__logo relative flex items-center pl-2 transition-opacity duration-200 no-underline overflow-visible min-w-[11rem]">
+                    <span class="z-[1] text-4xl font-bold font-amatic uppercase"
                         >Подземелья и Коалы</span
                     >
                 </router-link>
@@ -95,36 +96,14 @@ const toggleMenu = () => {
 </template>
 
 <style scoped>
-.header {
-    padding: 0.25rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    height: var(--header-height);
-    background-color: var(--ui-bg);
-}
-
-.header__content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.header__logo {
-    position: relative;
-    display: flex;
-    padding-left: 0.5rem;
-    align-items: center;
-    transition: opacity 0.2s;
-    text-decoration: none;
-    overflow: visible;
+:root {
+    --header-height: 4rem;
 }
 
 .header__logo::before {
     content: '';
     position: absolute;
-    top: -1.5rem;
+    top: -1.75rem;
     left: -1.5rem;
     display: block;
     width: 55px;
@@ -136,7 +115,7 @@ const toggleMenu = () => {
 .header__logo::after {
     content: '';
     position: absolute;
-    top: -1.5rem;
+    top: -1.75rem;
     right: -3rem;
     display: block;
     width: 89px;
@@ -145,34 +124,7 @@ const toggleMenu = () => {
     transform: scale(50%);
 }
 
-.header__logo-text {
-    z-index: 1;
-    font-size: 2.25rem;
-    font-weight: bold;
-}
-
 .header__logo:hover {
     opacity: 0.9;
-}
-
-.header__nav {
-    flex: 1;
-    justify-content: flex-end;
-}
-
-.nav-content {
-    position: fixed;
-    top: var(--header-height);
-    background-color: #1a1a1a;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0.5rem;
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    z-index: 50;
-    width: 320px;
-}
-
-:root {
-    --header-height: 4rem;
 }
 </style>

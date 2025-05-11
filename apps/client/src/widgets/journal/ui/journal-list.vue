@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { ref, computed, type ComponentPublicInstance, watch } from 'vue'
+import { useWindowVirtualizer } from '@tanstack/vue-virtual'
 import { type JournalEntry } from '@/entities/journal'
 import { JournalEntry as JournalEntryComponent } from '@/widgets/journal'
-import { useWindowVirtualizer } from '@tanstack/vue-virtual'
-import { ref, computed, type ComponentPublicInstance, watch } from 'vue'
 
 const { entries, isLoadingMore, loadingLabel } = defineProps<{
     entries: JournalEntry[]

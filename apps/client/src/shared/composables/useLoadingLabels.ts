@@ -1,9 +1,9 @@
 import { ref, watch, type Ref } from 'vue'
 
-export const useLoadingLabels = (
+export default function useLoadingLabels(
     messages: string[],
     loadingRef: Ref<boolean>,
-) => {
+) {
     const loadingLabel = ref(
         messages[Math.floor(Math.random() * messages.length)],
     )

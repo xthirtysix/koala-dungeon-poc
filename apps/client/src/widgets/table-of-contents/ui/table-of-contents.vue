@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import type { TocLink } from '@nuxtjs/mdc'
 import { useActiveHeadings } from '@/widgets/table-of-contents'
-import { ref } from 'vue'
 
 const props = defineProps<{
     title: string

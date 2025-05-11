@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Obstacle, ObstacleType } from '../model/types'
+import type { Obstacle, ObstacleType } from '@/entities/obstacle'
 
 defineProps<{
     obstacle: Obstacle

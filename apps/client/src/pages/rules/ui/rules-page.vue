@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { TableOfContents } from '@/widgets/table-of-contents'
-// import { rules } from '@/pages/rules'
 import { onBeforeMount, ref } from 'vue'
-// Import package exports
-import MDCRenderer from '@nuxtjs/mdc/runtime/components/MDCRenderer.vue'
 import type { MDCParserResult } from '@nuxtjs/mdc'
-import useMarkdownParser from '@/shared/composables/useMarkdownParser'
-import rulesApi from '@/entities/rules/api/rules'
+import MDCRenderer from '@nuxtjs/mdc/runtime/components/MDCRenderer.vue'
+import { rulesApi } from '@/entities/rules'
+import { TableOfContents } from '@/widgets/table-of-contents'
+import { useMarkdownParser } from '@/shared/composables'
 
 defineOptions({
     name: 'rules-page',
