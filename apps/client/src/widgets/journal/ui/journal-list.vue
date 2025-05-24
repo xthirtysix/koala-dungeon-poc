@@ -17,11 +17,14 @@ const emit = defineEmits<{
 const parentRef = ref<HTMLElement | null>(null)
 const parentOffsetRef = ref(0)
 
+const latestMarathonDay = computed(() => entries[0]?.marathon_day || 0)
+
 const virtualizerOptions = computed(() => ({
     count: entries.length,
     estimateSize: () => 80,
     overscan: 5,
     scrollMargin: parentOffsetRef.value,
+    paddingEnd: latestMarathonDay.value * 16,
 }))
 
 const virtualizer = useWindowVirtualizer(virtualizerOptions)
@@ -58,7 +61,7 @@ watch(
 </script>
 
 <template>
-    <div ref="parentRef" class="relative pb-32">
+    <div ref="parentRef" class="relative">
         <div
             :style="{
                 height: `${totalSize}px`,

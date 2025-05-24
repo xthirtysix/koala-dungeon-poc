@@ -14,11 +14,16 @@ const toggleMenu = () => {
 </script>
 
 <template>
-    <header class="max-w-auto mx-auto w-full sticky top-0 z-[100] border-b border-white/10 bg-[var(--ui-bg)] py-1 h-[var(--header-height)] drop-shadow-md">
+    <header
+        class="max-w-auto sticky top-0 z-[100] mx-auto h-[var(--header-height)] w-full border-b border-white/10 bg-[var(--ui-bg)] py-3 drop-shadow-md sm:py-1"
+    >
         <div class="container mx-auto max-w-7xl">
             <div class="flex items-center justify-between px-4 sm:mx-0 sm:flex">
-                <router-link to="/" class="header__logo relative flex items-center pl-2 transition-opacity duration-200 no-underline overflow-visible min-w-[11rem]">
-                    <span class="z-[1] text-4xl font-bold font-amatic uppercase"
+                <router-link
+                    to="/"
+                    class="header__logo relative flex min-w-[11rem] items-center overflow-visible pl-2 no-underline transition-opacity duration-200"
+                >
+                    <span class="font-amatic z-[1] text-4xl font-bold uppercase"
                         >Подземелья и Коалы</span
                     >
                 </router-link>

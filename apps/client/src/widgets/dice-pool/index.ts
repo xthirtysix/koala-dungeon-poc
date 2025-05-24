@@ -1,0 +1,1 @@
+export { default as DicePool } from './ui/dice-pool.vue'
