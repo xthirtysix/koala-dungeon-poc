@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { JournalEntry } from '@/entities/journal'
 import { heroImageByName } from '@/widgets/journal'
 
@@ -6,7 +7,11 @@ interface Props {
     entry: JournalEntry
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const withoutHero = computed(
+    () => props.entry.hero === 'Нет' || !props.entry.hero,
+)
 
 const formatDate = (timestamp: number | string) => {
     const date = new Date(timestamp)
@@ -62,15 +67,19 @@ const getEventTypeIcon = (type: JournalEntry['type']) => {
             class="relative z-1 flex w-15 items-center justify-center p-2.5 text-xl"
             :class="{
                 'rounded-lg shadow-inner': entry.hero === 'Нет',
-                'bg-blue-50/35 dark:bg-orange-700/35': entry.type === 'dice',
+                'bg-blue-50/35 dark:bg-orange-700/35': entry.type === 'dice' && withoutHero,
                 'bg-purple-50/35 dark:bg-purple-800/35':
-                    entry.type === 'game' && entry.hero === 'Нет',
+                    entry.type === 'game' && withoutHero,
                 'bg-yellow-50/35 dark:bg-emerald-800/35':
-                    entry.type === 'wheel',
-                'bg-green-50/35 dark:bg-blue-700/35': entry.type === 'gift',
-                'bg-orange-50/35 dark:bg-pink-900/35': entry.type === 'shop',
-                'bg-red-50/35 dark:bg-amber-700/35': entry.type === 'boss',
-                'bg-gray-50/35 dark:bg-gray-900/35': entry.type === 'system',
+                    entry.type === 'wheel' && withoutHero,
+                'bg-green-50/35 dark:bg-blue-700/35':
+                    entry.type === 'gift' && withoutHero,
+                'bg-orange-50/35 dark:bg-pink-900/35':
+                    entry.type === 'shop' && withoutHero,
+                'bg-red-50/35 dark:bg-amber-700/35':
+                    entry.type === 'boss' && withoutHero,
+                'bg-gray-50/35 dark:bg-gray-900/35':
+                    entry.type === 'system' && withoutHero,
             }"
             :title="entry.type"
         >
