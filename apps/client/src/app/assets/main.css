@@ -60,11 +60,58 @@
     @apply mb-2 text-lg font-bold;
 }
 
+@utility kd-gradient {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.85) 0%,
+        rgba(255, 255, 255, 0.2) 40%,
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+@layer components {
+    .kd-aloe::before {
+        content: '';
+        z-index: -1;
+        position: absolute;
+        inset: 0;
+        background-image: url('@/app/assets/images/aloe.webp');
+        background-size: 200px;
+    }
+    .kd-spirits::before {
+        content: '';
+        z-index: -1;
+        position: absolute;
+        inset: 0;
+        background-image: url('@/app/assets/images/ghosts.jpg');
+        background-position: 50% 10%;
+        background-size: 250px;
+    }
+    .kd-obstacles::before {
+        content: '';
+        z-index: -1;
+        position: absolute;
+        inset: 0;
+        background-image: url('@/app/assets/images/obstacles.jpg');
+        background-position: 85% 5%;
+        background-size: 250px;
+    }
+    .kd-artefacts::before {
+        content: '';
+        z-index: -1;
+        position: absolute;
+        inset: 0;
+        background-image: url('@/app/assets/images/artefacts.jpg');
+        background-position: 55% 5%;
+        background-size: 250px;
+    }
+}
+
 h1,
 h2,
 h3,
 h4:not(.kd-h4),
-h5,
+h5:not(.kd-h5),
 h6 {
     font-family: 'Amatic SC', sans-serif;
 }

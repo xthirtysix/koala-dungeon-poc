@@ -1,0 +1,4 @@
+@import 'tailwindcss';
+@source inline('[{&::-webkit-progress-value,&::-webkit-progress-bar}]:bg-{red,yellow,blue,green,violet,pink,gray}-{100,200,300,400,500}');
+@source inline('{dark:,}{bg,text,border}-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,{100..900..100},950}/{10,20,30,40,50,60,70,80,90,100}');
+@source inline('{dark:,}{bg,text,border}-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,{100..900..100},950}');

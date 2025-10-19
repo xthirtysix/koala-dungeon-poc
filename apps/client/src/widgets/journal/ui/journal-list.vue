@@ -96,7 +96,7 @@ watch(
                                         getEntry(virtualItem.index - 1)
                                             ?.marathon_day
                                 "
-                                class="mb-4 flex items-center gap-3"
+                                class="mb-4 flex items-center gap-2"
                             >
                                 <h2 class="text-2xl font-semibold">
                                     День

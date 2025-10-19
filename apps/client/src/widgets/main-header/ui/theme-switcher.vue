@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useColorMode } from '@vueuse/core'
 import { Theme } from '@/widgets/main-header'
@@ -18,10 +18,10 @@ const isDark = computed({
 
 <template>
     <u-button
-        :icon="isDark ? 'i-lucide:moon' : 'i-lucide:sun'"
+        :icon="isDark ? 'i-lucide:sun' : 'i-lucide:moon'"
         color="neutral"
         variant="ghost"
-        class="text-muted"
+        class="rounded-xl text-muted hover:text-highlighted"
         @click="isDark = !isDark"
     />
 </template>

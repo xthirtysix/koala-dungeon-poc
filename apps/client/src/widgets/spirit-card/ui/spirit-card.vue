@@ -1,112 +1,124 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Spirit } from '@/entities/spirit'
 import { AchievementBadge } from '@/entities/achievement'
+import { colorByPlacement } from '@/widgets/leader-card'
+import first from '@/app/assets/images/placements/first.png'
+import second from '@/app/assets/images/placements/second.png'
+import third from '@/app/assets/images/placements/third.png'
+import fourth from '@/app/assets/images/placements/fourth.png'
+import fifth from '@/app/assets/images/placements/fifth.png'
 
-defineProps<{
+const props = defineProps<{
     spirit: Spirit
     index: number
     showAchievements?: boolean
 }>()
+
+type SpiritStats = {
+    label: string
+    value: number
+}
+
+const cardColor = computed<string>(() => {
+    if (!colorByPlacement.has(props.index + 1)) return 'bg-stone-50/70'
+
+    return `bg-${colorByPlacement.get(props.index + 1)}-100/70`
+})
+
+const stats = computed<SpiritStats[]>(() => {
+    return [
+        { label: 'Помехи', value: props.spirit.obstacleSpins || 0 },
+        { label: 'Помощь', value: props.spirit.helpSpins || 0 },
+        { label: 'Отложено', value: props.spirit.scheduledSpins || 0 },
+        { label: 'Донаты', value: props.spirit.amount || 0 },
+        { label: 'Достижения', value: props.spirit.achievements?.length || 0 },
+    ]
+})
+
+const medalIcon = computed(() => {
+    switch (props.index + 1) {
+        case 1:
+            return first
+        case 2:
+            return second
+        case 3:
+            return third
+        case 4:
+            return fourth
+        case 5:
+            return fifth
+        default:
+            return ''
+    }
+})
 </script>
 
 <template>
     <div
         :class="[
-            'overflow-hidden rounded-lg transition-all duration-300',
-            index === 0
-                ? 'border-2 border-yellow-400 bg-gradient-to-b from-yellow-50/50 to-transparent dark:from-yellow-900/10'
-                : index === 1
-                  ? 'border-2 border-gray-400 bg-gradient-to-b from-gray-200/70 to-transparent dark:from-gray-700/30'
-                  : index === 2
-                    ? 'border-2 border-amber-600 bg-gradient-to-b from-amber-50/50 to-transparent dark:from-amber-900/10'
-                    : index === 3
-                      ? 'border-2 border-blue-400 bg-gradient-to-b from-blue-50/50 to-transparent dark:from-blue-900/10'
-                      : index === 4
-                        ? 'border-2 border-emerald-400 bg-gradient-to-b from-emerald-50/50 to-transparent dark:from-emerald-900/10'
-                        : 'bg-gray-50 dark:bg-gray-800',
+            'overflow-hidden rounded-3xl ring-1 ring-neutral-200 transition-all duration-300 dark:ring-neutral-800',
+            cardColor,
         ]"
     >
         <!-- Основная информация -->
-        <div class="flex items-center justify-between p-4">
+        <div
+            class="relative flex items-center justify-between overflow-hidden p-4"
+            :class="{ 'kd-spirits': index < 3 }"
+        >
+            <div
+                class="kd-gradient pointer-events-none absolute top-0 left-0 h-4 w-full rounded-lg"
+                :class="{ 'opacity-15': index >= 3 }"
+            />
             <div class="flex w-[300px] items-center gap-4">
                 <div class="flex items-center gap-2">
-                    <span class="w-8 text-gray-500 dark:text-gray-400">{{
-                        index + 1
-                    }}</span>
-                    <u-icon
-                        v-if="index < 5"
-                        :name="
-                            index === 0
-                                ? 'i-hugeicons:medal-first-place'
-                                : index === 1
-                                  ? 'i-hugeicons:medal-second-place'
-                                  : index === 2
-                                    ? 'i-hugeicons:medal-third-place'
-                                    : index === 3
-                                      ? 'i-hugeicons:star'
-                                      : 'i-hugeicons:star-half'
-                        "
-                        :class="[
-                            'h-5 w-5',
-                            index === 0
-                                ? 'text-yellow-500'
-                                : index === 1
-                                  ? 'text-gray-400'
-                                  : index === 2
-                                    ? 'text-amber-700'
-                                    : index === 3
-                                      ? 'text-blue-500'
-                                      : 'text-emerald-500',
-                        ]"
-                    />
+                    <span
+                        class="w-8 text-gray-900"
+                        :class="{ 'dark:text-gray-200': index >= 3 }"
+                    >
+                        {{ index + 1 }}
+                    </span>
                 </div>
-                <div class="font-amatic truncate text-2xl font-bold">
+                <div
+                    class="font-amatic truncate text-2xl font-bold text-gray-900"
+                    :class="{ 'dark:text-gray-200': index >= 3 }"
+                >
                     {{ spirit.nickname }}
                 </div>
+                <img
+                    v-if="index < 5"
+                    :src="medalIcon"
+                    width="50"
+                    height="50"
+                    class="opacity-80"
+                />
             </div>
 
-            <div class="hidden items-center md:flex">
-                <div class="w-[100px] text-center">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Помехи
-                    </div>
-                    <div class="font-medium">
-                        {{ spirit.obstacleSpins || 0 }}
-                    </div>
-                </div>
-                <div class="w-[100px] text-center">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Помощь
-                    </div>
-                    <div class="font-medium">{{ spirit.helpSpins || 0 }}</div>
-                </div>
-                <div class="w-[100px] text-center">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Отложено
-                    </div>
-                    <div class="font-medium">
-                        {{ spirit.scheduledSpins || 0 }}
-                    </div>
-                </div>
-                <div class="w-[100px] text-center">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Донаты
-                    </div>
-                    <div class="font-medium">{{ spirit.amount || 0 }}</div>
-                </div>
-                <div class="w-[100px] text-center">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Реролл
-                    </div>
-                    <div class="font-medium">{{ spirit.reroll || 0 }}</div>
-                </div>
-            </div>
+            <dl
+                class="hidden items-center md:grid md:grid-flow-col md:grid-cols-5 md:grid-rows-2 md:items-center md:justify-items-center md:gap-x-4"
+            >
+                <template v-for="stat of stats" :key="stat.label">
+                    <dt
+                        class="text-sm text-gray-900"
+                        :class="{ 'dark:text-gray-200': index >= 3 }"
+                    >
+                        {{ stat.label }}
+                    </dt>
+                    <dd
+                        class="font-bold text-gray-900"
+                        :class="{ 'dark:text-gray-200': index >= 3 }"
+                    >
+                        {{ stat.value }}
+                    </dd>
+                </template>
+            </dl>
         </div>
 
         <!-- Трофеи -->
         <div
             v-if="showAchievements && spirit.achievements?.length"
-            class="flex justify-center gap-3 border-t border-gray-200 bg-gray-100/50 px-2 py-2 dark:border-gray-600 dark:bg-gray-700/50"
+            class="flex justify-start gap-3 border-t border-gray-200 bg-gray-100/50 px-15 py-2 dark:bg-gray-100/10"
+            :class="index < 3 ? 'dark:border-gray-300' : 'dark:border-gray-800'"
         >
             <achievement-badge
                 v-for="achievement in spirit.achievements"

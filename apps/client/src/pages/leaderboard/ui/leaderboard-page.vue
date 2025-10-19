@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, shallowRef, onMounted, computed } from 'vue'
 import { spiritApi, type Spirit } from '@/entities/spirit'
-import { type Banner, AdvertisingBanner } from '@/entities/banner'
+import { AdvertisingBanner } from '@/entities/banner'
 import { usePageBanner } from '@/entities/banner/model/usePageBanner'
 import { LeaderCard } from '@/widgets/leader-card'
 import { SpiritList } from '@/widgets/spirit-list'

@@ -1,25 +1,22 @@
 <script setup lang="ts">
-interface Props {
-    value: number
-}
+import durabilityIcon from '@/app/assets/images/characteristics/curse_icon.png'
 
-defineProps<Props>()
+defineProps<{ value: number }>()
 
 const formatValue = (value: number): string => {
-    return value === Infinity ? '∞' : value.toString()
+    return value ? `Прочность ${value.toString()}` : 'Не ломается'
 }
 </script>
 
 <template>
-    <div
-        class="durability-badge flex items-center gap-1 rounded bg-gray-100 px-3 py-1.5 text-sm dark:bg-gray-800"
-    >
-        <u-icon
-            name="i-game-icons:broken-shield"
-            class="text-gray-700 dark:text-gray-300"
-        />
-        <span class="text-gray-700 dark:text-gray-300"
-            >Хрупкость: {{ formatValue(value) }}</span
-        >
+    <div class="durability-badge flex items-center gap-1 rounded p-0">
+        <img :src="durabilityIcon" alt="Прочность" class="h-8 w-8" />
+        <slot name="label">
+            <span
+                class="font-amatic text-2xl font-bold text-gray-700 uppercase dark:text-white"
+            >
+                {{ formatValue(value) }}
+            </span>
+        </slot>
     </div>
 </template>

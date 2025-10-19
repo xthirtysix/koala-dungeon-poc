@@ -1,21 +1,26 @@
 <script setup lang="ts">
 import { useMainHeader, ThemeSwitcher } from '@/widgets/main-header'
 import { ref } from 'vue'
+import { useUserStore } from '@/entities/user'
+import { UserMenu } from '@/widgets/user-menu'
 
 defineOptions({
     name: 'main-header',
 })
 
 const { menuItems: items } = useMainHeader()
+
 const isMenuOpen = ref(false)
+
 const toggleMenu = () => {
     isMenuOpen.value = !isMenuOpen.value
 }
+const userStore = useUserStore()
 </script>
 
 <template>
     <header
-        class="max-w-auto sticky top-0 z-[100] mx-auto h-[var(--header-height)] w-full border-b border-white/10 bg-[var(--ui-bg)] py-3 drop-shadow-md sm:py-1"
+        class="max-w-auto sticky top-0 z-[100] mx-auto h-[var(--header-height)] w-full rounded-3xl border-b border-white/10 bg-[var(--ui-bg)] py-3 drop-shadow-md sm:py-1"
     >
         <div class="container mx-auto max-w-7xl">
             <div class="flex items-center justify-between px-4 sm:mx-0 sm:flex">
@@ -48,19 +53,27 @@ const toggleMenu = () => {
                 </button>
 
                 <u-navigation-menu
-                    class="ml-auto hidden text-3xl md:block"
                     highlight
                     highlight-color="primary"
                     content-orientation="horizontal"
                     :items="items"
                     :ui="{
+                        root: 'ml-auto hidden text-md md:block',
                         link: 'text-2xl font-amatic font-bold',
+                        viewport: 'rounded-3xl',
+                        childLink: 'before:rounded-2xl',
                         childLinkLabel: 'text-2xl font-amatic font-bold',
                         childLinkIcon: 'relative top-1',
                     }"
                 />
-
-                <theme-switcher class="order-1 ml-auto md:ml-4" />
+                <user-menu
+                    v-if="userStore.user"
+                    :src="userStore.user.avatar"
+                    :alt="userStore.user.username"
+                    size="lg"
+                    class="ml-[0.75rem]"
+                />
+                <theme-switcher v-else class="order-1 ml-auto md:ml-4" />
             </div>
         </div>
     </header>

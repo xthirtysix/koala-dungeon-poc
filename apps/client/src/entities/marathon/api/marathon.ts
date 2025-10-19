@@ -1,5 +1,6 @@
 import type { Marathon } from '@/entities/marathon'
 import { buildQuery } from '@/shared/api'
+import { API_URL } from '@/shared/config/consts/api.consts'
 
 // TODO: заменить на реальные моки, если появятся
 const mockMarathon: Marathon = {
@@ -16,7 +17,7 @@ export default {
 
         try {
             const res = await fetch(
-                `https://api.xthirtysix.ru/api/marathon?${query}`,
+                `${API_URL}/marathon?${query}`,
             )
             if (!res.ok) throw new Error('Ошибка загрузки марафона')
             const response = await res.json()

@@ -150,7 +150,7 @@ const { loadingLabel } = useLoadingLabels(LOADING_LABELS, isLoadingMore)
                     class="transition-transform duration-200"
                 >
                     <div
-                        class="grid grid-cols-1 gap-4 py-3 md:grid-cols-3 lg:grid-cols-3"
+                        class="grid grid-cols-1 gap-10 py-5 md:grid-cols-3 lg:grid-cols-3"
                     >
                         <obstacle-card
                             v-for="obstacle in getRowItems(virtualRow.index)"

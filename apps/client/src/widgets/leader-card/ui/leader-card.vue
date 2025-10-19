@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import first from '@/app/assets/images/placements/first.png'
+import second from '@/app/assets/images/placements/second.png'
+import third from '@/app/assets/images/placements/third.png'
+import fourth from '@/app/assets/images/placements/fourth.png'
+import fifth from '@/app/assets/images/placements/fifth.png'
+import { colorByPlacement } from '@/widgets/leader-card'
 import { AchievementBadge, type Achievement } from '@/entities/achievement'
 
 const props = defineProps<{
@@ -11,7 +17,7 @@ const props = defineProps<{
     totalDonations: number
     achievements: Achievement[]
     rerolls: number
-    hideStats?: boolean
+    compact?: boolean
 }>()
 
 const filteredAchievements = computed(() => {
@@ -21,53 +27,30 @@ const filteredAchievements = computed(() => {
     return props.achievements
 })
 
-const medalClasses = computed(() => {
-    switch (props.place) {
-        case 1:
-            return 'bg-yellow-400 ring-2 ring-yellow-500'
-        case 2:
-            return 'bg-gray-400 ring-2 ring-gray-500'
-        case 3:
-            return 'bg-amber-600 ring-2 ring-amber-700'
-        default:
-            return ''
-    }
-})
-
 const cardClasses = computed(() => {
-    switch (props.place) {
-        case 1:
-            return 'border-2 border-yellow-400 bg-gradient-to-b from-yellow-50/50 to-transparent dark:from-yellow-900/10'
-        case 2:
-            return 'border-2 border-gray-400 bg-gradient-to-b from-gray-200/70 to-transparent dark:from-gray-700/30'
-        case 3:
-            return 'border-2 border-amber-600 bg-gradient-to-b from-amber-50/50 to-transparent dark:from-amber-900/10'
-        default:
-            return ''
+    if (!colorByPlacement.has(props.place)) {
+        return 'bg-stone-50/70'
     }
+
+    return `bg-${colorByPlacement.get(props.place)}-100/70`
 })
 
-const statClasses = computed(() => {
-    switch (props.place) {
-        case 1:
-            return 'bg-white/50 dark:bg-gray-800/50 hover:bg-yellow-50/50 dark:hover:bg-yellow-900/10 transition-colors duration-200'
-        case 2:
-            return 'bg-white/50 dark:bg-gray-800/50 hover:bg-gray-50/50 dark:hover:bg-gray-900/10 transition-colors duration-200'
-        case 3:
-            return 'bg-white/50 dark:bg-gray-800/50 hover:bg-amber-50/50 dark:hover:bg-amber-900/10 transition-colors duration-200'
-        default:
-            return 'bg-white/50 dark:bg-gray-800/50 hover:bg-gray-50/50 dark:hover:bg-gray-900/10 transition-colors duration-200'
-    }
+const borderColor = computed(() => {
+    return `border-${colorByPlacement.get(props.place)}-300`
 })
 
 const medalIcon = computed(() => {
     switch (props.place) {
         case 1:
-            return 'i-hugeicons:medal-first-place'
+            return first
         case 2:
-            return 'i-hugeicons:medal-second-place'
+            return second
         case 3:
-            return 'i-hugeicons:medal-third-place'
+            return third
+        case 4:
+            return fourth
+        case 5:
+            return fifth
         default:
             return ''
     }
@@ -75,105 +58,63 @@ const medalIcon = computed(() => {
 </script>
 
 <template>
-    <UCard class="relative transition-all duration-300" :class="cardClasses">
-        <!-- Медаль -->
-        <div
-            v-if="place <= 3"
-            class="absolute -top-6 left-1/2 -translate-x-1/2 transform"
-        >
-            <div
-                class="flex h-12 w-12 items-center justify-center rounded-full shadow-lg"
-                :class="medalClasses"
+    <u-card
+        :ui="{
+            root: [
+                'transition-background relative grid  min-h-0 w-auto grid-rows-[min-content_1fr] justify-stretch rounded-3xl p-2 shadow-md',
+                place < 4 ? 'kd-spirits' : 'dark:text-gray-400',
+                cardClasses,
+            ].join(' '),
+            body: compact
+                ? 'sm:m-0 sm:p-0 sm:pb-2'
+                : 'z-2 h-full w-full grow-1 gap-6 p-2 text-black sm:p-2',
+            header: [
+                'relative z-2 flex items-center gap-2 border-none text-black sm:px-2 sm:py-0 sm:pt-2',
+                compact ? 'flex-row-reverse justify-end' : '',
+            ].join(' '),
+        }"
+    >
+        <template #header>
+            <h3
+                class="kd-h2 mb-0 text-gray-900"
+                :class="{ 'dark:text-gray-200': place > 3 }"
             >
-                <u-icon :name="medalIcon" class="text-2xl text-white" />
-            </div>
-        </div>
+                {{ name }}
+            </h3>
+            <img :src="medalIcon" width="50" height="50" />
+        </template>
 
-        <div class="flex gap-6">
-            <div class="flex-1">
-                <!-- Имя -->
-                <div class="mb-6 pt-4 text-center">
-                    <h3 class="kd-h2">{{ name }}</h3>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Место #{{ place }}
-                    </div>
-                </div>
+        <div
+            class="kd-gradient pointer-events-none absolute top-0 left-0 h-4 w-full rounded-lg"
+            :class="{ 'opacity-15': place > 3 }"
+        />
 
-                <!-- Статистика -->
-                <div v-if="!hideStats" class="grid grid-cols-2 gap-4">
-                    <div
-                        class="flex h-20 flex-col justify-center rounded-lg p-2 text-center"
-                        :class="statClasses"
-                    >
-                        <div class="text-sm text-gray-500 dark:text-gray-400">
-                            Помехи
-                        </div>
-                        <div class="text-lg font-semibold">
-                            {{ interferenceWheelSpins || 0 }}
-                        </div>
-                    </div>
-                    <div
-                        class="flex h-20 flex-col justify-center rounded-lg p-2 text-center"
-                        :class="statClasses"
-                    >
-                        <div class="text-sm text-gray-500 dark:text-gray-400">
-                            Помощь
-                        </div>
-                        <div class="text-lg font-semibold">
-                            {{ helpWheelSpins || 0 }}
-                        </div>
-                    </div>
-                    <div
-                        class="flex h-20 flex-col justify-center rounded-lg p-2 text-center"
-                        :class="statClasses"
-                    >
-                        <div class="text-sm text-gray-500 dark:text-gray-400">
-                            Отложено
-                        </div>
-                        <div class="text-lg font-semibold">
-                            {{ deferredInterferences || 0 }}
-                        </div>
-                    </div>
-                    <div
-                        class="flex h-20 flex-col justify-center rounded-lg p-2 text-center"
-                        :class="statClasses"
-                    >
-                        <div class="text-sm text-gray-500 dark:text-gray-400">
-                            Донаты
-                        </div>
-                        <div class="text-lg font-semibold">
-                            {{ totalDonations || 0 }}
-                        </div>
-                    </div>
-                    <div
-                        class="flex h-20 flex-col justify-center rounded-lg p-2 text-center"
-                        :class="statClasses"
-                    >
-                        <div class="text-sm text-gray-500 dark:text-gray-400">
-                            Достижения
-                        </div>
-                        <div class="text-lg font-semibold">
-                            {{ achievements.length }}
-                        </div>
-                    </div>
-                    <div
-                        class="flex h-20 flex-col justify-center rounded-lg p-2 text-center"
-                        :class="statClasses"
-                    >
-                        <div class="text-sm text-gray-500 dark:text-gray-400">
-                            Реролл
-                        </div>
-                        <div class="text-lg font-semibold">
-                            {{ rerolls || 0 }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div
+            v-if="!compact"
+            class="card grid h-full grid-rows-[min-content_1fr]"
+        >
+            <section
+                class="card__stats z-1 flex items-center rounded-2xl border bg-stone-50/80 px-3 py-8 text-sm font-bold capitalize dark:text-black"
+                :class="borderColor"
+            >
+                <dl class="grid grid-cols-[min-content_1fr] gap-x-2 gap-y-12">
+                    <dt class="font-normal">Помехи</dt>
+                    <dd>{{ interferenceWheelSpins || 0 }}</dd>
+                    <dt class="font-normal">Помощь</dt>
+                    <dd>{{ helpWheelSpins || 0 }}</dd>
+                    <dt class="font-normal">Отложено</dt>
+                    <dd>{{ deferredInterferences || 0 }}</dd>
+                    <dt class="font-normal">Донаты</dt>
+                    <dd>{{ totalDonations || 0 }}</dd>
+                    <dt class="font-normal">Достижения</dt>
+                    <dd>{{ achievements.length || 0 }}</dd>
+                </dl>
+            </section>
 
             <!-- Достижения справа -->
             <div
-                v-if="!hideStats && filteredAchievements.length > 0"
-                class="flex w-[82px] flex-col items-center border-l border-gray-200 pl-4 md:hidden lg:flex dark:border-gray-700"
+                v-if="filteredAchievements.length > 0"
+                class="card__achievements flex flex-col items-center pl-4 md:hidden lg:flex"
             >
                 <u-carousel
                     v-slot="{ item }"
@@ -193,15 +134,42 @@ const medalIcon = computed(() => {
                     }"
                     :ui="{
                         root: 'h-full content-center',
-                        container: 'h-[360px]',
+                        container: 'h-[300px]',
                         item: 'basis-1/5',
-                        prev: '-translate-y-8 left-1/2 translate-y-8 -translate-x-1/2 !bg-gray-100 dark:!bg-gray-800 size-8',
-                        next: '-translate-y-8 bottom-2 left-1/2 -translate-x-1/2 !bg-gray-100 dark:!bg-gray-800 size-8',
+                        prev: [
+                            'left-1/2 size-8 -translate-x-1/2 translate-y-12 cursor-pointer border-1 bg-stone-100 ring-0 dark:!bg-stone-100 dark:text-black',
+                            borderColor,
+                        ].join(' '),
+                        next: [
+                            'bottom-2 left-1/2 size-8 -translate-x-1/2 -translate-y-12 cursor-pointer border-1 bg-stone-100 ring-0 dark:!bg-stone-100 dark:text-black',
+                            borderColor,
+                        ].join(' '),
                     }"
                 >
-                    <achievement-badge :achievement="item" side="right" />
+                    <achievement-badge
+                        :achievement="item as Achievement"
+                        side="right"
+                    />
                 </u-carousel>
             </div>
         </div>
-    </UCard>
+    </u-card>
 </template>
+
+<style scoped>
+.card {
+    display: grid;
+    grid-template-areas:
+        'place achievements'
+        'stats achievements';
+}
+.card__place {
+    grid-area: place;
+}
+.card__stats {
+    grid-area: stats;
+}
+.card__achievements {
+    grid-area: achievements;
+}
+</style>

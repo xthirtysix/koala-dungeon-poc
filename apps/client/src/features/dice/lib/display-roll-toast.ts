@@ -42,6 +42,7 @@ export function displayRollToast(roll: RollResult) {
             title: 'text-lg',
             description: 'whitespace-pre-wrap',
             icon: 'w-12 h-12 self-center',
+            root: 'shadow-black dark:shadow-violet-400 shadow-lg/10',
         },
     })
 }

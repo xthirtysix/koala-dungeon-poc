@@ -5,7 +5,7 @@ import { ArtefactCard } from '@/widgets/artefact-card'
 import { LOADING_LABELS } from '@/pages/artefacts'
 import { useWindowVirtualizer } from '@tanstack/vue-virtual'
 import type { ComponentPublicInstance } from 'vue'
-import { type Banner, AdvertisingBanner } from '@/entities/banner'
+import { AdvertisingBanner } from '@/entities/banner'
 import { usePageBanner } from '@/entities/banner/model/usePageBanner'
 import { PageName } from '@/shared/config'
 import { useLoadingLabels } from '@/shared/composables'
@@ -46,8 +46,12 @@ const fetchData = async (page = 1, append = false) => {
         pagination.value = res.pagination
         total.value = res.pagination.total
         currentPage.value = page
-    } catch (e: any) {
-        error.value = e?.message || 'Ошибка загрузки'
+    } catch (e: unknown) {
+        if (e instanceof Error) {
+            error.value = e.message
+        } else {
+            error.value = 'Ошибка загрузки'
+        }
     } finally {
         isLoading.value = false
         isLoadingMore.value = false
@@ -64,7 +68,7 @@ const rowsCount = computed(() =>
     Math.ceil(artefacts.value.length / ITEMS_PER_ROW),
 )
 
-const parentRef = ref<HTMLElement | null>(null)
+const parentRef = ref<HTMLDivElement | null>(null)
 const parentOffsetRef = ref(0)
 
 const rowVirtualizerOptions = computed(() => ({
@@ -162,7 +166,7 @@ const { pageBanner: artefactsBanner } = usePageBanner(PageName.ARTEFACTS)
                     :data-index="virtualRow.index"
                     class="transition-transform duration-200"
                 >
-                    <div class="grid grid-cols-1 gap-6 py-3 md:grid-cols-3">
+                    <div class="grid grid-cols-1 gap-10 py-5 md:grid-cols-3">
                         <artefact-card
                             v-for="artefact in getRowItems(virtualRow.index)"
                             :key="artefact.id"

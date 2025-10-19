@@ -8,7 +8,11 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Belt,
         description:
             'Позволяет перераспределить 5 очков характеристик из одного навыка в другой.',
-        stats: {},
+        bonus: [],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Банка Кротовухи',
+        },
         durability: 1,
     },
     {
@@ -17,7 +21,11 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Belt,
         description:
             'Восстанавливает 5 хп, но душа рвется в караоке: стример в обязательном порядке поет 1 песню на выбор чата.',
-        stats: {},
+        bonus: [],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Бокал шампусика',
+        },
         durability: 1,
     },
     {
@@ -25,9 +33,17 @@ export const artefacts: Artefact[] = [
         name: 'Ботинки Брейкдансера',
         slot: ArtefactSlot.Feet,
         description: 'Позволяют пропустить подъем.',
-        stats: {
-            dexterity: 2,
-            wisdom: -1,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'ловкость',
+                value: 2,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Ботинки Брейкдансера',
         },
         durability: 1,
     },
@@ -37,8 +53,17 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Feet,
         description:
             'Добавляет +3 к силе, но дает -1 ко всем броскам движения.',
-        stats: {
-            strength: 3,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'сила',
+                value: 3,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Ботинки Лоскутика',
         },
         durability: Infinity,
     },
@@ -47,8 +72,17 @@ export const artefacts: Artefact[] = [
         name: 'Бронелифчик',
         slot: ArtefactSlot.Chest,
         description: 'Срезает 1 ОЖ с любого урона.',
-        stats: {
-            constitution: 2,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'телосложение',
+                value: 2,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Бронелифчик',
         },
         durability: 5,
     },
@@ -58,8 +92,17 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Head,
         description:
             'При активации, перед началом движения, стример подкидывает монету и двигается с удвоенной скоростью в выпавшем направлении. Орел - движение вперед, решка - назад.',
-        stats: {
-            constitution: 1,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'телосложение',
+                value: 1,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Ведро скорости',
         },
         durability: 2,
     },
@@ -69,7 +112,11 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Belt,
         description:
             'Позволяет добавить 1к4 кубик к проверке спусков и подъемов.',
-        stats: {},
+        bonus: [],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Веревка из шерсти коалы',
+        },
         durability: 2,
     },
     {
@@ -78,8 +125,17 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Weapon,
         description:
             'После активации выключает одно ивентовое событие, такое как: "Скользкий тип", "Сайлент Хилл", "Камень я дам", "Кислотная вечеринка", "Рандомайзер", "Музыкальный автомат", "Голый забег", "Перевертыш". Если событий несколько, то стример сам выбирает какое выключить.',
-        stats: {
-            strength: 1,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'сила',
+                value: 1,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Катана-зонтик',
         },
         durability: 2,
     },
@@ -89,8 +145,17 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Feet,
         description:
             'При активации, прибавляют к броску движения 1к4, но если стример попадает на клетку оканчивающуюся цифрами 6 или 9, то он теряет 2 ОЖ каждый раз.',
-        stats: {
-            constitution: 1,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'телосложение',
+                value: 1,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Кеды Бегущего за хлебом',
         },
         durability: 3,
     },
@@ -99,8 +164,17 @@ export const artefacts: Artefact[] = [
         name: 'Кепка айтишника',
         slot: ArtefactSlot.Head,
         description: 'Дает +1 монету при любом их получении.',
-        stats: {
-            wisdom: 1,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'мудрость',
+                value: 1,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Кепка айтишника',
         },
         durability: Infinity,
     },
@@ -109,7 +183,11 @@ export const artefacts: Artefact[] = [
         name: 'Кнопка перемотки',
         slot: ArtefactSlot.Belt,
         description: 'Позволяет рерольнуть помеху, один раз в 4 часа.',
-        stats: {},
+        bonus: [],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Кнопка перемотки',
+        },
         durability: 3,
     },
     {
@@ -118,8 +196,17 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Hands,
         description:
             'Очень стильные перчатки, которые повышают Ловкость на 3, но если персонаж надевает их, то стример, тоже должен надеть. Мода, хули.',
-        stats: {
-            dexterity: 3,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'ловкость',
+                value: 3,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Лапки квадробера',
         },
         durability: Infinity,
     },
@@ -129,8 +216,17 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Chest,
         description:
             'Когда О.Ж. персонажа падает до 0, позволяет остаться на ближайшем чекпойнте, а не идти на два назад. Артефакт при этом теряет свою прочность.',
-        stats: {
-            constitution: 1,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'телосложение',
+                value: 1,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Нагрудник из старого таза',
         },
         durability: 1,
     },
@@ -140,8 +236,17 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Chest,
         description:
             'Позволяет по желанию остановиться при прохождение спуска.',
-        stats: {
-            wisdom: 1,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'мудрость',
+                value: 1,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Нагрудник поиска пути',
         },
         durability: 2,
     },
@@ -151,8 +256,17 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Weapon,
         description:
             'Позволяет призвать 1 рандомный артефакт. Его прочность будет равна 1.',
-        stats: {
-            wisdom: 1,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'мудрость',
+                value: 1,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Палочка-копалочка',
         },
         durability: 1,
     },
@@ -162,8 +276,17 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Hands,
         description:
             'При активации кубик роллится 5 раз и выбирается лучшее число.',
-        stats: {
-            dexterity: 1,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'ловкость',
+                value: 1,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Перчатки шулера',
         },
         durability: 3,
     },
@@ -173,8 +296,17 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Hands,
         description:
             'Помеха роляется дважды, выбирается результат понравившийся стримеру.',
-        stats: {
-            dexterity: 1,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'ловкость',
+                value: 1,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Третья кибер-рука',
         },
         durability: 2,
     },
@@ -184,8 +316,17 @@ export const artefacts: Artefact[] = [
         slot: ArtefactSlot.Weapon,
         description:
             'В прямом смысле охуенный меч. За топ 8-4 стример не получает урон. Можно применить сразу после катки.',
-        stats: {
-            strength: 2,
+        bonus: [
+            {
+                id: 1,
+                characteristic: 'сила',
+                value: 2,
+                isNegative: false,
+            },
+        ],
+        image: {
+            url: 'https://via.placeholder.com/150',
+            alt: 'Челенатор',
         },
         durability: 3,
     },

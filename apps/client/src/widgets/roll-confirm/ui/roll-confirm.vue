@@ -2,36 +2,41 @@
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { Dice, getDiceIcon } from '@/entities/dice'
-import { RollResult, RollButton, displayRollToast } from '@/features/dice'
-import type { RollConfirmAction } from '@/widgets/roll-confirm'
+import {
+    ENABLE_MOVEMENT_BUTTONS,
+    type RollConfirmAction,
+} from '@/widgets/roll-confirm'
 
 const ROLL_MODE_ITEMS = [
-    { label: 'Без модификаторов', value: 'none' },
+    { label: 'Без модификаторов', value: null },
     { label: 'Преимущество', value: 'advantage' },
     { label: 'Помеха', value: 'disadvantage' },
 ]
 
 const emit = defineEmits<{
-    (e: 'close', action: RollConfirmAction, result?: RollResult): void
+    (e: 'close', result: { action: RollConfirmAction; dice?: Dice }): void
 }>()
 
-defineProps<{ dice?: Dice | null }>()
+const props = defineProps<{
+    dice: Dice
+    title?: string
+    description?: string
+}>()
 
 const route = useRoute()
 
-const rollMode = ref<'none' | 'advantage' | 'disadvantage'>('none')
+const rollMode = ref<'advantage' | 'disadvantage' | null>(null)
 
 const isMapRoute = computed(() => route.path === '/map')
 
-function onRoll(action: RollConfirmAction, result: RollResult) {
-    emit('close', action, result)
-    displayRollToast(result)
+function onRoll(action: RollConfirmAction) {
+    emit('close', { action, dice: props.dice })
 }
 </script>
 
 <template>
     <u-modal
-        :close="{ onClick: () => emit('close', 'cancel') }"
+        :close="{ onClick: () => emit('close', { action: 'cancel' }) }"
         :ui="{ content: 'max-w-md' }"
     >
         <template #content>
@@ -57,41 +62,38 @@ function onRoll(action: RollConfirmAction, result: RollResult) {
                     class="mx-auto mb-2"
                 />
                 <div class="grid grid-cols-2 gap-3">
-                    <roll-button
-                        v-if="dice && isMapRoute"
-                        color="primary"
-                        block
-                        variant="subtle"
-                        label="Движение вперёд"
-                        :dice="dice"
-                        @roll="onRoll('forward', $event)"
-                    />
-                    <roll-button
-                        v-if="dice && isMapRoute"
-                        color="primary"
-                        block
-                        variant="subtle"
-                        label="Движение назад"
-                        :dice="dice"
-                        @roll="onRoll('backward', $event)"
-                    />
-                    <roll-button
+                    <template v-if="ENABLE_MOVEMENT_BUTTONS">
+                        <u-button
+                            v-if="dice && isMapRoute"
+                            color="primary"
+                            block
+                            variant="subtle"
+                            label="Движение вперёд"
+                            @click="onRoll('forward')"
+                        />
+                        <u-button
+                            v-if="dice && isMapRoute"
+                            color="primary"
+                            block
+                            variant="subtle"
+                            label="Движение назад"
+                            @click="onRoll('backward')"
+                        />
+                    </template>
+                    <u-button
                         v-if="dice"
                         color="primary"
-                        block
                         variant="solid"
-                        :dice="dice"
-                        :advantage="rollMode === 'advantage'"
-                        :disadvantage="rollMode === 'disadvantage'"
-                        @roll="onRoll('roll', $event)"
                         label="Бросить кости"
+                        block
+                        @click="onRoll(rollMode ?? 'roll')"
                     />
                     <u-button
                         color="neutral"
                         block
                         variant="outline"
-                        @click="emit('close', 'cancel')"
                         label="Отмена"
+                        @click="emit('close', { action: 'cancel' })"
                     />
                 </div>
             </div>

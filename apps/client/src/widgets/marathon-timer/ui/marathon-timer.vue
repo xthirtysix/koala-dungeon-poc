@@ -92,7 +92,7 @@ const status = computed(() => {
 
 <template>
     <div
-        class="font-amatic mx-auto mt-6 w-full p-6 text-center text-3xl font-bold"
+        class="font-amatic mx-auto mt-6 w-auto p-6 text-center text-3xl font-bold"
     >
         <div class="flex flex-col items-center gap-4 py-6">
             <div
@@ -104,9 +104,9 @@ const status = computed(() => {
                     <span class="text-center">{{ status }}</span>
                 </div>
                 <div v-else>
-                    <span class="text-primary text-4xl"
-                        >До конца марафона {{ formatTime(timeLeft) }}</span
-                    >
+                    <span class="text-primary text-4xl">
+                        До конца марафона {{ formatTime(timeLeft) }}
+                    </span>
                 </div>
             </template>
         </div>

@@ -1,19 +1,12 @@
 <script setup lang="ts">
-import { MainHeader, useMainHeader } from '@/widgets/main-header'
-import { useRoute } from 'vue-router'
-import { computed } from 'vue'
-
-const { libraryPages } = useMainHeader()
-
-const route = useRoute()
-const isLibraryPage = computed(() => route.path.startsWith('/library'))
+import { MainFooter } from '@/widgets/main-footer'
 </script>
 
 <template>
     <div class="layout grid min-h-screen w-full grid-rows-[auto,1fr]">
         <slot name="header" />
 
-        <main class="layout__main relative py-8">
+        <main class="layout__main mb:2 relative -top-2 py-8">
             <svg
                 viewBox="0 0 1440 181"
                 fill="none"
@@ -76,30 +69,7 @@ const isLibraryPage = computed(() => route.path.startsWith('/library'))
                 </div>
             </div>
         </main>
-        <footer
-            class="mt-auto flex w-full flex-col items-center justify-center gap-2 border-t border-gray-200 py-6 text-xs text-gray-500 sm:flex-row sm:justify-center sm:gap-4 dark:border-gray-800"
-        >
-            <span>© Подземелья и коалы 2025. Все права защищены</span>
-            <span class="hidden sm:inline">|</span>
-            <a
-                href="https://twitch.tv/aloekoala"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-1 text-violet-500 hover:underline"
-            >
-                <u-icon name="i-simple-icons:twitch" class="text-base" />
-                twitch.tv/aloekoala
-            </a>
-            <span class="hidden text-gray-500 sm:inline">|</span>
-            <a
-                href="https://t.me/aloe_koala"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-1 text-blue-400 hover:underline"
-            >
-                <u-icon name="i-simple-icons:telegram" class="text-base" />
-                @aloe_koala
-            </a>
-        </footer>
+
+        <main-footer />
     </div>
 </template>

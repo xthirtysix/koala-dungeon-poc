@@ -1,84 +1,62 @@
 <script setup lang="ts">
-import type { Obstacle, ObstacleType } from '@/entities/obstacle'
+import { computed } from 'vue'
+import type { Obstacle } from '@/entities/obstacle'
+import { obstacleColorByType } from '@/entities/obstacle'
 
-defineProps<{
+const props = defineProps<{
     obstacle: Obstacle
     isUnlocked: boolean
 }>()
 
-const typeOptions = [
-    { label: 'Все', value: 'all' },
-    { label: 'Одноразовая', value: 'одноразовая' },
-    { label: 'Многоразовые', value: 'многоразовая' },
-    { label: 'Событие', value: 'событие' },
-    { label: 'Один раз за стрим', value: 'один раз за стрим' },
-]
+const cardColor = computed<string>(() => {
+    return `bg-${obstacleColorByType.get(props.obstacle.type)}-200/90`
+})
 
-const getBadgeColor = (type: ObstacleType) => {
-    switch (type) {
-        case 'одноразовая':
-            return 'error'
-        case 'многоразовая':
-            return 'success'
-        case 'один раз за стрим':
-            return 'info'
-        case 'событие':
-            return 'warning'
-        default:
-            return 'neutral'
-    }
-}
+const borderColor = computed<string>(() => {
+    return `border-${obstacleColorByType.get(props.obstacle.type)}-300`
+})
 </script>
 
 <template>
     <u-card
         :ui="{
-            root: 'relative overflow-hidden h-full flex flex-col rounded-lg bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all duration-200',
+            root: [
+                'kd-obstacles relative flex md:aspect-[12/9] h-full flex-col overflow-hidden rounded-3xl p-0 shadow-md ring-1 duration-200 sm:p-0',
+                cardColor,
+            ].join(' '),
+            header: 'relative z-1 min-h-[4rem] border-none text-gray-900 sm:px-3 sm:pt-5',
+            body: 'grid h-full grid-rows-[1fr_min-content] overflow-hidden sm:p-3 sm:pt-2',
         }"
     >
-        <!-- Туман войны для неоткрытых помех -->
-        <div
-            v-if="!obstacle.description || !obstacle.isUnlocked"
-            class="relative inset-0 z-10 grid bg-gradient-to-b from-transparent to-gray-200 dark:to-gray-800"
-        >
-            <div
-                class="absolute left-1/2 grid w-full -translate-x-1/2 -translate-y-1/2 transform items-center text-4xl text-gray-400"
-            >
-                <u-icon name="i-heroicons-lock-closed" class="mx-auto mb-2" />
-                <p
-                    class="text-center text-sm text-gray-500 italic dark:text-gray-400"
-                >
-                    Помеха еще не активирована
-                </p>
-            </div>
-        </div>
-
+        <div class="kd-gradient absolute top-0 left-0 h-4 w-full rounded-lg" />
         <template #header>
-            <div class="relative min-h-[4rem] content-center">
-                <h4 class="line-clamp-2 text-center text-2xl font-semibold">
-                    {{ obstacle.name }}
-                </h4>
-                <u-badge
-                    :color="getBadgeColor(obstacle.type)"
-                    variant="subtle"
-                    size="sm"
-                    class="absolute -top-2 -right-2 md:-right-4"
-                >
-                    {{
-                        typeOptions.find((t) => t.value === obstacle.type)
-                            ?.label
-                    }}
-                </u-badge>
-            </div>
+            <h4 class="line-clamp-2 text-2xl font-semibold">
+                {{ obstacle.name }}
+            </h4>
         </template>
 
-        <div class="flex h-[5rem] flex-1 items-center">
+        <div
+            class="relative flex h-full flex-1 overflow-hidden rounded-t-2xl border-1 bg-gray-50/90 p-3"
+            :class="borderColor"
+        >
+            <u-icon
+                v-if="!obstacle.description || !obstacle.isUnlocked"
+                name="i-material-symbols:lock-outline"
+                class="m-auto mx-auto text-5xl"
+                :class="`text-${obstacleColorByType.get(obstacle.type)}-200`"
+            />
             <p
-                v-if="obstacle.description && obstacle.isUnlocked"
-                class="m-0 line-clamp-5 overflow-y-auto text-sm"
+                v-else
+                class="relative z-1 m-0 overflow-y-auto text-sm dark:text-black"
             >
                 {{ obstacle.description }}
             </p>
         </div>
+        <section
+            class="z-1 mx-[-0.25rem] my-[-0.1rem] rounded-t-sm rounded-b-2xl border bg-gray-50/90 px-3 py-2 text-sm font-bold capitalize dark:text-black"
+            :class="borderColor"
+        >
+            {{ obstacle.type }}
+        </section>
     </u-card>
 </template>

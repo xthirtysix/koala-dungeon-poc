@@ -1,7 +1,7 @@
 export type ObstacleType =
     | 'одноразовая'
     | 'многоразовая'
-    | 'собыитие'
+    | 'событие'
     | 'один раз за стрим'
 
 export interface Obstacle {

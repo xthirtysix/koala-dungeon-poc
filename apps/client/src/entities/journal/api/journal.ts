@@ -1,9 +1,6 @@
 import type { JournalEntry } from '@/entities/journal'
-import type {
-    MetaResponsePaginationByOffset,
-    MetaResponsePaginationByPage,
-} from '@nuxtjs/strapi'
 import { buildQuery } from '@/shared/api'
+import { API_URL } from '@/shared/config/consts/api.consts'
 
 interface FetchJournalEntriesParams {
     page: number
@@ -12,7 +9,12 @@ interface FetchJournalEntriesParams {
 
 interface FetchJournalEntriesResult {
     entries: JournalEntry[]
-    pagination: MetaResponsePaginationByPage | MetaResponsePaginationByOffset
+    pagination: {
+        page: number
+        pageCount: number
+        pageSize: number
+        total: number
+    }
 }
 
 export default {
@@ -36,7 +38,7 @@ export default {
         })
         try {
             const res = await fetch(
-                `https://api.xthirtysix.ru/api/journal-entries?${query}`,
+                `${API_URL}/journal-entries?${query}`,
             )
             if (!res.ok) throw new Error('Ошибка загрузки журнала')
             const response = await res.json()

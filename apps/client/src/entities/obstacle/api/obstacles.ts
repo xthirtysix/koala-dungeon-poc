@@ -1,9 +1,7 @@
-import type {
-    MetaResponsePaginationByOffset,
-    MetaResponsePaginationByPage,
-} from '@nuxtjs/strapi'
+
 import { type Obstacle, obstacles as mockObstacles } from '@/entities/obstacle'
 import { buildQuery } from '@/shared/api'
+import { API_URL } from '@/shared/config/consts/api.consts'
 
 interface FetchObstaclesParams {
     page: number
@@ -12,7 +10,12 @@ interface FetchObstaclesParams {
 
 interface FetchObstaclesResult {
     obstacles: Obstacle[]
-    pagination: MetaResponsePaginationByPage | MetaResponsePaginationByOffset
+    pagination: {
+        page: number
+        pageCount: number
+        pageSize: number
+        total: number
+    }
 }
 
 export default {
@@ -35,7 +38,7 @@ export default {
         })
         try {
             const res = await fetch(
-                `https://api.xthirtysix.ru/api/obstacles?${query}`,
+                `${API_URL}/obstacles?${query}`,
             )
             if (!res.ok) throw new Error('Ошибка загрузки помех')
             const response = await res.json()
@@ -75,7 +78,7 @@ export default {
         })
         try {
             const res = await fetch(
-                `https://api.xthirtysix.ru/api/obstacles?${query}`,
+                `${API_URL}/obstacles?${query}`,
             )
             if (!res.ok) throw new Error('Ошибка загрузки активных помех')
             const response = await res.json()

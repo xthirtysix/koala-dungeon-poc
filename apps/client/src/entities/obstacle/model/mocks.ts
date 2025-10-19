@@ -8,6 +8,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: '18plus',
@@ -16,6 +17,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'aloekoala-official',
@@ -24,6 +26,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'pr-beggar',
@@ -32,6 +35,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'tier-d',
@@ -40,6 +44,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'australian-hearthstone',
@@ -48,6 +53,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'anime',
@@ -56,6 +62,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'hello-dont-be-silent',
@@ -64,14 +71,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'armageddon',
         name: 'Армагеддон',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'auf',
@@ -80,6 +89,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'dota-player',
@@ -88,6 +98,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'granny-swears',
@@ -96,6 +107,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'biba-boba',
@@ -104,6 +116,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'goddess',
@@ -112,6 +125,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'shadow-fight',
@@ -120,14 +134,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'bombardment',
         name: 'Бомбардировка',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'bullying',
@@ -136,6 +152,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'vanga',
@@ -144,6 +161,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'female-bath-day',
@@ -152,6 +170,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'male-bath-day',
@@ -160,6 +179,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'enter-coordinates',
@@ -168,6 +188,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'weight-control',
@@ -176,6 +197,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'fortune-telling',
@@ -184,6 +206,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'what-a-fight',
@@ -192,6 +215,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'time-loop',
@@ -200,6 +224,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'no-choice',
@@ -208,6 +233,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'auction-main-lot',
@@ -216,14 +242,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'naked-run',
         name: 'Голый забег',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'grinch',
@@ -232,6 +260,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'wardrobe-crush',
@@ -240,6 +269,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'give-me-that',
@@ -248,6 +278,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'coin-rain',
@@ -256,6 +287,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'fucking-casino',
@@ -264,6 +296,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'hot-or-cold',
@@ -272,6 +305,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'press-it',
@@ -280,6 +314,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'forgot-safeword',
@@ -288,6 +323,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'got-viral',
@@ -296,6 +332,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'slowdown',
@@ -304,6 +341,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'star-troopers',
@@ -312,6 +350,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'sound-engineer',
@@ -320,6 +359,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'play-on-increase',
@@ -328,6 +368,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'play-on-decrease',
@@ -336,6 +377,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'import-substitution',
@@ -344,14 +386,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'stone-i-give',
         name: 'Камень я дам',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'catapult',
@@ -360,6 +404,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'game-for-cheaters',
@@ -368,6 +413,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'cyberpunk',
@@ -376,6 +422,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'kinopoisk',
@@ -384,6 +431,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'throw-cow-or-food',
@@ -392,6 +440,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'whip-and-candy',
@@ -400,6 +449,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'code-green',
@@ -408,6 +458,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'code-red',
@@ -416,6 +467,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'reusability-wheel',
@@ -424,6 +476,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'one-time-wheel',
@@ -432,6 +485,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'beauty-contest',
@@ -440,6 +494,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'king-and-jester',
@@ -448,6 +503,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'wallet-or-life',
@@ -456,6 +512,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'spin-the-drum',
@@ -464,6 +521,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'where-without-hymn',
@@ -472,6 +530,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'aliexpress-coupon',
@@ -480,6 +539,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'picasso-lasso',
@@ -488,22 +548,25 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'ice-rain',
         name: 'Ледяной дождь',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'sticky-place',
         name: 'Липкое место',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'bald-dick',
@@ -512,6 +575,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'lyas-mas',
@@ -520,6 +584,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'mimic',
@@ -528,6 +593,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'minefield',
@@ -536,6 +602,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'maybe-deal',
@@ -544,14 +611,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'jukebox',
         name: 'Музыкальный автомат',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'meow-content',
@@ -560,14 +629,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'vat',
         name: 'НДС',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'air-tax',
@@ -576,6 +647,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'found-gigolo',
@@ -584,6 +656,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'dont-step-in-cow-poop',
@@ -592,6 +665,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'dont-look-at-welding',
@@ -600,6 +674,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'dont-touch-new-year',
@@ -608,6 +683,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'body-swap',
@@ -616,6 +692,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'oops-stash',
@@ -624,6 +701,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'special-obstacle',
@@ -632,6 +710,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'unwind',
@@ -640,6 +719,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'sausage-fingers',
@@ -648,6 +728,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'jurassic-park',
@@ -656,14 +737,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'flip-2',
         name: 'Перевертыш 2.0',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'baikit-census',
@@ -672,6 +755,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'perforator',
@@ -680,14 +764,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'wrong-turn',
         name: 'Поворот не туда',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'tweak',
@@ -696,6 +782,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'chat-trick',
@@ -704,6 +791,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'search-balloon',
@@ -712,6 +800,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'show-your-carrot',
@@ -720,6 +809,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'night-owl',
@@ -728,6 +818,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'diarrhea-curse',
@@ -736,6 +827,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'suck-it',
@@ -744,6 +836,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'predictions-2025',
@@ -752,6 +845,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'pension-bonus',
@@ -760,6 +854,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'goy-heating',
@@ -768,6 +863,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'cursed-artifact',
@@ -776,6 +872,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'curse',
@@ -784,6 +881,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'skip-fillers',
@@ -792,6 +890,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'professional-card-player',
@@ -800,14 +899,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'change-coin',
         name: 'Разменная монета',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'size-doesnt-matter',
@@ -816,14 +917,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'randomizer',
         name: 'Рандомайзер',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'relocant',
@@ -832,6 +935,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'restaurant-critics',
@@ -840,6 +944,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'slingshot-copy',
@@ -848,6 +953,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'midas-hand',
@@ -856,6 +962,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'sasai-kudasai',
@@ -864,14 +971,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'silent-hill',
         name: 'Сайлент Хилл',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'sound-producer',
@@ -880,6 +989,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'energy-drink-day',
@@ -888,6 +998,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'burn-the-witch',
@@ -896,6 +1007,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'scouts',
@@ -904,6 +1016,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'skibidi-toilet',
@@ -912,14 +1025,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'slippery-type',
         name: 'Скользкий тип',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'how-many-pts',
@@ -928,6 +1043,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'rapid-fire',
@@ -936,6 +1052,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'scoff-patrol',
@@ -944,6 +1061,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'sweet-koaleland',
@@ -952,6 +1070,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'tear-gas',
@@ -960,6 +1079,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'watched-on-cinema',
@@ -968,6 +1088,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'toilet-flush',
@@ -976,6 +1097,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'dog-lady',
@@ -984,6 +1106,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'doubtful-hobby',
@@ -992,6 +1115,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'bet-chat',
@@ -1000,6 +1124,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'stop-inflation',
@@ -1008,6 +1133,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'boner',
@@ -1016,6 +1142,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'tarantino-stream',
@@ -1024,6 +1151,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'supervillain',
@@ -1032,6 +1160,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'solid-chair',
@@ -1040,6 +1169,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'teleport',
@@ -1048,6 +1178,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'tili-tili-dough',
@@ -1056,6 +1187,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'you-sat-on-stump',
@@ -1064,6 +1196,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'you-shall-not-pass',
@@ -1072,14 +1205,16 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'taser-hit',
         name: 'Удар шокером',
-        type: 'собыитие',
+        type: 'событие',
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'fuckshit',
@@ -1088,6 +1223,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'friendly-strip-lobby',
@@ -1096,6 +1232,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'cant-remember',
@@ -1104,6 +1241,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'china-number-one',
@@ -1112,6 +1250,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'chat-gpt',
@@ -1120,6 +1259,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'chat-is-law',
@@ -1128,6 +1268,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'black-hole',
@@ -1136,6 +1277,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'devils-dozen',
@@ -1144,6 +1286,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'chin-chin-chirin',
@@ -1152,6 +1295,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'cheater-wheel',
@@ -1160,6 +1304,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'sheikhs-decide',
@@ -1168,6 +1313,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'epidemic',
@@ -1176,6 +1322,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'what-pokemon',
@@ -1184,6 +1331,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'im-russian',
@@ -1192,6 +1340,7 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
     {
         id: 'im-tired-im-leaving',
@@ -1200,5 +1349,6 @@ export const obstacles: Obstacle[] = [
         description: null,
         isUnlocked: false,
         isActive: false,
+        updatedAt: new Date().toISOString(),
     },
 ]

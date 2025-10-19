@@ -5,7 +5,7 @@ export const useDiceButtonFeatureFlag = () => {
     const route = useRoute()
 
     const IS_DICE_BUTTON_VISIBLE = computed<boolean>(() => {
-        return !!route?.query.dice
+        return !!route?.path.includes('map')
     })
 
     return { IS_DICE_BUTTON_VISIBLE }

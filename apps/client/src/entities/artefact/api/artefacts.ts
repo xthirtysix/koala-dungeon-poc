@@ -1,9 +1,6 @@
 import type { Artefact } from '@/entities/artefact/model/types'
-import type {
-    MetaResponsePaginationByOffset,
-    MetaResponsePaginationByPage,
-} from '@nuxtjs/strapi'
 import { buildQuery } from '@/shared/api'
+import { API_URL } from '@/shared/config/consts/api.consts'
 
 interface FetchArtefactsParams {
     page: number
@@ -12,7 +9,12 @@ interface FetchArtefactsParams {
 
 interface FetchArtefactsResult {
     artefacts: Artefact[]
-    pagination: MetaResponsePaginationByPage | MetaResponsePaginationByOffset
+    pagination: {
+        page: number
+        pageCount: number
+        pageSize: number
+        total: number
+    }
 }
 
 export const fetchArtefacts = {
@@ -23,10 +25,11 @@ export const fetchArtefacts = {
         const query = buildQuery({
             'pagination[page]': page,
             'pagination[pageSize]': pageSize,
+            'sort': 'name',
         })
         try {
             const res = await fetch(
-                `https://api.xthirtysix.ru/api/artefacts?populate[0]=image&populate[1]=bonus&${query}`,
+                `${API_URL}/artefacts?populate[0]=image&populate[1]=bonus&${query}`,
             )
             if (!res.ok) throw new Error('Ошибка загрузки артефактов')
             const response = await res.json()

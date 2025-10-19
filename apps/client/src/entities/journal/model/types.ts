@@ -1,9 +1,12 @@
-export interface JournalEntry {
+type JournalEntryBase = {
     time: string
+    marathon_day: number
     description: string
     cell: number
+}
+
+export type JournalEntryOrdinary = JournalEntryBase & {
     type:
-        | 'game'
         | 'dice'
         | 'gift'
         | 'wheel'
@@ -11,10 +14,15 @@ export interface JournalEntry {
         | 'shop'
         | 'level'
         | 'system'
+}
+
+export type JournalEntryGame = JournalEntryBase & {
+    type: 'game'
     hero: string
-    marathon_day: number
     game_result: number
 }
+
+export type JournalEntry = JournalEntryOrdinary | JournalEntryGame
 
 export interface Journal {
     days: JournalDay[]

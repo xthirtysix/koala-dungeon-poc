@@ -1,4 +1,4 @@
-import { ref, computed, toRef } from 'vue'
+import { ref, computed, toRef, type MaybeRef } from 'vue'
 import type { Obstacle } from '@/entities/obstacle'
 
 interface TypeOption {

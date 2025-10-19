@@ -1,6 +1,7 @@
 import { Dice, DiceIcon } from '@/entities/dice'
 
 const diceIconByDice = new Map<Dice, DiceIcon>([
+    [Dice.D2, DiceIcon.D2],
     [Dice.D4, DiceIcon.D4],
     [Dice.D6, DiceIcon.D6],
     [Dice.D8, DiceIcon.D8],

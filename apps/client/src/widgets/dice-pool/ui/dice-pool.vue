@@ -69,8 +69,13 @@ watch(() => props.dices, initDiceValues, { immediate: true })
                 <u-input-number
                     v-model="diceValues[dice]"
                     variant="ghost"
+                    disable-wheel-change
+                    :autofocus="false"
                     :min="0"
                     :default="0"
+                    :ui="{
+                        base: 'pointer-events-none',
+                    }"
                 />
             </li>
         </ul>

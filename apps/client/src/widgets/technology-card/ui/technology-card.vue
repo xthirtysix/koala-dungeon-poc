@@ -15,7 +15,7 @@ defineOptions({
         :style="{
             backgroundColor: `${technology.color}1A`,
         }"
-        :ui="{ body: 'p-4 sm:p-4' }"
+        :ui="{ root: 'rounded-3xl', body: 'p-4 sm:p-4' }"
     >
         <div class="flex items-center gap-2">
             <u-icon

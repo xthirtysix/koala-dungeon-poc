@@ -1,4 +1,5 @@
 export enum DiceIcon {
+    D2 = 'i-game-icons:crown-coin',
     D4 = 'i-game-icons:d4',
     D6 = 'i-game-icons:perspective-dice-six',
     D8 = 'i-game-icons:dice-eight-faces-eight',

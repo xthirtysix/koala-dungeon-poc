@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { Banner } from '@/entities/banner'
 
 const props = defineProps<{
@@ -8,13 +8,30 @@ const props = defineProps<{
     width?: number
 }>()
 
+const imageRef = ref<HTMLImageElement | null>(null)
+const isLoaded = ref<boolean>(false)
+
 const isVideo = computed<boolean>(() =>
     props.banner.media.mime.includes('video'),
 )
+
+watch([props.banner, imageRef], () => {
+    if (props.banner.media.mime.includes('video')) return
+
+    isLoaded.value = false
+    const image = new Image()
+    image.onload = () => {
+        if (imageRef.value && 'src' in imageRef.value) {
+            imageRef.value.src = props.banner.media.url
+            isLoaded.value = true
+        }
+    }
+    image.src = props.banner.media.url
+})
 </script>
 
 <template>
-    <div class="flex items-center justify-center">
+    <div class="relative flex items-center justify-center">
         <a :href="banner?.link" target="_blank">
             <video
                 v-if="isVideo"
@@ -27,14 +44,21 @@ const isVideo = computed<boolean>(() =>
             >
                 <source :src="banner?.media.url" :type="banner.media.mime" />
             </video>
-            <img
+            <figure
                 v-else-if="banner?.media?.url"
-                :src="banner.media.url"
-                :width="width ?? banner.media.width"
-                :height="width ? 'auto' : banner.media.height"
-                :alt="banner.media.alternativeText ?? 'Баннер марафона'"
-                class="mx-auto"
-            />
+                class="relative rounded-3xl shadow-md ring-1 ring-neutral-200 dark:ring-neutral-800"
+            >
+                <img
+                    ref="imageRef"
+                    :width="width ?? banner.media.width"
+                    :height="width ? 'auto' : banner.media.height"
+                    :alt="banner.media.alternativeText ?? 'Баннер марафона'"
+                    :class="{
+                        'mx-auto': true,
+                        'rounded-3xl shadow-lg': isLoaded,
+                    }"
+                />
+            </figure>
         </a>
     </div>
 </template>

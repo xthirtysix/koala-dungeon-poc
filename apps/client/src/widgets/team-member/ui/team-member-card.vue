@@ -16,7 +16,7 @@ defineOptions({
         target="_blank"
         class="block"
     >
-        <u-card class="px-1 py-0.5">
+        <u-card class="px-1 py-0.5 rounded-3xl">
             <div>
                 <div class="flex items-center gap-2">
                     <h3 class="text-xl font-bold">

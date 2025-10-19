@@ -1,63 +1,125 @@
 <script setup lang="ts">
-import { type Artefact, ArtefactSlot } from '@/entities/artefact'
+import { computed } from 'vue'
+import { colorByArtefactSlot, type Artefact } from '@/entities/artefact'
 import { DurabilityBadge, StatBadge } from '@/widgets/badge'
 
-interface Props {
-    artefact: Artefact
-}
+const props = defineProps<{ artefact: Artefact }>()
 
-defineProps<Props>()
+const cardBackground = computed<string>(() => {
+    return `bg-${colorByArtefactSlot.get(props.artefact.slot)}-200/90`
+})
+
+const borderColor = computed<string>(() => {
+    return `border-${colorByArtefactSlot.get(props.artefact.slot)}-300`
+})
 </script>
 
 <template>
     <u-card
-        class="h-full"
         :ui="{
-            root: 'rounded-lg bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all duration-200 border-0',
-            body: 'h-full',
+            root: [
+                'kd-artefacts transition-background relative grid aspect-[4/5.1] min-h-0 w-auto grid-rows-[min-content_1fr] justify-stretch rounded-3xl p-2 text-gray-400 shadow-md',
+                cardBackground,
+            ].join(' '),
+            body: 'z-2 align-center flex h-full w-full grow-1 flex-col gap-4 p-2 text-black sm:p-2',
+            header: 'z-1 kd-h3 mb-0 h-auto shrink-1 border-0 font-amatic text-2xl leading-none text-gray-900 sm:px-2 sm:pt-4 sm:pb-3',
         }"
     >
-        <div class="flex h-full flex-col gap-4">
-            <div class="mb-4 text-center">
-                <h3
-                    :id="artefact.name"
-                    class="kd-h3 text-2xl text-gray-900 dark:text-gray-200"
-                >
-                    {{ artefact.name }}
-                </h3>
-                <span
-                    class="capi text-sm text-gray-600 capitalize dark:text-gray-400"
-                    >{{ artefact.slot }}</span
-                >
-            </div>
+        <template #header>
+            {{ artefact.name }}
+        </template>
 
-            <figure
-                class="relative mx-auto flex min-h-[120px] w-full max-w-[350px] justify-center before:absolute before:top-[50%] before:left-[50%] before:z-[0] before:mr-4 before:h-auto before:w-[65%] before:-translate-[50%] before:rounded-full before:bg-purple-50 before:pb-[65%] dark:before:bg-purple-400 dark:before:opacity-35"
+        <div
+            class="kd-gradient pointer-events-none absolute top-0 left-0 h-[10%] w-full rounded-lg"
+        />
+
+        <section
+            class="z-1 order-2 mx-[-0.25rem] my-[-1.25rem] flex items-center rounded-sm border bg-gray-50/90 px-3 py-2 text-sm font-bold capitalize dark:text-black"
+            :class="borderColor"
+        >
+            <h4 class="sr-only">Характеристики</h4>
+            <span class="mr-auto">{{ artefact.slot }}</span>
+            <u-popover
+                mode="hover"
+                :ui="{
+                    content: 'rounded-3xl bg-gray-50 p-6 dark:bg-slate-800',
+                }"
             >
-                <img
-                    :src="artefact.image.url"
-                    :alt="artefact.name"
-                    class="z-10 h-48 w-full object-contain"
-                />
-            </figure>
+                <section class="relative flex cursor-help">
+                    <h4 class="sr-only">Бонусы характеристик</h4>
+                    <ul
+                        v-if="artefact.bonus?.length"
+                        class="flex flex-wrap gap-2"
+                    >
+                        <li v-for="bonus in artefact.bonus" :key="bonus.id">
+                            <stat-badge
+                                :characteristic="bonus.characteristic"
+                                :value="bonus.value"
+                                :is-negative="bonus.isNegative"
+                                class="flex-1 text-black"
+                            >
+                                <template #label>
+                                    <span
+                                        class="font-amatic text-2xl font-bold capitalize"
+                                        :class="`text-${bonus.isNegative ? 'red' : 'emerald'}-600`"
+                                    >
+                                        {{
+                                            `${bonus.isNegative ? '-' : '+'}${bonus.value}`
+                                        }}
+                                    </span>
+                                </template>
+                            </stat-badge>
+                        </li>
+                    </ul>
+                    <durability-badge
+                        class="ml-2"
+                        :value="artefact.durability ?? 0"
+                    >
+                        <template #label>
+                            <span
+                                class="font-amatic text-2xl font-bold text-gray-700 uppercase"
+                            >
+                                {{ artefact.durability || '∞' }}
+                            </span>
+                        </template>
+                    </durability-badge>
+                </section>
 
-            <div class="flex flex-col gap-2">
-                <durability-badge :value="artefact.durability ?? 0" />
-                <div v-if="artefact.bonus?.length" class="flex flex-wrap gap-2">
-                    <stat-badge
-                        v-for="bonus in artefact.bonus"
-                        :key="bonus.id"
-                        :characteristic="bonus.characteristic"
-                        :value="bonus.value"
-                        :is-negative="bonus.isNegative"
-                        class="flex-1"
-                    />
-                </div>
-            </div>
+                <template #content>
+                    <ul
+                        v-if="artefact.bonus.length"
+                        class="font-amatic mb-3 grid gap-3 text-3xl font-bold capitalize"
+                    >
+                        <li v-for="bonus in artefact.bonus" :key="bonus.id">
+                            <stat-badge
+                                :characteristic="bonus.characteristic"
+                                :value="bonus.value"
+                                :is-negative="bonus.isNegative"
+                                class="flex-1"
+                            />
+                        </li>
+                    </ul>
+                    <durability-badge :value="artefact.durability ?? 0" />
+                </template>
+            </u-popover>
+        </section>
 
-            <p class="mt-auto text-sm text-gray-600 dark:text-gray-400">
-                {{ artefact.description }}
-            </p>
-        </div>
+        <figure
+            class="relative z-0 order-1 mx-auto flex aspect-[20/15] w-full justify-center rounded-t-2xl border bg-purple-50"
+            :class="borderColor"
+        >
+            <img
+                :src="artefact.image.url"
+                :alt="artefact.name"
+                class="z-10 h-64 w-full object-contain"
+            />
+        </figure>
+
+        <p
+            class="order-4 grow-1 rounded-b-2xl border bg-gray-50/90 p-2 text-sm"
+            :class="borderColor"
+        >
+            {{ artefact.description }}
+        </p>
     </u-card>
 </template>

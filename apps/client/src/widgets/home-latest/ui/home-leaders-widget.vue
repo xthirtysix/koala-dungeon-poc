@@ -7,15 +7,17 @@ defineProps<{
     isLoading: boolean
     isError: boolean
 }>()
+
+const gridClasses = 'grid grid-cols-1 gap-6'
 </script>
 
 <template>
     <div>
         <h2 class="kd-h2">Сильнейшие духи</h2>
 
-        <ul v-if="isLoading" class="grid grid-cols-1 gap-8">
+        <ul v-if="isLoading" :class="gridClasses">
             <li v-for="n in 5" :key="n">
-                <u-skeleton class="h-[132px] w-full rounded-lg" />
+                <u-skeleton class="h-[82px] w-full rounded-3xl" />
             </li>
         </ul>
 
@@ -26,10 +28,9 @@ defineProps<{
             Призываем духов 👻
         </div>
 
-        <ul v-else class="grid grid-cols-1 gap-8">
+        <ul v-else :class="gridClasses">
             <li v-for="(spirit, idx) in spirits" :key="spirit.id">
                 <leader-card
-                    :ui="{ body: 'pb-0 sm:pt-4 sm:pb-1' }"
                     :place="idx + 1"
                     :name="spirit.nickname"
                     :interference-wheel-spins="spirit.obstacleSpins ?? 0"
@@ -38,7 +39,7 @@ defineProps<{
                     :total-donations="spirit.amount ?? 0"
                     :achievements="spirit.achievements ?? []"
                     :rerolls="spirit.reroll ?? 0"
-                    hide-stats
+                    compact
                 />
             </li>
         </ul>

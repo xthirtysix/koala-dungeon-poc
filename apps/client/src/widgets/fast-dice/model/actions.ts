@@ -3,6 +3,11 @@ import type { FastDiceAction } from '@/widgets/fast-dice'
 
 export const actions: FastDiceAction[] = [
     {
+        icon: DiceIcon.D2,
+        label: 'd2',
+        dice: Dice.D2,
+    },
+    {
         icon: DiceIcon.D4,
         label: 'd4',
         dice: Dice.D4,

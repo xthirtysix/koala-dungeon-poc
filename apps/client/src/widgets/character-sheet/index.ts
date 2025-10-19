@@ -1,0 +1,10 @@
+export * from './config/equipment.mock'
+export * from './config/resources.mock'
+export * from './config/characteristics.mock'
+
+export { default as CharacterAttributes } from './ui/character-attributes.vue'
+export { default as CharacterBars } from './ui/character-bars.vue'
+export { default as CharacterGold } from './ui/character-gold.vue'
+export { default as CharacterSheet } from './ui/character-sheet.vue'
+export { default as CharacterEquipmentGrid } from './ui/character-equipment-grid.vue'
+export { default as CharacterEquipmentSlot } from './ui/character-equipment-slot.vue'

@@ -1,5 +1,6 @@
 import type { Banner } from '../model/types'
 import { buildQuery } from '@/shared/api'
+import { API_URL } from '@/shared/config/consts/api.consts'
 
 interface FetchBannersResult {
     banners: Banner[]
@@ -15,7 +16,7 @@ export const bannerApi = {
 
         try {
             const res = await fetch(
-                `https://api.xthirtysix.ru/api/banner?${query}`,
+                `${API_URL}/banner?${query}`,
             )
             if (!res.ok) throw new Error('Ошибка загрузки баннеров')
             const response = await res.json()

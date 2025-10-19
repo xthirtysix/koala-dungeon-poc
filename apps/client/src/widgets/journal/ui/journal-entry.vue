@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { JournalEntry } from '@/entities/journal'
-import { heroImageByName } from '@/widgets/journal'
+import { colorByJournalEntryType, heroImageByName } from '@/widgets/journal'
 
 interface Props {
     entry: JournalEntry
@@ -9,8 +9,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const withoutHero = computed(
-    () => props.entry.hero === 'Нет' || !props.entry.hero,
+const hasHero = computed<boolean>(
+    () => 'hero' in props.entry && props.entry.hero !== 'Нет',
 )
 
 const formatDate = (timestamp: number | string) => {
@@ -44,18 +44,29 @@ const getEventTypeIcon = (type: JournalEntry['type']) => {
             return '📝'
     }
 }
+
+const badgeBackground = computed<string>(() => {
+    if ('hero' in props.entry && props.entry.hero === 'Heт') {
+        return 'bg-blue-100/40 dark:bg-blue-300/40'
+    }
+
+    return `bg-${colorByJournalEntryType.get(props.entry.type)}-100/40 dark:bg-${colorByJournalEntryType.get(props.entry.type)}-300/40`
+})
 </script>
 
 <template>
     <u-card
         :ui="{
-            root: 'relative overflow-hidden rounded-lg p-0 bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all duration-200',
+            root: 'relative overflow-hidden rounded-3xl bg-stone-50/20 p-0 shadow-md duration-200 hover:shadow-md',
             body: 'flex items-start gap-3 p-4 sm:p-2',
         }"
     >
+        <div
+            class="kd-gradient pointer-events-none absolute top-0 left-0 h-4 w-full rounded-lg opacity-15"
+        />
         <img
-            v-if="entry.hero"
-            :src="heroImageByName.get(entry.hero)"
+            v-if="hasHero"
+            :src="heroImageByName.get('hero' in entry ? entry.hero : '')"
             class="absolute top-0 bottom-0 -left-20 h-full max-w-full object-cover opacity-25 sm:max-w-none sm:opacity-65"
             :style="{
                 maskImage: 'linear-gradient(to right, black 30%, transparent)',
@@ -66,24 +77,11 @@ const getEventTypeIcon = (type: JournalEntry['type']) => {
         <div
             class="relative z-1 flex w-15 items-center justify-center p-2.5 text-xl"
             :class="{
-                'rounded-lg shadow-inner': entry.hero === 'Нет',
-                'bg-blue-50/35 dark:bg-orange-700/35': entry.type === 'dice' && withoutHero,
-                'bg-purple-50/35 dark:bg-purple-800/35':
-                    entry.type === 'game' && withoutHero,
-                'bg-yellow-50/35 dark:bg-emerald-800/35':
-                    entry.type === 'wheel' && withoutHero,
-                'bg-green-50/35 dark:bg-blue-700/35':
-                    entry.type === 'gift' && withoutHero,
-                'bg-orange-50/35 dark:bg-pink-900/35':
-                    entry.type === 'shop' && withoutHero,
-                'bg-red-50/35 dark:bg-amber-700/35':
-                    entry.type === 'boss' && withoutHero,
-                'bg-gray-50/35 dark:bg-gray-900/35':
-                    entry.type === 'system' && withoutHero,
+                [`rounded-2xl shadow-inner ${badgeBackground}`]: !hasHero,
             }"
             :title="entry.type"
         >
-            <span v-if="entry.hero === 'Нет' || !entry.hero">
+            <span v-if="!hasHero">
                 {{ getEventTypeIcon(entry.type) }}
             </span>
         </div>
@@ -93,13 +91,13 @@ const getEventTypeIcon = (type: JournalEntry['type']) => {
             >
                 <span
                     v-if="entry.time"
-                    class="rounded bg-gray-100 px-2 py-0.5 text-sm font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                    class="rounded-full bg-gray-100 px-2 py-0.5 text-sm font-medium text-gray-600 dark:bg-gray-900/35 dark:text-gray-300"
                 >
                     {{ formatDate(entry.time) }}
                 </span>
                 <span
                     v-if="entry.cell"
-                    class="text-primary bg-primary/35 rounded px-2 py-0.5 text-sm font-medium"
+                    class="bg-primary/35 text-primary rounded-full px-2 py-0.5 text-sm font-medium"
                 >
                     Клетка {{ entry.cell }}
                 </span>

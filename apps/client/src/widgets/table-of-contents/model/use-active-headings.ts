@@ -1,4 +1,4 @@
-import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { ref, watch, onMounted, nextTick, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
 import type { TocLink } from '@nuxtjs/mdc'
 import type { IndicatorPosition } from './types'
@@ -153,7 +153,7 @@ export function useActiveHeadings(
         window.addEventListener('resize', handleResize)
     })
 
-    onBeforeUnmount(() => {
+    onUnmounted(() => {
         if (resizeTimeout) {
             clearTimeout(resizeTimeout)
         }
@@ -170,27 +170,29 @@ export function useActiveHeadings(
                 top: 0,
                 behavior: 'smooth',
             })
-        } else {
-            const element = document.getElementById(id)
-            if (element) {
-                const headerHeight =
-                    getComputedStyle(document.documentElement)
-                        .getPropertyValue('--header-height')
-                        .trim() || '4rem'
-
-                const headerHeightPx = headerHeight.endsWith('rem')
-                    ? parseFloat(headerHeight) * 16
-                    : parseFloat(headerHeight)
-
-                const elementPosition =
-                    element.getBoundingClientRect().top + window.scrollY
-
-                window.scrollTo({
-                    top: elementPosition - headerHeightPx - 16,
-                    behavior: 'smooth',
-                })
-            }
+            return
         }
+
+        const element = document.getElementById(id)
+
+        if (!element) return
+
+        const headerHeight =
+            getComputedStyle(document.documentElement)
+                .getPropertyValue('--header-height')
+                .trim() || '4rem'
+
+        const headerHeightPx = headerHeight.endsWith('rem')
+            ? parseFloat(headerHeight) * 16
+            : parseFloat(headerHeight)
+
+        const elementPosition =
+            element.getBoundingClientRect().top + window.scrollY
+
+        window.scrollTo({
+            top: elementPosition - headerHeightPx - 16,
+            behavior: 'smooth',
+        })
     }
 
     const isActive = (id: string): boolean => {

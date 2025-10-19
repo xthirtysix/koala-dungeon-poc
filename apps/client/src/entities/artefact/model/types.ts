@@ -9,7 +9,7 @@ export enum ArtefactSlot {
 
 export interface ArtefactBonus {
     id: number
-    characteristic: 'cила' | 'ловкость' | 'телосложение' | 'мудрость'
+    characteristic: 'сила' | 'ловкость' | 'телосложение' | 'мудрость'
     value: number
     isNegative: boolean
 }
@@ -21,4 +21,8 @@ export interface Artefact {
     description: string
     durability: number
     bonus: ArtefactBonus[]
+    image: {
+        url: string
+        alt: string
+    }
 }
