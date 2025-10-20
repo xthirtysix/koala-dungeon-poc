@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { colorByArtefactSlot, type Artefact } from '@/entities/artefact'
 import { DurabilityBadge, StatBadge } from '@/widgets/badge'
+import moneyIcon from '@/app/assets/images/characteristics/money.png'
 
 const props = defineProps<{ artefact: Artefact }>()
 
@@ -71,6 +72,16 @@ const borderColor = computed<string>(() => {
                             </stat-badge>
                         </li>
                     </ul>
+                    <div class="ml-2 flex items-center gap-1 rounded p-0">
+                        <img :src="moneyIcon" alt="Золото" class="h-8 w-8" />
+                        <slot name="label">
+                            <span
+                                class="font-amatic text-2xl font-bold text-gray-700 uppercase"
+                            >
+                                {{ artefact?.price ?? '0' }}
+                            </span>
+                        </slot>
+                    </div>
                     <durability-badge
                         class="ml-2"
                         :value="artefact.durability ?? 0"
@@ -99,6 +110,16 @@ const borderColor = computed<string>(() => {
                             />
                         </li>
                     </ul>
+                    <div class="flex items-center gap-1 rounded p-0 mb-3">
+                        <img :src="moneyIcon" alt="Золото" class="h-8 w-8" />
+                        <slot name="label">
+                            <span
+                                class="font-amatic text-2xl font-bold text-gray-700 uppercase dark:text-white"
+                            >
+                               Цена {{ artefact?.price ?? '0' }}
+                            </span>
+                        </slot>
+                    </div>
                     <durability-badge :value="artefact.durability ?? 0" />
                 </template>
             </u-popover>

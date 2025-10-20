@@ -20,6 +20,7 @@ export interface Artefact {
     slot: ArtefactSlot
     description: string
     durability: number
+    price?: number
     bonus: ArtefactBonus[]
     image: {
         url: string
