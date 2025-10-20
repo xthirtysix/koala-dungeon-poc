@@ -21,7 +21,7 @@ type SpiritStats = {
 }
 
 const cardColor = computed<string>(() => {
-    if (!colorByPlacement.has(props.index + 1)) return 'bg-stone-50/70'
+    if (!colorByPlacement.has(props.index + 1)) return 'bg-stone-50/20'
 
     return `bg-${colorByPlacement.get(props.index + 1)}-100/70`
 })

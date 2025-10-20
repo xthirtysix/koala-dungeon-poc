@@ -29,7 +29,7 @@ const filteredAchievements = computed(() => {
 
 const cardClasses = computed(() => {
     if (!colorByPlacement.has(props.place)) {
-        return 'bg-stone-50/70'
+        return 'bg-stone-50/20'
     }
 
     return `bg-${colorByPlacement.get(props.place)}-100/70`
