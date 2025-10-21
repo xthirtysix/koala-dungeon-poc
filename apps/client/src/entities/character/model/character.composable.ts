@@ -6,14 +6,15 @@ import {
     type CharacterAttribute,
     characterApi,
     XP_PER_LEVEL,
+    CharacterSlot,
 } from '@/entities/character'
-import healthIcon from '@/app/assets/images/characteristics/health.png'
-import levelIcon from '@/app/assets/images/characteristics/level.png'
-import strengthIcon from '@/app/assets/images/characteristics/0_strength.png'
-import constitutionIcon from '@/app/assets/images/characteristics/1_constitution.png'
-import dexterityIcon from '@/app/assets/images/characteristics/2_dexterity.png'
-import wisdomIcon from '@/app/assets/images/characteristics/3_wisdom.png'
-import { Artefact, ArtefactSlot } from '@/entities/artefact'
+import healthIcon from '@/app/assets/images/characteristics/health.webp'
+import levelIcon from '@/app/assets/images/characteristics/level.webp'
+import strengthIcon from '@/app/assets/images/characteristics/0_strength.webp'
+import constitutionIcon from '@/app/assets/images/characteristics/1_constitution.webp'
+import dexterityIcon from '@/app/assets/images/characteristics/2_dexterity.webp'
+import wisdomIcon from '@/app/assets/images/characteristics/3_wisdom.webp'
+import { Artefact } from '@/entities/artefact'
 
 export function useCharacter() {
     const {
@@ -80,18 +81,18 @@ export function useCharacter() {
         },
     ])
 
-    const equipment = computed<[ArtefactSlot, Artefact | null][]>(() => {
+    const equipment = computed<[CharacterSlot, Artefact | null][]>(() => {
         if (!character.value) return []
 
         return [
-            [ArtefactSlot.Head, character.value.head || null],
-            [ArtefactSlot.Chest, character.value.chest || null],
-            [ArtefactSlot.Hands, character.value.hands || null],
-            [ArtefactSlot.Feet, character.value.feet || null],
-            [ArtefactSlot.Weapon, character.value.weapon || null],
-            [ArtefactSlot.Belt, character.value.belt1 || null],
-            [ArtefactSlot.Belt, character.value.belt2 || null],
-            [ArtefactSlot.Belt, character.value.belt3 || null],
+            [CharacterSlot.Head, character.value.head || null],
+            [CharacterSlot.Chest, character.value.chest || null],
+            [CharacterSlot.Hands, character.value.hands || null],
+            [CharacterSlot.Feet, character.value.feet || null],
+            [CharacterSlot.Weapon, character.value.weapon || null],
+            [CharacterSlot.Belt1, character.value.belt1 || null],
+            [CharacterSlot.Belt2, character.value.belt2 || null],
+            [CharacterSlot.Belt3, character.value.belt3 || null],
         ]
     })
 

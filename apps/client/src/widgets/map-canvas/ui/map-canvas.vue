@@ -12,6 +12,8 @@ import { HeroToken } from '@/entities/token'
 import { useMapStore } from '@/entities/map'
 import { MapPath, pathMock } from '@/widgets/path'
 import { useCharacter, characterApi } from '@/entities/character'
+import { storeToRefs } from 'pinia'
+import mapBackground from '@/app/assets/images/map_autumn_25.webp'
 
 const DEV_MODE = false
 
@@ -26,15 +28,18 @@ const imageOffsetX = ref<number>(0)
 const imageOffsetY = ref<number>(0)
 const scrollTop = ref<number>(0)
 const token = ref<InstanceType<typeof HeroToken> | null>(null)
-const currentCellIndex = ref(0)
+const isImageLoaded = ref<boolean>(false)
+
+const { tokenCell: currentCellIndex } = storeToRefs(useMapStore())
 
 const emit = defineEmits<{
     (e: 'cell-click'): void
+    (e: 'map-ready'): void
 }>()
 
 const mapStore = useMapStore()
+const { setMoveInterval, clearMoveInterval } = mapStore
 
-let moveInterval: ReturnType<typeof setInterval> | null = null
 let resizeHandler: WatchStopHandle | null = null
 
 function handleMapClick(e: MouseEvent) {
@@ -89,7 +94,7 @@ async function moveTokenTo(targetIndex: number) {
         Math.min(targetIndex, pathPoints.value.length - 1),
     )
     if (clampedIndex === currentCellIndex.value) return
-    if (moveInterval) clearInterval(moveInterval)
+    clearMoveInterval()
     const step = clampedIndex > currentCellIndex.value ? 1 : -1
 
     // Отправляем PUT запрос для обновления позиции персонажа
@@ -99,22 +104,24 @@ async function moveTokenTo(targetIndex: number) {
         console.error('Ошибка при обновлении позиции персонажа:', error)
     }
 
-    moveInterval = setInterval(async () => {
+    // Если разница между targetIndex и currentCellIndex > 20, просто обновляем currentCellIndex и выходим
+    if (Math.abs(clampedIndex - currentCellIndex.value) >= 20) {
+        currentCellIndex.value = targetIndex
+        return
+    }
+
+    setMoveInterval(setInterval(async () => {
         currentCellIndex.value += step
         if (currentCellIndex.value === clampedIndex) {
-            if (moveInterval) clearInterval(moveInterval)
-            moveInterval = null
+            clearMoveInterval()
             await nextTick()
             focusToken()
         }
-    }, 250)
+    }, 250))
 }
 
 function cleanup() {
-    if (moveInterval) {
-        clearInterval(moveInterval)
-        moveInterval = null
-    }
+    clearMoveInterval()
     if (mapContainer.value) {
         mapContainer.value.removeEventListener('scroll', handleScroll)
     }
@@ -158,6 +165,19 @@ watch(
 )
 
 onMounted(async () => {
+    const img = new Image()
+    img.src = mapBackground
+    img.onload = async () => {
+        isImageLoaded.value = true
+        emit('map-ready')
+        await nextTick()
+        updateImageMetrics()
+    }
+    img.onerror = () => {
+        isImageLoaded.value = true
+        emit('map-ready')
+    }
+
     await nextTick()
     updateImageMetrics()
 
@@ -188,8 +208,9 @@ defineExpose({
 
 <template>
     <div
+        v-if="isImageLoaded"
         ref="mapContainer"
-        class="relative w-full rounded-lg bg-black"
+        class="relative h-full w-full rounded-lg"
         @scroll="handleScroll"
     >
         <div
@@ -219,11 +240,12 @@ defineExpose({
 
         <img
             ref="mapImg"
-            src="/map_autumn_25.webp"
+            :src="mapBackground"
             alt="Карта Подземелья"
-            class="pointer-events-auto relative z-10 block w-full cursor-crosshair object-contain select-none"
+            class="pointer-events-auto absolute z-10 block w-full cursor-crosshair object-contain select-none"
             draggable="false"
             @click="handleMapClick"
         />
     </div>
+    <u-skeleton v-else class="h-full w-full rounded-3xl" />
 </template>

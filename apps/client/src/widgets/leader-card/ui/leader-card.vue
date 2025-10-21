@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import first from '@/app/assets/images/placements/first.png'
-import second from '@/app/assets/images/placements/second.png'
-import third from '@/app/assets/images/placements/third.png'
-import fourth from '@/app/assets/images/placements/fourth.png'
-import fifth from '@/app/assets/images/placements/fifth.png'
+import first from '@/app/assets/images/placements/first.webp'
+import second from '@/app/assets/images/placements/second.webp'
+import third from '@/app/assets/images/placements/third.webp'
+import fourth from '@/app/assets/images/placements/fourth.webp'
+import fifth from '@/app/assets/images/placements/fifth.webp'
 import { colorByPlacement } from '@/widgets/leader-card'
 import { AchievementBadge, type Achievement } from '@/entities/achievement'
 
@@ -32,7 +32,7 @@ const cardClasses = computed(() => {
         return 'bg-stone-50/20'
     }
 
-    return `bg-${colorByPlacement.get(props.place)}-100/70`
+    return `bg-${colorByPlacement.get(props.place)}-100/90`
 })
 
 const borderColor = computed(() => {
@@ -94,16 +94,18 @@ const medalIcon = computed(() => {
             class="card grid h-full grid-rows-[min-content_1fr]"
         >
             <section
-                class="card__stats z-1 flex items-center rounded-2xl border bg-stone-50/80 px-3 py-8 text-sm font-bold capitalize dark:text-black"
+                class="card__stats z-1 flex items-center rounded-2xl border bg-stone-50/90 px-3 py-8 text-sm font-bold capitalize dark:text-black"
                 :class="borderColor"
             >
-                <dl class="grid grid-cols-[min-content_1fr] gap-x-2 gap-y-12">
+                <dl class="grid grid-cols-[min-content_1fr] gap-x-2 gap-y-8">
                     <dt class="font-normal">Помехи</dt>
                     <dd>{{ interferenceWheelSpins || 0 }}</dd>
                     <dt class="font-normal">Помощь</dt>
                     <dd>{{ helpWheelSpins || 0 }}</dd>
                     <dt class="font-normal">Отложено</dt>
                     <dd>{{ deferredInterferences || 0 }}</dd>
+                    <dt class="font-normal">Рероллы</dt>
+                    <dd>{{ rerolls || 0 }}</dd>
                     <dt class="font-normal">Донаты</dt>
                     <dd>{{ totalDonations || 0 }}</dd>
                     <dt class="font-normal">Достижения</dt>
@@ -113,8 +115,8 @@ const medalIcon = computed(() => {
 
             <!-- Достижения справа -->
             <div
-                v-if="filteredAchievements.length > 0"
-                class="card__achievements flex flex-col items-center pl-4 md:hidden lg:flex"
+                v-if="true"
+                class="card__achievements flex flex-col min-w-[8rem] items-center pl-4 md:hidden lg:flex"
             >
                 <u-carousel
                     v-slot="{ item }"
@@ -149,6 +151,8 @@ const medalIcon = computed(() => {
                     <achievement-badge
                         :achievement="item as Achievement"
                         side="right"
+                        size="lg"
+                        hint
                     />
                 </u-carousel>
             </div>

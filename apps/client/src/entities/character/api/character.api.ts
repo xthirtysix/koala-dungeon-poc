@@ -1,10 +1,10 @@
 import { buildQuery } from '@/shared/api/build-query'
 import { API_URL } from '@/shared/config'
-import { BELT_SLOTS, MAIN_CHARACTER_ID } from '@/entities/character'
+import { BELT_SLOTS, Character, MAIN_CHARACTER_ID } from '@/entities/character'
 import { ArtefactSlot } from '@/entities/artefact'
 
 interface FetchCharacterResult {
-    data: unknown
+    data: Character
     meta: unknown
 }
 

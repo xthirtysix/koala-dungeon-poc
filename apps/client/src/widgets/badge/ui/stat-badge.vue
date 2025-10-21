@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import strengthIcon from '@/app/assets/images/characteristics/0_strength.png'
-import constitutionIcon from '@/app/assets/images/characteristics/1_constitution.png'
-import dexterityIcon from '@/app/assets/images/characteristics/2_dexterity.png'
-import wisdomIcon from '@/app/assets/images/characteristics/3_wisdom.png'
+import strengthIcon from '@/app/assets/images/characteristics/0_strength.webp'
+import constitutionIcon from '@/app/assets/images/characteristics/1_constitution.webp'
+import dexterityIcon from '@/app/assets/images/characteristics/2_dexterity.webp'
+import wisdomIcon from '@/app/assets/images/characteristics/3_wisdom.webp'
 
 defineProps<{
     characteristic: string
@@ -32,7 +32,7 @@ function getStatValueClass(isNegative: boolean): string {
         <img
             :src="getStatIcon(characteristic)"
             :alt="characteristic"
-            class="h-8 w-8"
+            class="h-6 w-6 lg:h-8 lg:w-8"
         />
         <slot name="label" :class="getStatValueClass(isNegative)">
             <span

@@ -28,6 +28,7 @@ export default {
                 totalTime: response.data.totalTime,
                 passedTime: response.data.passedTime,
                 isPaused: response.data.isPaused,
+                isActive: response.data.isActive,
             }
         } catch (error) {
             console.error('Ошибка при загрузке марафона:', error)

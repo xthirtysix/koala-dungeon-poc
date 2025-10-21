@@ -4,7 +4,7 @@ import { footerLinks } from '@/widgets/main-footer'
 
 <template>
     <footer
-        class="mt-auto flex w-full flex-col items-center justify-center gap-6 border-t border-gray-200 px-4 py-6 text-center text-xs text-gray-500 sm:flex-row sm:justify-center sm:gap-2 dark:border-gray-800"
+        class="mt-auto flex w-full flex-col items-center justify-center gap-6 border-t border-gray-200 bg-[var(--ui-bg)] px-4 py-6 text-center text-xs text-gray-500 sm:flex-row sm:justify-center sm:gap-2 dark:border-gray-800"
     >
         <span>© Подземелья и коалы 2025. Все права защищены</span>
 

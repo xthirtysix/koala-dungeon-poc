@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { CharacterEquipmentSlot } from '@/widgets/character-sheet'
-import { Artefact, ArtefactSlot } from '@/entities/artefact'
+import { type Artefact } from '@/entities/artefact'
+import { useCharacter, type CharacterSlot } from '@/entities/character'
 
 defineProps<{
-    equipment: [ArtefactSlot, Artefact | null][]
+    equipment: [CharacterSlot, Artefact | null][]
 }>()
+
+const character = useCharacter()
 </script>
 
 <template>
@@ -12,9 +15,10 @@ defineProps<{
         <li v-for="(item, idx) in equipment" :key="`slot-${idx}`">
             <character-equipment-slot
                 v-if="item"
-                class="h-full"
                 :artefact="item[1]"
                 :slot="item[0]"
+                :usages="character.data?.value?.equipment_usages?.[item[0]] ?? 0"
+                class="h-full"
             />
         </li>
     </ul>

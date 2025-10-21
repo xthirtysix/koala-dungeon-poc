@@ -6,6 +6,7 @@ import {
     CharacterGold,
 } from '@/widgets/character-sheet'
 import { useCharacter } from '@/entities/character'
+import tokenImg from '@/app/assets/images/token.webp'
 
 const emit = defineEmits<{
     (e: 'token-click'): void
@@ -34,7 +35,7 @@ const { resources, attributes, equipment, data: character } = useCharacter()
             />
             <character-gold :amount="character?.coins || 0" />
             <img
-                src="/token.png"
+                :src="tokenImg"
                 class="col-start-1 col-end-2 row-start-4 -row-end-1 hidden h-auto w-full items-end @sm/char:mt-auto @sm/char:block"
                 @click="$emit('token-click')"
             />

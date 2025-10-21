@@ -15,15 +15,65 @@ export interface ArtefactBonus {
 }
 
 export interface Artefact {
-    id: string
+    id: number
+    documentId: string
     name: string
-    slot: ArtefactSlot
+    slot: string
     description: string
     durability: number
-    price?: number
+    createdAt: string
+    updatedAt: string
+    publishedAt: string
+    price: number | null
+    image: ImageData
     bonus: ArtefactBonus[]
-    image: {
-        url: string
-        alt: string
+}
+
+export interface ImageData {
+    id: number
+    documentId: string
+    name: string
+    alternativeText: string | null
+    caption: string | null
+    width: number
+    height: number
+    formats: ImageFormats
+    hash: string
+    ext: string
+    mime: string
+    size: number
+    url: string
+    previewUrl: string | null
+    provider: string
+    provider_metadata: {
+        public_id: string
+        resource_type: string
+    }
+    createdAt: string
+    updatedAt: string
+    publishedAt: string
+}
+
+export interface ImageFormats {
+    large: ImageFormat
+    small: ImageFormat
+    medium: ImageFormat
+    thumbnail: ImageFormat
+}
+
+export interface ImageFormat {
+    ext: string
+    url: string
+    hash: string
+    mime: string
+    name: string
+    path: string | null
+    size: number
+    width: number
+    height: number
+    sizeInBytes: number
+    provider_metadata: {
+        public_id: string
+        resource_type: string
     }
 }

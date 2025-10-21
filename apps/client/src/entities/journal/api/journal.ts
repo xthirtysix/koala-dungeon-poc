@@ -31,19 +31,26 @@ export default {
             'fields[5]': 'marathon_day',
             'fields[6]': 'time',
             'fields[7]': 'type',
+            'fields[8]': 'createdAt',
+            'filters[marathon_version][$eq]': 'autumn_2025_13',
             'sort[0]': 'marathon_day:desc',
-            'sort[1]': 'time:desc',
+            'sort[2]': 'createdAt:desc',
             'pagination[page]': page,
             'pagination[pageSize]': pageSize,
         })
         try {
-            const res = await fetch(
-                `${API_URL}/journal-entries?${query}`,
-            )
+            const res = await fetch(`${API_URL}/journal-entries?${query}`)
             if (!res.ok) throw new Error('Ошибка загрузки журнала')
             const response = await res.json()
             return {
-                entries: response.data,
+                entries: response.data.sort(
+                    (a: JournalEntry, b: JournalEntry) => {
+                        return (
+                            new Date(b.time || b.createdAt).getTime() -
+                            new Date(a.time || a.createdAt).getTime()
+                        )
+                    },
+                ),
                 pagination: response.meta.pagination,
             }
         } catch (error) {

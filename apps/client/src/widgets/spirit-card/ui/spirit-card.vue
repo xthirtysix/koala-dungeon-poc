@@ -3,11 +3,11 @@ import { computed } from 'vue'
 import type { Spirit } from '@/entities/spirit'
 import { AchievementBadge } from '@/entities/achievement'
 import { colorByPlacement } from '@/widgets/leader-card'
-import first from '@/app/assets/images/placements/first.png'
-import second from '@/app/assets/images/placements/second.png'
-import third from '@/app/assets/images/placements/third.png'
-import fourth from '@/app/assets/images/placements/fourth.png'
-import fifth from '@/app/assets/images/placements/fifth.png'
+import first from '@/app/assets/images/placements/first.webp'
+import second from '@/app/assets/images/placements/second.webp'
+import third from '@/app/assets/images/placements/third.webp'
+import fourth from '@/app/assets/images/placements/fourth.webp'
+import fifth from '@/app/assets/images/placements/fifth.webp'
 
 const props = defineProps<{
     spirit: Spirit
@@ -23,7 +23,7 @@ type SpiritStats = {
 const cardColor = computed<string>(() => {
     if (!colorByPlacement.has(props.index + 1)) return 'bg-stone-50/20'
 
-    return `bg-${colorByPlacement.get(props.index + 1)}-100/70`
+    return `bg-${colorByPlacement.get(props.index + 1)}-100/90`
 })
 
 const stats = computed<SpiritStats[]>(() => {
@@ -31,6 +31,7 @@ const stats = computed<SpiritStats[]>(() => {
         { label: 'Помехи', value: props.spirit.obstacleSpins || 0 },
         { label: 'Помощь', value: props.spirit.helpSpins || 0 },
         { label: 'Отложено', value: props.spirit.scheduledSpins || 0 },
+        { label: 'Рероллы', value: props.spirit.reroll || 0 },
         { label: 'Донаты', value: props.spirit.amount || 0 },
         { label: 'Достижения', value: props.spirit.achievements?.length || 0 },
     ]
@@ -124,6 +125,8 @@ const medalIcon = computed(() => {
                 v-for="achievement in spirit.achievements"
                 :key="achievement.id"
                 :achievement="achievement"
+                size="lg"
+                hint
             />
         </div>
     </div>

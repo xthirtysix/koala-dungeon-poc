@@ -1,7 +1,7 @@
-import strengthIcon from '@/app/assets/images/characteristics/0_strength.png'
-import constitutionIcon from '@/app/assets/images/characteristics/1_constitution.png'
-import dexterityIcon from '@/app/assets/images/characteristics/2_dexterity.png'
-import wisdomIcon from '@/app/assets/images/characteristics/3_wisdom.png'
+import strengthIcon from '@/app/assets/images/characteristics/0_strength.webp'
+import constitutionIcon from '@/app/assets/images/characteristics/1_constitution.webp'
+import dexterityIcon from '@/app/assets/images/characteristics/2_dexterity.webp'
+import wisdomIcon from '@/app/assets/images/characteristics/3_wisdom.webp'
 import { type CharacterAttribute } from '@/entities/character'
 
 export const attributesMock: CharacterAttribute[] = [

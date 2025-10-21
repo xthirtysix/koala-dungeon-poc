@@ -1,27 +1,36 @@
 <script setup lang="ts">
 import { type Achievement } from '@/entities/achievement'
 
-defineProps<{
-    achievement: Achievement
-    side?: 'left' | 'right' | 'top' | 'bottom'
-}>()
+withDefaults(
+    defineProps<{
+        achievement: Achievement
+        side?: 'left' | 'right' | 'top' | 'bottom'
+        size?: 'md' | 'lg'
+        hint?: boolean
+    }>(),
+    {
+        size: 'md',
+    },
+)
 </script>
 
 <template>
     <div class="flex gap-1">
         <u-popover
+            v-if="hint"
             :content="{ side }"
             :ui="{
                 content:
                     'flex w-[300px] flex-col items-center gap-2 rounded-3xl p-4',
             }"
         >
-            <figure class="relative flex justify-center cursor-help">
+            <figure class="relative flex cursor-help justify-center">
                 <img
                     :src="achievement.image?.url"
                     :alt="achievement.name"
-                    width="84"
-                    class="w-[84px] object-contain"
+                    :width="size === 'md' ? 84 : 100"
+                    :class="size === 'md' ? 'w-[84px]' : 'w-[100px]'"
+                    class="object-contain"
                 />
             </figure>
 
@@ -40,5 +49,15 @@ defineProps<{
                 </p>
             </template>
         </u-popover>
+
+        <figure v-else class="relative flex cursor-help justify-center">
+            <img
+                :src="achievement.image?.url"
+                :alt="achievement.name"
+                :width="size === 'md' ? 84 : 120"
+                :class="size === 'md' ? 'w-[84px]' : 'w-[120px]'"
+                class="object-contain"
+            />
+        </figure>
     </div>
 </template>

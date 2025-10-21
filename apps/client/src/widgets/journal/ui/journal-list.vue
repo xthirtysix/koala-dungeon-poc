@@ -15,16 +15,17 @@ const emit = defineEmits<{
 }>()
 
 const parentRef = ref<HTMLElement | null>(null)
-const parentOffsetRef = ref(0)
 
-const latestMarathonDay = computed(() => entries[0]?.marathon_day || 0)
+const SCROLL_MARGIN = 233
+const PADDING_END = 85
 
 const virtualizerOptions = computed(() => ({
     count: entries.length,
-    estimateSize: () => 80,
+    estimateSize: () => 64,
     overscan: 5,
-    scrollMargin: parentOffsetRef.value,
-    paddingEnd: latestMarathonDay.value * 16,
+    scrollMargin: SCROLL_MARGIN,
+    gap: 16, // Отступ между элементами
+    paddingEnd: PADDING_END,
 }))
 
 const virtualizer = useWindowVirtualizer(virtualizerOptions)
@@ -33,7 +34,7 @@ const totalSize = computed(() => virtualizer.value.getTotalSize())
 const containerOffset = computed(() => {
     const firstItem = virtualItems.value[0]
     if (!firstItem) return 0
-    return firstItem.start - virtualizer.value.options.scrollMargin
+    return firstItem.start - SCROLL_MARGIN
 })
 
 const getEntry = (index: number): JournalEntry | null => {
@@ -85,7 +86,6 @@ watch(
                         :key="`virtual-${virtualItem.index}`"
                         :ref="measureElement"
                         :data-index="virtualItem.index"
-                        class="mb-4 [&:last-child]:mb-8"
                     >
                         <template v-if="getEntry(virtualItem.index)">
                             <div
@@ -111,6 +111,7 @@ watch(
                                 :entry="
                                     getEntry(virtualItem.index) as JournalEntry
                                 "
+                                class="mb-4"
                             />
                         </template>
                     </li>

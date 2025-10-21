@@ -5,11 +5,18 @@ export function useMainHeader() {
     const route = useRoute()
 
     const menuItems = computed(() => [
-        // {
-        //     label: 'Карта',
-        //     icon: 'i-material-symbols:map-rounded',
-        //     to: '/map',
-        // },
+        {
+            label: 'Главная',
+            icon: 'i-material-symbols:home-rounded',
+            to: '/',
+        },
+        {
+            label: 'Карта',
+            icon: 'i-material-symbols:map-rounded',
+            to: '/map',
+            badge: 'beta',
+            slot: 'components' as const,
+        },
         {
             label: 'Библиотека',
             icon: 'i-material-symbols:book-2-rounded',

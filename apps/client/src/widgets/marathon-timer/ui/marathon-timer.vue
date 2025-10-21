@@ -88,6 +88,10 @@ const status = computed(() => {
     }
     return ''
 })
+
+defineExpose({
+    status,
+})
 </script>
 
 <template>

@@ -4,6 +4,7 @@ export interface Marathon {
     totalTime: number
     passedTime: number
     isPaused: boolean
+    isActive: boolean
     banner?: {
         url: string
     }

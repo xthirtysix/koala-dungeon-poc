@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { colorByArtefactSlot, type Artefact } from '@/entities/artefact'
 import { DurabilityBadge, StatBadge } from '@/widgets/badge'
-import moneyIcon from '@/app/assets/images/characteristics/money.png'
+import moneyIcon from '@/app/assets/images/characteristics/money.webp'
 
 const props = defineProps<{ artefact: Artefact }>()
 
@@ -19,7 +19,7 @@ const borderColor = computed<string>(() => {
     <u-card
         :ui="{
             root: [
-                'kd-artefacts transition-background relative grid aspect-[4/5.1] min-h-0 w-auto grid-rows-[min-content_1fr] justify-stretch rounded-3xl p-2 text-gray-400 shadow-md',
+                'kd-artefacts transition-background relative grid min-h-0 w-auto grid-rows-[min-content_1fr] justify-stretch rounded-3xl p-2 text-gray-400 shadow-md',
                 cardBackground,
             ].join(' '),
             body: 'z-2 align-center flex h-full w-full grow-1 flex-col gap-4 p-2 text-black sm:p-2',
@@ -35,7 +35,7 @@ const borderColor = computed<string>(() => {
         />
 
         <section
-            class="z-1 order-2 mx-[-0.25rem] my-[-1.25rem] flex items-center rounded-sm border bg-gray-50/90 px-3 py-2 text-sm font-bold capitalize dark:text-black"
+            class="z-1 order-2 mx-[-0.25rem] my-[-1.25rem] flex flex-row items-center rounded-sm border bg-gray-50/90 px-3 py-2 text-sm font-bold capitalize md:flex-col lg:flex-row dark:text-black"
             :class="borderColor"
         >
             <h4 class="sr-only">Характеристики</h4>
@@ -73,7 +73,7 @@ const borderColor = computed<string>(() => {
                         </li>
                     </ul>
                     <div class="ml-2 flex items-center gap-1 rounded p-0">
-                        <img :src="moneyIcon" alt="Золото" class="h-8 w-8" />
+                        <img :src="moneyIcon" alt="Золото" class="h-6 w-6 lg:h-8 lg:w-8" />
                         <slot name="label">
                             <span
                                 class="font-amatic text-2xl font-bold text-gray-700 uppercase"
@@ -110,13 +110,13 @@ const borderColor = computed<string>(() => {
                             />
                         </li>
                     </ul>
-                    <div class="flex items-center gap-1 rounded p-0 mb-3">
+                    <div class="mb-3 flex items-center gap-1 rounded p-0">
                         <img :src="moneyIcon" alt="Золото" class="h-8 w-8" />
                         <slot name="label">
                             <span
                                 class="font-amatic text-2xl font-bold text-gray-700 uppercase dark:text-white"
                             >
-                               Цена {{ artefact?.price ?? '0' }}
+                                Цена {{ artefact?.price ?? '0' }}
                             </span>
                         </slot>
                     </div>
@@ -130,6 +130,7 @@ const borderColor = computed<string>(() => {
             :class="borderColor"
         >
             <img
+                v-if="artefact.image?.url"
                 :src="artefact.image.url"
                 :alt="artefact.name"
                 class="z-10 h-64 w-full object-contain"

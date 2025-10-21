@@ -7,6 +7,7 @@ import { createPinia } from 'pinia'
 import uiPlugin from '@nuxt/ui/vue-plugin'
 import { useUserStore } from '@/entities/user'
 import { getCurrentUser } from '@/entities/user/api/user.api'
+import { useMarathonStore } from '@/entities/marathon'
 import { PiniaColada } from '@pinia/colada'
 
 import App from './app.vue'
@@ -20,6 +21,9 @@ app.use(pinia)
 app.use(PiniaColada)
 
 app.mount('#app')
+
+const marathonStore = useMarathonStore()
+marathonStore.fetchMarathon()
 
 const jwt = localStorage.getItem('jwt')
 if (jwt) {

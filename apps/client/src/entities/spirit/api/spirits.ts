@@ -45,7 +45,7 @@ export default {
         const query = buildQuery({
             'populate[achievements][populate][image][fields][0]': 'url',
             'sort[0]': 'amount:desc',
-            'sort[1]': 'createdAt:asc',
+            'sort[1]': 'updatedAt:asc',
             'sort[2]': 'nickname:asc',
             'filters[isHidden][$eq]': isHidden,
             'pagination[page]': page,
@@ -57,6 +57,7 @@ export default {
             )
             if (!res.ok) throw new Error('Ошибка загрузки духов')
             const response = await res.json()
+
             return {
                 spirits: response.data,
                 pagination: response.meta.pagination,

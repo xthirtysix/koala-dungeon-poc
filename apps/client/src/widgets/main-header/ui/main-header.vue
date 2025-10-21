@@ -20,15 +20,16 @@ const userStore = useUserStore()
 
 <template>
     <header
-        class="max-w-auto sticky top-0 z-[100] mx-auto h-[var(--header-height)] w-full rounded-3xl border-b border-white/10 bg-[var(--ui-bg)] py-3 drop-shadow-md sm:py-1"
+        class="max-w-auto sticky top-0 z-[100] mx-auto h-[var(--header-height)] w-full rounded-b-3xl border-b border-white/10 bg-[var(--ui-bg)] py-[0.875rem] drop-shadow-md md:py-1"
     >
         <div class="container mx-auto max-w-7xl">
             <div class="flex items-center justify-between px-4 sm:mx-0 sm:flex">
                 <router-link
                     to="/"
-                    class="header__logo relative flex min-w-[11rem] items-center overflow-visible pl-2 no-underline transition-opacity duration-200"
+                    class="header__logo absolute top-[0.875rem] flex min-w-[1rem] items-center overflow-visible pl-2 no-underline transition-opacity duration-200 lg:relative lg:min-w-[11rem] lg:top-0"
                 >
-                    <span class="font-amatic z-[1] text-4xl font-bold uppercase"
+                    <span
+                        class="font-amatic z-[1] hidden text-4xl font-bold uppercase lg:block"
                         >Подземелья и Коалы</span
                     >
                 </router-link>
@@ -65,7 +66,16 @@ const userStore = useUserStore()
                         childLinkLabel: 'text-2xl font-amatic font-bold',
                         childLinkIcon: 'relative top-1',
                     }"
-                />
+                >
+                    <template #components-trailing>
+                        <u-badge
+                            label="β"
+                            variant="subtle"
+                            size="sm"
+                            class="font-sans"
+                        />
+                    </template>
+                </u-navigation-menu>
                 <user-menu
                     v-if="userStore.user"
                     :src="userStore.user.avatar"

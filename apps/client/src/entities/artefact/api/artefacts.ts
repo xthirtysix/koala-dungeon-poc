@@ -42,4 +42,24 @@ export const fetchArtefacts = {
             throw error
         }
     },
+    fetchByNames: async (names: string[]): Promise<Artefact[]> => {
+        const filters: Record<string, string> = {}
+        names.forEach((name, index) => {
+            filters[`filters[$or][${index}][name][$eq]`] = name
+        })
+        const query = buildQuery({
+            ...filters,
+            'populate[0]': 'image',
+            'populate[1]': 'bonus',
+        })
+        try {
+            const res = await fetch(`${API_URL}/artefacts?${query}`)
+            if (!res.ok) throw new Error('Ошибка загрузки артефактов')
+            const response = await res.json()
+            return response.data || []
+        } catch (error) {
+            console.error('Ошибка при загрузке артефактов по названиям:', error)
+            throw error
+        }
+    },
 }

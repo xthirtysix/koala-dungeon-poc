@@ -1,5 +1,5 @@
-import healthIcon from '@/app/assets/images/characteristics/health.png'
-import levelIcon from '@/app/assets/images/characteristics/level.png'
+import healthIcon from '@/app/assets/images/characteristics/health.webp'
+import levelIcon from '@/app/assets/images/characteristics/level.webp'
 
 export const resourcesMock = [
     {

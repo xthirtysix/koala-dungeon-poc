@@ -17,7 +17,7 @@ const info = computed<CellEventInfo[]>(() =>
 <template>
     <article
         v-if="cellNumber !== undefined"
-        class="liquid-glass flex min-h-16 min-w-16 items-center gap-2 rounded-full p-2"
+        class="liquid-glass flex min-h-16 min-w-16 items-center gap-2 rounded-full p-2 select-none"
     >
         <h4
             v-if="cellNumber !== undefined"
@@ -55,7 +55,7 @@ const info = computed<CellEventInfo[]>(() =>
             </li>
         </ul>
 
-        <slot :cell-number="cellNumber"/>
+        <slot :cell-number="cellNumber" />
         <svg style="display: none">
             <filter id="displacementFilter">
                 <feTurbulence

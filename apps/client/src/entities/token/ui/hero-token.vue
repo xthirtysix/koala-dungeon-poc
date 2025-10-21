@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, defineExpose } from 'vue'
-import tokenImg from '@/app/assets/images/token.png'
+import tokenImg from '@/app/assets/images/token.webp'
 import { Cell } from '@/entities/cell'
 
 withDefaults(

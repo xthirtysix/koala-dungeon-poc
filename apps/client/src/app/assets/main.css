@@ -70,20 +70,12 @@
 }
 
 @layer components {
-    .kd-aloe::before {
-        content: '';
-        z-index: -1;
-        position: absolute;
-        inset: 0;
-        background-image: url('@/app/assets/images/aloe.webp');
-        background-size: 200px;
-    }
     .kd-spirits::before {
         content: '';
         z-index: -1;
         position: absolute;
         inset: 0;
-        background-image: url('@/app/assets/images/ghosts.jpg');
+        background-image: url('@/app/assets/images/ghosts.webp');
         background-position: 50% 10%;
         background-size: 250px;
     }
@@ -92,16 +84,16 @@
         z-index: -1;
         position: absolute;
         inset: 0;
-        background-image: url('@/app/assets/images/obstacles.jpg');
+        background-image: url('@/app/assets/images/obstacles.webp');
         background-position: 85% 5%;
-        background-size: 250px;
+        background-size: 200px;
     }
     .kd-artefacts::before {
         content: '';
         z-index: -1;
         position: absolute;
         inset: 0;
-        background-image: url('@/app/assets/images/artefacts.jpg');
+        background-image: url('@/app/assets/images/artefacts.webp');
         background-position: 55% 5%;
         background-size: 250px;
     }

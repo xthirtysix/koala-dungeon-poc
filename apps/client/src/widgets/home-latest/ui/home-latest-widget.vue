@@ -46,7 +46,7 @@ onMounted(async () => {
             :is-error="isError"
         />
         <home-leaders-widget
-            :spirits="spirits"
+            :spirits="spirits.filter(spirit => spirit.amount && spirit.amount > 0)"
             :is-loading="isLoading"
             :is-error="isError"
         />

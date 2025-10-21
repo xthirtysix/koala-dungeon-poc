@@ -90,10 +90,10 @@ const badgeBackground = computed<string>(() => {
                 class="flex flex-col gap-y-1 sm:flex-row sm:items-center sm:gap-x-2"
             >
                 <span
-                    v-if="entry.time"
+                    v-if="entry.time || entry.createdAt"
                     class="rounded-full bg-gray-100 px-2 py-0.5 text-sm font-medium text-gray-600 dark:bg-gray-900/35 dark:text-gray-300"
                 >
-                    {{ formatDate(entry.time) }}
+                    {{ formatDate(entry.time || entry.createdAt) }}
                 </span>
                 <span
                     v-if="entry.cell"

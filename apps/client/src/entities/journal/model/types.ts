@@ -1,8 +1,9 @@
 type JournalEntryBase = {
-    time: string
+    time?: string
     marathon_day: number
     description: string
     cell: number
+    createdAt: string
 }
 
 export type JournalEntryOrdinary = JournalEntryBase & {

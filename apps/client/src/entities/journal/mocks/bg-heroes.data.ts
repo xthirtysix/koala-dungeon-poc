@@ -253,6 +253,12 @@ export default [
         id: 117409,
     },
     {
+        name: 'Кнопка',
+        image: 'https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2bfa8e485e60c5b07db70388287ba4e7b0c69e844a75e1d1a7a23d3491320625.png',
+        slug: '120649-buttons',
+        id: 120649,
+    },
+    {
         name: 'Кок Пирожок',
         image: 'https://d15f34w2p8l1cc.cloudfront.net/hearthstone/808f07ba77bcc639029fa9b185c87d80202f9876642a8f8582c0e2d38124fa14.png',
         slug: '77516-cookie-the-cook',
@@ -313,10 +319,22 @@ export default [
         id: 85125,
     },
     {
+        name: 'Лесной властелин Кенарий',
+        image: 'https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0a5a68b5fb75e92d3307e972e1397dc693101c2cfb428cc5e5f6261ad02066a2.png',
+        slug: '116920-forest-lord-cenarius',
+        id: 116920,
+    },
+    {
         name: "Лич Баз'хиал",
         image: 'https://d15f34w2p8l1cc.cloudfront.net/hearthstone/77bcae09ec62efc9828d5884927c1d9c3ba611c6d934ca13dccb6aa52b78d9f6.png',
         slug: '58044-lich-bazhial',
         id: 58044,
+    },
+    {
+        name: 'Ло, живая легенда',
+        image: 'https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c3421bf2a93a866b3548f698a95b899ba8ed27672c261144edfae0bebad737aa.png',
+        slug: '122925-loh-the-living-legend',
+        id: 122925,
     },
     {
         name: 'Лорд Баров',
@@ -431,6 +449,12 @@ export default [
         image: 'https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5664cde63414ef4002d313785b44ff4acda5ce569c561f36451c3d13489d4078.png',
         slug: '86013-ozumat',
         id: 86013,
+    },
+    {
+        name: 'Ониксия',
+        image: 'https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0575e96fb3a1487e4ff689367e61aab2892e6e6c5f82b46ca2432685ff196da1.png',
+        slug: '82110-onyxia',
+        id: 82110,
     },
     {
         name: 'Пирамидон',

@@ -17,19 +17,9 @@ export const team: TeamMember[] = [
         twitch: 'MagicIsNotHere',
     },
     {
-        name: 'Apmonger',
-        role: 'Иллюстратор',
-        twitch: 'Apmonger',
-    },
-    {
-        name: 'Roujack',
-        role: 'Контентмейкер',
-        twitch: 'Roujack',
-    },
-    {
         name: 'Lisichka_4an',
-        role: 'Контентмейкер',
-        twitch: 'Lisichka_4an',
+        role: 'Контентмейкер, журнал событий',
+        twitch: 'lisichkasan',
     },
     {
         name: 'xthirtysix',

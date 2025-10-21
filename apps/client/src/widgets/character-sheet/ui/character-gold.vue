@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import moneyIcon from '@/app/assets/images/characteristics/money.png'
+import moneyIcon from '@/app/assets/images/characteristics/money.webp'
 
 withDefaults(
     defineProps<{

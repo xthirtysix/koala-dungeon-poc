@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import durabilityIcon from '@/app/assets/images/characteristics/curse_icon.png'
+import durabilityIcon from '@/app/assets/images/characteristics/curse_icon.webp'
 
 defineProps<{ value: number }>()
 
@@ -10,7 +10,11 @@ const formatValue = (value: number): string => {
 
 <template>
     <div class="durability-badge flex items-center gap-1 rounded p-0">
-        <img :src="durabilityIcon" alt="Прочность" class="h-8 w-8" />
+        <img
+            :src="durabilityIcon"
+            alt="Прочность"
+            class="h-6 w-6 lg:h-8 lg:w-8"
+        />
         <slot name="label">
             <span
                 class="font-amatic text-2xl font-bold text-gray-700 uppercase dark:text-white"

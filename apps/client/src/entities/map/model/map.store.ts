@@ -12,6 +12,8 @@ export const useMapStore = defineStore('map', () => {
     const currentCell = ref<number>(-1)
     const figureRef = ref<HTMLElement | null>(null)
     const markedCells = ref<Map<number, string>>(new Map())
+    const tokenCell = ref<number>(-1)
+    const moveInterval = ref<ReturnType<typeof setInterval> | null>(null)
 
     const lastCell = computed<number>(() => {
         return cells.value.length - 1 < 0 ? 0 : cells.value.length - 1
@@ -75,6 +77,17 @@ export const useMapStore = defineStore('map', () => {
         currentCell.value = cell
     }
 
+    function setMoveInterval(interval: ReturnType<typeof setInterval> | null) {
+        moveInterval.value = interval
+    }
+
+    function clearMoveInterval() {
+        if (moveInterval.value) {
+            clearInterval(moveInterval.value)
+            moveInterval.value = null
+        }
+    }
+
     const enrichedCells = computed<Cell[]>(() => {
         let zoneEvent: CellEvent | undefined
 
@@ -85,7 +98,7 @@ export const useMapStore = defineStore('map', () => {
             if (
                 zoneEvent &&
                 'endCell' in zoneEvent &&
-                index + 1 >= zoneEvent.endCell
+                index + 1 > zoneEvent.endCell
             ) {
                 zoneEvent = undefined
             }
@@ -113,5 +126,9 @@ export const useMapStore = defineStore('map', () => {
         markCell,
         unmarkCell,
         loadCustomMarksFromServer,
+        tokenCell,
+        moveInterval,
+        setMoveInterval,
+        clearMoveInterval,
     }
 })

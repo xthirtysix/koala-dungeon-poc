@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { type Artefact, type ArtefactSlot } from '@/entities/artefact'
-import strengthIcon from '@/app/assets/images/characteristics/0_strength.png'
-import constitutionIcon from '@/app/assets/images/characteristics/1_constitution.png'
-import dexterityIcon from '@/app/assets/images/characteristics/2_dexterity.png'
-import wisdomIcon from '@/app/assets/images/characteristics/3_wisdom.png'
-import durabilityIcon from '@/app/assets/images/characteristics/curse_icon.png'
+import { type Artefact } from '@/entities/artefact'
+import strengthIcon from '@/app/assets/images/characteristics/0_strength.webp'
+import constitutionIcon from '@/app/assets/images/characteristics/1_constitution.webp'
+import dexterityIcon from '@/app/assets/images/characteristics/2_dexterity.webp'
+import wisdomIcon from '@/app/assets/images/characteristics/3_wisdom.webp'
+import durabilityIcon from '@/app/assets/images/characteristics/curse_icon.webp'
+import { type CharacterSlot } from '@/entities/character'
 
 const props = defineProps<{
     artefact?: Partial<Artefact> | null
-    slot?: ArtefactSlot
+    slot?: CharacterSlot
+    usages?: number
 }>()
 
 const charIcons: Record<string, string> = {
@@ -39,10 +41,31 @@ const getArtefactDetails = computed(() => {
     return details
 })
 
-const popoverLabel = computed<string>(() => {
+const popoverLabel = computed<string | undefined>(() => {
+    if (!props.artefact || !props.slot) return undefined
+
     return props.artefact?.durability
-        ? `Прочность ${props.artefact.durability}`
+        ? `Прочность ${Math.max(props.artefact.durability - (props.usages ?? 0), 0)}`
         : 'Не ломается'
+})
+
+const labelBySlot = computed<string>(() => {
+    if (!props.slot) return ''
+
+    switch (props.slot) {
+        case 'head':
+            return 'Голова'
+        case 'chest':
+            return 'Нагрудник'
+        case 'hands':
+            return 'Руки'
+        case 'feet':
+            return 'Ноги'
+        case 'weapon':
+            return 'Оружие'
+        default:
+            return 'Пояс'
+    }
 })
 </script>
 
@@ -67,7 +90,7 @@ const popoverLabel = computed<string>(() => {
                 :alt="artefact?.image?.alt"
             />
             <span v-else class="font-amatic text-2xl font-bold">
-                {{ slot }}
+                {{ labelBySlot }}
             </span>
         </figure>
 

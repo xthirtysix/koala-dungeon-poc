@@ -1,21 +1,32 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useMapMarks } from '@/entities/map'
+import { useMapMarks, useMapStore } from '@/entities/map'
 import { useUserStore } from '@/entities/user'
 import { MARKS } from '../consts/marks'
 
 defineProps<{ cellNumber?: number }>()
 
-const { markCell, unmarkCell, markedCells } = useMapMarks()
+const { markCell, unmarkCell } = useMapMarks()
 const { user } = storeToRefs(useUserStore())
+
+const { markedCells } = storeToRefs(useMapStore())
 
 const open = ref<boolean>(false)
 
 const handleMarkClick = async (cellNumber: number, emoji: string) => {
-    open.value = false
     if (cellNumber) {
-        await markCell(cellNumber, emoji)
+        const previousMark = markedCells.value.get(cellNumber)
+
+        try {
+            markedCells.value.set(cellNumber, emoji)
+            await markCell(cellNumber, emoji)
+        } catch (error) {
+            if (previousMark) {
+                markedCells.value.set(cellNumber, previousMark)
+            }
+            console.error(error)
+        }
     }
 }
 </script>
@@ -24,9 +35,9 @@ const handleMarkClick = async (cellNumber: number, emoji: string) => {
     <u-popover
         v-model:open="open"
         v-if="user && cellNumber !== undefined"
-        :arrow="true"
         :ui="{ content: 'rounded-4xl' }"
         :content="{ align: 'center', side: 'top', sideOffset: 8 }"
+        arrow
     >
         <template #default>
             <u-button
@@ -35,7 +46,7 @@ const handleMarkClick = async (cellNumber: number, emoji: string) => {
                 "
                 color="neutral"
                 variant="solid"
-                class="gray-800 relative z-1 ml-2 flex h-14 w-14 transform items-center justify-center overflow-hidden rounded-full bg-gray-300 p-0 text-2xl drop-shadow transition-transform duration-250 hover:bg-gray-300 active:bg-gray-400 [&>svg]:text-black [&>svg]:fill-black"
+                class="gray-800 relative z-1 ml-2 flex h-14 w-14 transform items-center justify-center overflow-hidden rounded-full bg-gray-300 p-0 text-2xl drop-shadow hover:bg-gray-300 active:bg-gray-400 [&>svg]:fill-black [&>svg]:text-black"
             >
                 <template v-if="cellNumber && markedCells.get(cellNumber)">
                     {{ markedCells.get(cellNumber) }}
@@ -54,7 +65,7 @@ const handleMarkClick = async (cellNumber: number, emoji: string) => {
                     color="primary"
                     class="h-12 w-12 rounded-full"
                     :class="[
-                        'rounded-full border-2 p-2 text-3xl transition',
+                        'items-center justify-center rounded-full border-2 p-2 text-3xl transition',
                         cellNumber && markedCells.get(cellNumber) === emoji
                             ? 'border-primary bg-primary/10'
                             : 'border-transparent hover:bg-gray-100 dark:hover:bg-gray-800',

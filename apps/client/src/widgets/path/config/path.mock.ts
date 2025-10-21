@@ -38,7 +38,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'descend',
-                characteristic: 'strength',
+                characteristic: 'wisdom',
                 check: 11,
                 destinationCell: 12,
             },
@@ -242,16 +242,10 @@ export const pathMock: Cell[] = [
         y: 0.1922,
         events: [
             {
-                type: 'zone',
-                zoneType: 'boss',
-                startCell: 38,
-                endCell: 48,
-            },
-            {
                 type: 'descend',
-                characteristic: 'wisdom',
+                characteristic: 'strength',
                 check: 12,
-                destinationCell: 43,
+                destinationCell: 42,
             },
         ],
     },
@@ -269,6 +263,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.6066,
         y: 0.1681,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'strength',
+                check: 13,
+                destinationCell: 37,
+            },
+        ],
     },
     // 42
     {
@@ -292,7 +294,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'descend',
-                characteristic: 'wisdom',
+                characteristic: 'agility',
                 check: 12,
                 destinationCell: 50,
             },
@@ -332,6 +334,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.1194,
         y: 0.2158,
+        events: [
+            {
+                type: 'ascend',
+                check: 13,
+                characteristic: 'wisdom',
+                destinationCell: 49,
+            },
+        ],
     },
     // 53
     {
@@ -352,6 +362,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.2965,
         y: 0.2258,
+        events: [
+            {
+                type: 'zone',
+                zoneType: 'boss',
+                startCell: 55,
+                endCell: 76,
+            },
+        ],
     },
     // 56
     {
@@ -390,6 +408,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.9543,
         y: 0.2624,
+        events: [
+            {
+                type: 'store',
+            },
+        ],
     },
     // 62
     {
@@ -400,11 +423,27 @@ export const pathMock: Cell[] = [
     {
         x: 0.8341,
         y: 0.2639,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'wisdom',
+                check: 14,
+                destinationCell: 67,
+            },
+        ],
     },
     // 64
     {
         x: 0.7356,
         y: 0.2566,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'agility',
+                check: 14,
+                destinationCell: 57,
+            },
+        ],
     },
     // 65
     {
@@ -465,6 +504,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.7364,
         y: 0.2884,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'strength',
+                check: 14,
+                destinationCell: 71,
+            },
+        ],
     },
     // 77
     {
@@ -495,6 +542,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.383,
         y: 0.3044,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'strength',
+                check: 15,
+                destinationCell: 85,
+            },
+        ],
     },
     // 82
     {
@@ -520,6 +575,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.3421,
         y: 0.3501,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'wisdom',
+                check: 15,
+                destinationCell: 91,
+            },
+        ],
     },
     // 87
     {
@@ -545,6 +608,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.3301,
         y: 0.3334,
+        events: [
+            {
+                type: 'store',
+            },
+        ],
     },
     // 92
     {
@@ -575,6 +643,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.6787,
         y: 0.3317,
+        events: [
+            {
+                type: 'checkpoint',
+            },
+        ],
     },
     // 98
     {
@@ -590,6 +663,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.6787,
         y: 0.368,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'wisdom',
+                check: 15,
+                destinationCell: 98,
+            },
+        ],
     },
     // 101
     {
@@ -610,11 +691,27 @@ export const pathMock: Cell[] = [
     {
         x: 0.4,
         y: 0.3849,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'agility',
+                check: 16,
+                destinationCell: 108,
+            },
+        ],
     },
     // 105
     {
         x: 0.2902,
         y: 0.3903,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'agility',
+                check: 16,
+                destinationCell: 102,
+            },
+        ],
     },
     // 106
     {
@@ -645,6 +742,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.6798,
         y: 0.4295,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'wisdom',
+                check: 16,
+                destinationCell: 120,
+            },
+        ],
     },
     // 112
     {
@@ -655,6 +760,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.5803,
         y: 0.4067,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'strength',
+                check: 16,
+                destinationCell: 110,
+            },
+        ],
     },
     // 114
     {
@@ -675,6 +788,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.837,
         y: 0.4103,
+        events: [
+            {
+                type: 'checkpoint',
+            },
+        ],
     },
     // 118
     {
@@ -690,16 +808,37 @@ export const pathMock: Cell[] = [
     {
         x: 0.8393,
         y: 0.4474,
+        events: [
+            {
+                type: 'store',
+            },
+        ],
     },
     // 121
     {
         x: 0.9098,
         y: 0.4577,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'agility',
+                check: 17,
+                destinationCell: 115,
+            },
+        ],
     },
     // 122
     {
         x: 0.9526,
         y: 0.4698,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'strength',
+                check: 17,
+                destinationCell: 125,
+            },
+        ],
     },
     // 123
     {
@@ -720,6 +859,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.9191,
         y: 0.5181,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'agility',
+                check: 17,
+                destinationCell: 130,
+            },
+        ],
     },
     // 127
     {
@@ -730,11 +877,24 @@ export const pathMock: Cell[] = [
     {
         x: 0.7491,
         y: 0.533,
+        events: [
+            {
+                type: 'checkpoint',
+            },
+        ],
     },
     // 129
     {
         x: 0.8173,
         y: 0.5451,
+        events: [
+            {
+                type: 'zone',
+                zoneType: 'boss',
+                startCell: 129,
+                endCell: 146,
+            },
+        ],
     },
     // 130
     {
@@ -820,16 +980,37 @@ export const pathMock: Cell[] = [
     {
         x: 0.4902,
         y: 0.4487,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'wisdom',
+                check: 18,
+                destinationCell: 143,
+            },
+        ],
     },
     // 147
     {
         x: 0.6173,
         y: 0.4475,
+        events: [
+            {
+                type: 'checkpoint',
+            },
+        ],
     },
     // 148
     {
         x: 0.7087,
         y: 0.4566,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'wisdom',
+                check: 18,
+                destinationCell: 152,
+            },
+        ],
     },
     // 149
     {
@@ -850,6 +1031,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.6414,
         y: 0.4988,
+        events: [
+            {
+                type: 'store',
+            },
+        ],
     },
     // 153
     {
@@ -865,6 +1051,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.3572,
         y: 0.5083,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'strength',
+                check: 18,
+                destinationCell: 161,
+            },
+        ],
     },
     // 156
     {
@@ -910,16 +1104,37 @@ export const pathMock: Cell[] = [
     {
         x: 0.1474,
         y: 0.5716,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'wisdom',
+                check: 19,
+                destinationCell: 174,
+            },
+        ],
     },
     // 165
     {
         x: 0.085,
         y: 0.5849,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'wisdom',
+                check: 19,
+                destinationCell: 162,
+            },
+        ],
     },
     // 166
     {
         x: 0.0757,
         y: 0.5997,
+        events: [
+            {
+                type: 'checkpoint',
+            },
+        ],
     },
     // 167
     {
@@ -950,6 +1165,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.3997,
         y: 0.604,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'strength',
+                check: 19,
+                destinationCell: 167,
+            },
+        ],
     },
     // 173
     {
@@ -970,6 +1193,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.3865,
         y: 0.5832,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'agility',
+                check: 19,
+                destinationCell: 180,
+            },
+        ],
     },
     // 177
     {
@@ -1010,6 +1241,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.8645,
         y: 0.5996,
+        events: [
+            {
+                type: 'store',
+            },
+        ],
     },
     // 185
     {
@@ -1025,11 +1261,30 @@ export const pathMock: Cell[] = [
     {
         x: 0.9402,
         y: 0.6316,
+        events: [
+            {
+                type: 'checkpoint',
+            },
+        ],
     },
     // 188
     {
         x: 0.8884,
         y: 0.6434,
+        events: [
+            {
+                type: 'zone',
+                zoneType: 'boss',
+                startCell: 188,
+                endCell: 209,
+            },
+            {
+                type: 'ascend',
+                characteristic: 'agility',
+                check: 20,
+                destinationCell: 184,
+            },
+        ],
     },
     // 189
     {
@@ -1080,6 +1335,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.5153,
         y: 0.639,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'strength',
+                check: 20,
+                destinationCell: 202,
+            },
+        ],
     },
     // 199
     {
@@ -1120,6 +1383,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.1275,
         y: 0.658,
+        events: [
+            {
+                type: 'store',
+            },
+        ],
     },
     // 207
     {
@@ -1135,11 +1403,24 @@ export const pathMock: Cell[] = [
     {
         x: 0.3732,
         y: 0.6301,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'wisdom',
+                check: 21,
+                destinationCell: 196,
+            },
+        ],
     },
     // 210
     {
         x: 0.498,
         y: 0.6287,
+        events: [
+            {
+                type: 'checkpoint',
+            },
+        ],
     },
     // 211
     {
@@ -1155,6 +1436,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.6534,
         y: 0.6651,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'wisdom',
+                check: 21,
+                destinationCell: 218,
+            },
+        ],
     },
     // 214
     {
@@ -1170,6 +1459,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.4263,
         y: 0.6867,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'strength',
+                check: 21,
+                destinationCell: 206,
+            },
+        ],
     },
     // 217
     {
@@ -1210,11 +1507,27 @@ export const pathMock: Cell[] = [
     {
         x: 0.0717,
         y: 0.7266,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'agility',
+                check: 22,
+                destinationCell: 219,
+            },
+        ],
     },
     // 225
     {
         x: 0.0876,
         y: 0.7389,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'wisdom',
+                check: 22,
+                destinationCell: 230,
+            },
+        ],
     },
     // 226
     {
@@ -1230,6 +1543,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.4382,
         y: 0.7365,
+        events: [
+            {
+                type: 'checkpoint',
+            },
+        ],
     },
     // 229
     {
@@ -1240,6 +1558,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.7185,
         y: 0.7423,
+        events: [
+            {
+                type: 'store',
+            },
+        ],
     },
     // 231
     {
@@ -1250,6 +1573,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.6972,
         y: 0.7178,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'wisdom',
+                check: 22,
+                destinationCell: 229,
+            },
+        ],
     },
     // 233
     {
@@ -1285,11 +1616,27 @@ export const pathMock: Cell[] = [
     {
         x: 0.8234,
         y: 0.7645,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'agility',
+                check: 22,
+                destinationCell: 236,
+            },
+        ],
     },
     // 240
     {
         x: 0.7251,
         y: 0.7747,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'agility',
+                check: 22,
+                destinationCell: 245,
+            },
+        ],
     },
     // 241
     {
@@ -1300,6 +1647,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.4887,
         y: 0.783,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'strength',
+                check: 23,
+                destinationCell: 238,
+            },
+        ],
     },
     // 243
     {
@@ -1315,6 +1670,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.2005,
         y: 0.767,
+        events: [
+            {
+                type: 'checkpoint',
+            },
+        ],
     },
     // 246
     {
@@ -1350,6 +1710,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.4449,
         y: 0.7959,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'strength',
+                check: 23,
+                destinationCell: 260,
+            },
+        ],
     },
     // 253
     {
@@ -1385,6 +1753,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.6428,
         y: 0.8375,
+        events: [
+            {
+                type: 'store',
+            },
+        ],
     },
     // 260
     {
@@ -1405,11 +1778,24 @@ export const pathMock: Cell[] = [
     {
         x: 0.3068,
         y: 0.8123,
+        events: [
+            {
+                type: 'checkpoint',
+            },
+        ],
     },
     // 264
     {
         x: 0.2005,
         y: 0.813,
+        events: [
+            {
+                type: 'zone',
+                zoneType: 'boss',
+                startCell: 264,
+                endCell: 283,
+            },
+        ],
     },
     // 265
     {
@@ -1430,6 +1816,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.3347,
         y: 0.8415,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'wisdom',
+                check: 24,
+                destinationCell: 262,
+            },
+        ],
     },
     // 269
     {
@@ -1440,6 +1834,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.3426,
         y: 0.8562,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'agility',
+                check: 24,
+                destinationCell: 276,
+            },
+        ],
     },
     // 271
     {
@@ -1485,6 +1887,11 @@ export const pathMock: Cell[] = [
     {
         x: 0.7304,
         y: 0.8919,
+        events: [
+            {
+                type: 'store',
+            },
+        ],
     },
     // 280
     {
@@ -1500,6 +1907,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.4529,
         y: 0.9105,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'strength',
+                check: 25,
+                destinationCell: 278,
+            },
+        ],
     },
     // 283
     {
@@ -1510,11 +1925,24 @@ export const pathMock: Cell[] = [
     {
         x: 0.5086,
         y: 0.9243,
+        events: [
+            {
+                type: 'checkpoint',
+            },
+        ],
     },
     // 285
     {
         x: 0.6242,
         y: 0.9303,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'strength',
+                check: 25,
+                destinationCell: 288,
+            },
+        ],
     },
     // 286
     {
@@ -1535,6 +1963,14 @@ export const pathMock: Cell[] = [
     {
         x: 0.6162,
         y: 0.9792,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'agility',
+                check: 25,
+                destinationCell: 286,
+            },
+        ],
     },
     // 290
     {
@@ -1570,11 +2006,27 @@ export const pathMock: Cell[] = [
     {
         x: 0.5857,
         y: 0.9465,
+        events: [
+            {
+                type: 'ascend',
+                characteristic: 'wisdom',
+                check: 25,
+                destinationCell: 294,
+            },
+        ],
     },
     // 297
     {
         x: 0.6228,
         y: 0.9598,
+        events: [
+            {
+                type: 'descend',
+                characteristic: 'wisdom',
+                check: 25,
+                destinationCell: 300,
+            },
+        ],
     },
     // 298
     {

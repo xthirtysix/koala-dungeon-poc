@@ -6,7 +6,7 @@ import { MainFooter } from '@/widgets/main-footer'
     <div class="layout grid min-h-screen w-full grid-rows-[auto,1fr]">
         <slot name="header" />
 
-        <main class="layout__main relative py-8">
+        <main class="layout__main relative flex flex-col py-8">
             <svg
                 viewBox="0 0 1440 181"
                 fill="none"
@@ -61,13 +61,15 @@ import { MainFooter } from '@/widgets/main-footer'
                     </linearGradient>
                 </defs>
             </svg>
-            <div class="mx-auto w-full max-w-[1600px]">
-                <div class="layout__content grid gap-8 px-4">
+            <div class="mx-auto flex w-full max-w-[1600px] flex-1">
+                <div class="layout__content grid flex-1 gap-8 px-4 grid-rows-[1fr]">
                     <slot />
                 </div>
             </div>
         </main>
 
-        <main-footer />
+        <main-footer
+            class="!fixed right-0 bottom-0 z-200 !w-auto rounded-tl-lg border-l border-l-gray-200 !py-1 dark:border-l-gray-800"
+        />
     </div>
 </template>
