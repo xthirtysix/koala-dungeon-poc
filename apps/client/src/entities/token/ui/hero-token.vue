@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { ref, defineExpose } from 'vue'
-import tokenImg from '@/app/assets/images/token.webp'
+import { ref } from 'vue'
+import tokenImage from '@/app/assets/images/token.webp'
 import { Cell } from '@/entities/cell'
+
+const tokenImg = tokenImage
 
 withDefaults(
     defineProps<{
         currentCell: Cell
         tokenSize?: { width: number; height: number | string }
         displayName?: boolean
-        name?: string
+        playerName?: string
     }>(),
     {
         currentCell: () => ({ x: 0, y: 0 }),
         tokenSize: () => ({ width: 100, height: 'auto' }),
         displayName: false,
-        name: undefined,
+        playerName: undefined,
     },
 )
 
@@ -41,10 +43,10 @@ defineExpose({ figure })
             draggable="false"
         />
         <figcaption
-            v-if="displayName && name"
+            v-if="displayName && playerName"
             class="font-amatic text-center text-4xl font-bold drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)]"
         >
-            {{ name }}
+            {{ playerName }}
         </figcaption>
     </figure>
 </template>

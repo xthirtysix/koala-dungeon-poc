@@ -1,4 +1,5 @@
-import { API_URL, MARATHON_VERSION } from '@/shared/config/consts/api.consts'
+import { MARATHON_VERSION } from '@/shared/config/consts/api.consts'
+import { publicApi, privateApi } from '@/shared/api'
 
 export interface CustomMarksUpdateRequest {
     custom_marks: Record<number, string>
@@ -62,42 +63,23 @@ export interface CustomMarksGetResponse {
 
 export async function updateCustomMarks(
     customMarks: Map<number, string>,
-    jwt: string
 ): Promise<CustomMarksUpdateResponse> {
     const customMarksObject: Record<number, string> = {}
     customMarks.forEach((value, key) => {
         customMarksObject[key] = value
     })
 
-    const res = await fetch(`${API_URL}/maps/${MARATHON_VERSION}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({
+    return privateApi.put<CustomMarksUpdateResponse>(
+        `maps/${MARATHON_VERSION}`, {
+        json: {
             custom_marks: customMarksObject,
             marathon_version: MARATHON_VERSION,
-        } as CustomMarksUpdateRequest),
+        },
     })
-
-    if (!res.ok) {
-        const error = await res.json()
-        throw new Error(error?.error?.message || 'Ошибка обновления меток карты')
-    }
-
-    return res.json()
 }
 
 export async function getCustomMarks(marathonVersion: string): Promise<CustomMarksGetResponse> {
-    const res = await fetch(`${API_URL}/maps?marathon_version=${marathonVersion}`, {
-        method: 'GET',
+    return publicApi.get<CustomMarksGetResponse>('/maps', {
+        searchParams: { marathon_version: marathonVersion },
     })
-
-    if (!res.ok) {
-        const error = await res.json()
-        throw new Error(error?.error?.message || 'Ошибка получения меток карты')
-    }
-
-    return res.json()
 }

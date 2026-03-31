@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { DiceButton } from '@/entities/dice'
+import { DiceButton } from '@/shared/tools/dice'
 import { displayRollToast, RollButton, RollResult } from '@/features/dice'
 import { RollConfirmAction } from '@/widgets/roll-confirm'
 

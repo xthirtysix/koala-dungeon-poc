@@ -1,29 +1,42 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { colorByArtefactSlot, type Artefact } from '@/entities/artefact'
-import { DurabilityBadge, StatBadge } from '@/widgets/badge'
-import moneyIcon from '@/app/assets/images/characteristics/money.webp'
+import {
+    BG_BY_TYPE,
+    BORDER_BY_TYPE,
+    RING_BY_TYPE,
+    type Artefact,
+} from '@/entities/artefact'
+import { PropertyBadge } from '@/widgets/property-badge'
+import { KdCard } from '@/shared/ui/kd-card'
+import { useArtefactProperties } from '@/entities/artefact/model/artefact-properties.composable'
 
 const props = defineProps<{ artefact: Artefact }>()
 
-const cardBackground = computed<string>(() => {
-    return `bg-${colorByArtefactSlot.get(props.artefact.slot)}-200/90`
+const cardBackground = computed(() => {
+    return BG_BY_TYPE.get(props.artefact.slot)
 })
 
-const borderColor = computed<string>(() => {
-    return `border-${colorByArtefactSlot.get(props.artefact.slot)}-300`
+const borderColor = computed(() => {
+    return BORDER_BY_TYPE.get(props.artefact.slot)
 })
+
+const ringColor = computed(() => {
+    return RING_BY_TYPE.get(props.artefact.slot)
+})
+
+const { propertiesShort, propertiesLong, getPropertyClass } =
+    useArtefactProperties(props.artefact)
 </script>
 
 <template>
-    <u-card
+    <kd-card
         :ui="{
             root: [
-                'kd-artefacts transition-background relative grid min-h-0 w-auto grid-rows-[min-content_1fr] justify-stretch rounded-3xl p-2 text-gray-400 shadow-md',
+                'kd-artefacts transition-background relative grid min-h-0 w-auto grid-rows-[min-content_1fr] justify-stretch rounded-3xl p-3 shadow-md',
                 cardBackground,
             ].join(' '),
-            body: 'z-2 align-center flex h-full w-full grow-1 flex-col gap-4 p-2 text-black sm:p-2',
-            header: 'z-1 kd-h3 mb-0 h-auto shrink-1 border-0 font-amatic text-2xl leading-none text-gray-900 sm:px-2 sm:pt-4 sm:pb-3',
+            body: 'z-2 align-center flex h-full w-full grow-1 flex-col gap-4 p-0 sm:p-0',
+            header: 'z-1 kd-h2 mb-0 h-auto shrink-1 border-0 font-amatic text-2xl leading-none sm:px-0 sm:py-2 sm:mb-2',
         }"
     >
         <template #header>
@@ -35,113 +48,72 @@ const borderColor = computed<string>(() => {
         />
 
         <section
-            class="z-1 order-2 mx-[-0.25rem] my-[-1.25rem] flex flex-row items-center rounded-sm border bg-gray-50/90 px-3 py-2 text-sm font-bold capitalize md:flex-col lg:flex-row dark:text-black"
+            class="z-1 order-2 mx-[-0.25rem] my-[-1.25rem] flex flex-row items-center rounded-sm border bg-white/90 px-3 text-sm font-bold capitalize md:flex-col lg:flex-row dark:bg-gray-900/80"
             :class="borderColor"
         >
             <h4 class="sr-only">Характеристики</h4>
-            <span class="mr-auto">{{ artefact.slot }}</span>
+            <span class="mr-auto leading-10">{{ artefact.slot }}</span>
             <u-popover
                 mode="hover"
                 :ui="{
-                    content: 'rounded-3xl bg-gray-50 p-6 dark:bg-slate-800',
+                    content: [
+                        ringColor,
+                        'rounded-3xl bg-white p-6 dark:bg-gray-900',
+                    ].join(' '),
                 }"
             >
                 <section class="relative flex cursor-help">
                     <h4 class="sr-only">Бонусы характеристик</h4>
-                    <ul
-                        v-if="artefact.bonus?.length"
-                        class="flex flex-wrap gap-2"
-                    >
-                        <li v-for="bonus in artefact.bonus" :key="bonus.id">
-                            <stat-badge
-                                :characteristic="bonus.characteristic"
-                                :value="bonus.value"
-                                :is-negative="bonus.isNegative"
-                                class="flex-1 text-black"
+                    <ul class="flex flex-wrap gap-2">
+                        <li v-for="(value, key) in propertiesShort" :key="key">
+                            <property-badge
+                                v-if="value !== undefined"
+                                :property="key"
+                                :class="getPropertyClass(value)"
+                                class="font-amatic text-2xl font-bold uppercase"
                             >
-                                <template #label>
-                                    <span
-                                        class="font-amatic text-2xl font-bold capitalize"
-                                        :class="`text-${bonus.isNegative ? 'red' : 'emerald'}-600`"
-                                    >
-                                        {{
-                                            `${bonus.isNegative ? '-' : '+'}${bonus.value}`
-                                        }}
-                                    </span>
-                                </template>
-                            </stat-badge>
+                                {{ value }}
+                            </property-badge>
                         </li>
                     </ul>
-                    <div class="ml-2 flex items-center gap-1 rounded p-0">
-                        <img :src="moneyIcon" alt="Золото" class="h-6 w-6 lg:h-8 lg:w-8" />
-                        <slot name="label">
-                            <span
-                                class="font-amatic text-2xl font-bold text-gray-700 uppercase"
-                            >
-                                {{ artefact?.price ?? '0' }}
-                            </span>
-                        </slot>
-                    </div>
-                    <durability-badge
-                        class="ml-2"
-                        :value="artefact.durability ?? 0"
-                    >
-                        <template #label>
-                            <span
-                                class="font-amatic text-2xl font-bold text-gray-700 uppercase"
-                            >
-                                {{ artefact.durability || '∞' }}
-                            </span>
-                        </template>
-                    </durability-badge>
                 </section>
 
                 <template #content>
                     <ul
-                        v-if="artefact.bonus.length"
                         class="font-amatic mb-3 grid gap-3 text-3xl font-bold capitalize"
                     >
-                        <li v-for="bonus in artefact.bonus" :key="bonus.id">
-                            <stat-badge
-                                :characteristic="bonus.characteristic"
-                                :value="bonus.value"
-                                :is-negative="bonus.isNegative"
-                                class="flex-1"
-                            />
+                        <li v-for="(value, key) in propertiesLong" :key="key">
+                            <property-badge
+                                v-if="value !== undefined"
+                                :property="key"
+                                :class="getPropertyClass(value)"
+                                class="font-amatic text-2xl font-bold uppercase"
+                            >
+                                {{ value }}
+                            </property-badge>
                         </li>
                     </ul>
-                    <div class="mb-3 flex items-center gap-1 rounded p-0">
-                        <img :src="moneyIcon" alt="Золото" class="h-8 w-8" />
-                        <slot name="label">
-                            <span
-                                class="font-amatic text-2xl font-bold text-gray-700 uppercase dark:text-white"
-                            >
-                                Цена {{ artefact?.price ?? '0' }}
-                            </span>
-                        </slot>
-                    </div>
-                    <durability-badge :value="artefact.durability ?? 0" />
                 </template>
             </u-popover>
         </section>
 
         <figure
-            class="relative z-0 order-1 mx-auto flex aspect-[20/15] w-full justify-center rounded-t-2xl border bg-purple-50"
+            class="relative z-0 order-1 mx-auto flex aspect-[20/15] w-full items-center justify-center rounded-t-2xl border bg-white/90 dark:bg-gray-900/80"
             :class="borderColor"
         >
             <img
                 v-if="artefact.image?.url"
                 :src="artefact.image.url"
                 :alt="artefact.name"
-                class="z-10 h-64 w-full object-contain"
+                class="obj z-10 h-64 w-full object-contain p-4"
             />
         </figure>
 
         <p
-            class="order-4 grow-1 rounded-b-2xl border bg-gray-50/90 p-2 text-sm"
+            class="text-default order-4 grow-1 rounded-b-2xl border bg-white/90 p-2 text-justify text-sm dark:bg-gray-900/80"
             :class="borderColor"
         >
             {{ artefact.description }}
         </p>
-    </u-card>
+    </kd-card>
 </template>

@@ -1,44 +1,43 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRolls, RollsCard } from '@/features/dice'
-import UPopover from '@nuxt/ui/components/Popover.vue'
-import { useUserStore } from '@/entities/user'
-import { useMapStore } from '@/entities/map'
+// import { useUserStore } from '@/entities/user'
+// import { useMapStore } from '@/entities/map'
 
 const emit = defineEmits<{
     (e: 'move-button-click', cellNumber: number): void
 }>()
 
-const userStore = useUserStore()
-const mapStore = useMapStore()
+// const userStore = useUserStore()
+// const mapStore = useMapStore()
 
 const { rolls, isLoading, error, loadRolls } = useRolls()
 
-const rollsJournalRef = ref<HTMLElement | null>(null)
+// const rollsJournalRef = ref<HTMLElement | null>(null)
 const open = ref(false)
 const selectedRoll = ref(0)
 
 const referenceElement = ref<HTMLElement | null>(null)
 
-const ascendDestination = computed<number>(() => {
-    return Math.max(1, mapStore.tokenCell - selectedRoll.value + 1)
-})
+// const ascendDestination = computed<number>(() => {
+//     return Math.max(1, mapStore.tokenCell - selectedRoll.value + 1)
+// })
 
-const descendDestination = computed<number>(() => {
-    return Math.min(
-        mapStore.lastCell,
-        mapStore.tokenCell + selectedRoll.value + 1,
-    )
-})
+// const descendDestination = computed<number>(() => {
+//     return Math.min(
+//         mapStore.lastCell,
+//         mapStore.tokenCell + selectedRoll.value + 1,
+//     )
+// })
 
-const isPopoverOpened = computed<boolean>({
-    get: () => {
-        return open.value && !mapStore.moveInterval
-    },
-    set: (value) => {
-        open.value = value
-    },
-})
+// const isPopoverOpened = computed<boolean>({
+//     get: () => {
+//         return open.value && !mapStore.moveInterval
+//     },
+//     set: (value) => {
+//         open.value = value
+//     },
+// })
 
 const handleCardClick = (result: number, target: HTMLElement) => {
     referenceElement.value = target
@@ -46,15 +45,15 @@ const handleCardClick = (result: number, target: HTMLElement) => {
     open.value = true
 }
 
-const handleMoveUpButtonClick = () => {
-    open.value = false
-    emit('move-button-click', ascendDestination.value - 1)
-}
+// const handleMoveUpButtonClick = () => {
+//     open.value = false
+//     emit('move-button-click', ascendDestination.value - 1)
+// }
 
-const handleMoveDownButtonClick = () => {
-    open.value = false
-    emit('move-button-click', descendDestination.value - 1)
-}
+// const handleMoveDownButtonClick = () => {
+//     open.value = false
+//     emit('move-button-click', descendDestination.value - 1)
+// }
 
 onMounted(async () => {
     try {
@@ -70,7 +69,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <section ref="rollsJournalRef" class="rolls-journal relative">
+    <section class="rolls-journal relative">
         <h3 class="sr-only">Журнал бросков</h3>
 
         <!-- Индикатор загрузки -->
@@ -82,11 +81,18 @@ onMounted(async () => {
         </div>
 
         <!-- Сообщение об ошибке -->
-        <div v-else-if="error" class="py-12 text-center">
-            <div class="mb-4 text-6xl">❌</div>
-            <p class="font-amatic text-2xl font-bold text-red-500">
-                {{ error }}
-            </p>
+        <div v-else-if="error" class="w-full py-12 text-center">
+            <u-empty
+                variant="naked"
+                icon="i-material-symbols:chat-error-rounded"
+                title="Ошибка"
+                size="xl"
+                :description="error"
+                :actions="[]"
+                :ui="{
+                    title: 'text-3xl text-muted',
+                }"
+            />
         </div>
 
         <!-- Пустой журнал -->
@@ -96,7 +102,7 @@ onMounted(async () => {
                 Журнал бросков пуст
             </figcaption>
         </figure>
-        <u-popover
+        <!-- <u-popover
             v-if="userStore.user"
             v-model:open="isPopoverOpened"
             :reference="rollsJournalRef?.parentElement?.parentElement ?? undefined"
@@ -136,7 +142,7 @@ onMounted(async () => {
                     </ul>
                 </div>
             </template>
-        </u-popover>
+        </u-popover> -->
         <transition-group name="roll-item" tag="ul" class="space-y-2">
             <li v-for="roll in rolls" :key="roll.id">
                 <rolls-card

@@ -27,17 +27,17 @@ marathonStore.fetchMarathon()
 
 const jwt = localStorage.getItem('jwt')
 if (jwt) {
-  getCurrentUser(jwt)
-    .then(user => {
-      const userStore = useUserStore()
-      userStore.setUser({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        avatar: user.avatar?.url || '',
-      })
-    })
-    .catch(() => {
-      localStorage.removeItem('jwt')
-    })
+    getCurrentUser()
+        .then((user) => {
+            const userStore = useUserStore()
+            userStore.setUser({
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                avatar: user.avatar?.url || '',
+            })
+        })
+        .catch(() => {
+            localStorage.removeItem('jwt')
+        })
 }

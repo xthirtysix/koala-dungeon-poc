@@ -7,55 +7,55 @@ export function useMainHeader() {
     const menuItems = computed(() => [
         {
             label: 'Главная',
-            icon: 'i-material-symbols:home-rounded',
+            icon: 'i-ph:house-simple',
             to: '/',
         },
         {
             label: 'Карта',
-            icon: 'i-material-symbols:map-rounded',
+            icon: 'i-ph:map-trifold',
             to: '/map',
             badge: 'beta',
             slot: 'components' as const,
         },
         {
             label: 'Библиотека',
-            icon: 'i-material-symbols:book-2-rounded',
+            icon: 'i-ph:book',
             active: route.path.includes('library'),
             children: [
                 {
                     label: 'Правила',
                     description: 'Основные правила игры и механики',
-                    icon: 'i-game-icons:scroll-unfurled',
+                    icon: 'i-ph:scroll',
                     to: '/library/rules',
                 },
                 {
                     label: 'Помехи',
                     description: 'Опасности и препятствия в подземелье',
-                    icon: 'i-game-icons:wolf-trap',
+                    icon: 'i-ph:bomb',
                     to: '/library/obstacles',
                 },
                 {
                     label: 'Артефакты',
                     description: 'Магические предметы и сокровища',
-                    icon: 'i-game-icons:open-treasure-chest',
+                    icon: 'i-ph:treasure-chest',
                     to: '/library/artefacts',
                 },
                 {
                     label: 'Журнал событий',
                     description: 'События и приключения в игре',
-                    icon: 'i-game-icons:bookmarklet',
+                    icon: 'i-ph:book-open-text',
                     to: '/library/events',
                 },
             ],
         },
         {
             label: 'Зал славы',
-            icon: 'i-material-symbols:crown-rounded',
+            icon: 'i-ph:crown-simple',
             to: '/leaderboard',
         },
         {
             label: 'О нас',
-            icon: 'i-material-symbols:info-rounded',
+            icon: 'i-ph:identification-card',
             to: '/about',
         },
     ])

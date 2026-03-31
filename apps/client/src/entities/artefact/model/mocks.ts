@@ -1,5 +1,5 @@
-import type { Artefact } from './types'
-import { ArtefactSlot } from './types'
+import type { Artefact } from './artefact.types'
+import { ArtefactSlot } from './artefact.types'
 
 export const artefacts: Artefact[] = [
     {

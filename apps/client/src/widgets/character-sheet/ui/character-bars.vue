@@ -12,26 +12,24 @@ defineProps<{
         <h3 class="sr-only">Здоровье и опыт</h3>
 
         <div
-            class="grid grid-cols-[max-content_1fr_max-content] items-center gap-3 @sm/char:grid-cols-[auto_auto_1fr_auto]"
+            class="font-amatic col-span-full grid grid-cols-subgrid grid-rows-[1fr_min-content_1fr_min-content] items-center text-2xl"
         >
-            <template
-                v-for="resource in resources"
-                :key="resource.label"
-                class="grid"
-            >
-                <img
-                    :src="resource.icon"
-                    :alt="resource.label"
-                    class="h-8 w-8"
-                />
+            <template v-for="resource in resources" :key="resource.label">
                 <span
-                    class="sr-only text-lg font-semibold @sm/char:not-sr-only"
+                    class="text-md sr-only font-semibold lowercase @sm/char:not-sr-only"
                 >
                     {{
                         resource.label.toLowerCase() === 'опыт'
-                            ? `Уровень ${Math.floor(resource.value / resource.max) + 1}`
+                            ? `уровень ${Math.floor(resource.value / resource.max) + 1}`
                             : resource.label
                     }}
+                </span>
+                <span class="-col-start-1 justify-self-end font-bold">
+                    {{
+                        resource.label.toLowerCase() === 'опыт'
+                            ? resource.value % XP_PER_LEVEL
+                            : resource.value
+                    }}/{{ resource.max }}
                 </span>
                 <charsheet-progressbar
                     :value="
@@ -41,14 +39,9 @@ defineProps<{
                     "
                     :max="resource.max"
                     :color="resource.color"
+                    :background-color="resource.backgroundColor"
+                    class="col-span-full"
                 />
-                <span class="font-bold">
-                    {{
-                        resource.label.toLowerCase() === 'опыт'
-                            ? resource.value % XP_PER_LEVEL
-                            : resource.value
-                    }}/{{ resource.max }}
-                </span>
             </template>
         </div>
     </section>

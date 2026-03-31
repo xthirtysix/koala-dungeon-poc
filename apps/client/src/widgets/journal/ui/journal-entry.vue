@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { JournalEntry } from '@/entities/journal'
-import { colorByJournalEntryType, heroImageByName } from '@/widgets/journal'
+import { heroImageByName } from '@/widgets/journal'
+import { BG_BY_TYPE } from '../consts/journal-colors.consts'
 
 interface Props {
     entry: JournalEntry
@@ -45,19 +46,19 @@ const getEventTypeIcon = (type: JournalEntry['type']) => {
     }
 }
 
-const badgeBackground = computed<string>(() => {
+const badgeBackground = computed(() => {
     if ('hero' in props.entry && props.entry.hero === 'Heт') {
         return 'bg-blue-100/40 dark:bg-blue-300/40'
     }
 
-    return `bg-${colorByJournalEntryType.get(props.entry.type)}-100/40 dark:bg-${colorByJournalEntryType.get(props.entry.type)}-300/40`
+    return BG_BY_TYPE.get(props.entry.type)
 })
 </script>
 
 <template>
     <u-card
         :ui="{
-            root: 'relative overflow-hidden rounded-3xl bg-stone-50/20 p-0 shadow-md duration-200 hover:shadow-md',
+            root: 'relative overflow-hidden rounded-3xl bg-gray-50/20 p-0 shadow-md duration-200 hover:shadow-md',
             body: 'flex items-start gap-3 p-4 sm:p-2',
         }"
     >

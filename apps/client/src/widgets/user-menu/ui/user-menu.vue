@@ -4,14 +4,14 @@ import { useColorMode } from '@vueuse/core'
 import type { DropdownMenuItem } from '@nuxt/ui'
 import { Theme } from '@/widgets/main-header'
 import { useUser } from '@/features/user'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/entities/user'
 
-interface Props {
+defineProps<{
     src?: string
     alt?: string
     size?: 'sm' | 'md' | 'lg' | 'xl'
-}
-
-defineProps<Props>()
+}>()
 
 const colorMode = useColorMode()
 const { logout } = useUser()
@@ -31,7 +31,7 @@ const isDark = computed({
 const items = computed<DropdownMenuItem[]>(() => [
     {
         label: isDark.value ? 'Светлая тема' : 'Тёмная тема',
-        icon: isDark.value ? 'i-lucide-sun' : 'i-lucide-moon',
+        icon: isDark.value ? 'i-ph:sun' : 'i-ph:moon-stars',
         slot: 'profile' as const,
         onClick: async () => {
             await nextTick()
@@ -40,7 +40,7 @@ const items = computed<DropdownMenuItem[]>(() => [
     },
     {
         label: 'Выйти',
-        icon: 'i-lucide-log-out',
+        icon: 'i-ph:sign-out',
         onClick: logout,
     },
 ])

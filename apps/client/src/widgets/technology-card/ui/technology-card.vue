@@ -12,10 +12,7 @@ defineOptions({
 
 <template>
     <u-card
-        :style="{
-            backgroundColor: `${technology.color}1A`,
-        }"
-        :ui="{ root: 'rounded-3xl', body: 'p-4 sm:p-4' }"
+        :ui="{ root: 'ring-0', body: 'p-4 sm:p-4' }"
     >
         <div class="flex items-center gap-2">
             <u-icon
@@ -23,7 +20,7 @@ defineOptions({
                 class="text-xl"
                 :style="{ color: technology.color }"
             />
-            <span>{{ technology.name }}</span>
+            <span class="sr-only">{{ technology.name }}</span>
         </div>
     </u-card>
 </template>

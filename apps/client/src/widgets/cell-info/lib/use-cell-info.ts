@@ -1,10 +1,15 @@
 import { type CellEvent } from '@/entities/cell'
 import { type CellEventInfo } from '@/widgets/cell-info'
+import moveUp from '@/app/assets/images/map/move_up.webp'
+import moveDown from '@/app/assets/images/map/move_down.webp'
+import checkpoint from '@/app/assets/images/map/checkpoint.webp'
+import store from '@/app/assets/images/map/store.webp'
+import boss from '@/app/assets/images/map/boss.webp'
 
 export function useCellInfo() {
     const labelByCharacteristic = new Map<string, string>([
         ['strength', 'Сила'],
-        ['agility', 'Ловкость'],
+        ['dexterity', 'Ловкость'],
         ['constitution', 'Телосложение'],
         ['wisdom', 'Мудрость'],
     ])
@@ -12,14 +17,14 @@ export function useCellInfo() {
     function getInfo(event: CellEvent): CellEventInfo {
         switch (event.type) {
             case 'checkpoint':
-                return { icon: '⛳️', title: 'Чекпоинт' }
+                return { icon: checkpoint, title: 'Чекпоинт' }
             case 'sponsor':
                 return { icon: '🤝', title: 'Спонсор' }
             case 'store':
-                return { icon: '🛒', title: 'Лавка артефактов' }
+                return { icon: store, title: 'Лавка артефактов' }
             case 'zone':
                 return {
-                    icon: event.zoneType === 'boss' ? '👾' : '🧑‍🤝‍🧑',
+                    icon: event.zoneType === 'boss' ? boss : '',
                     title:
                         event.zoneType === 'boss'
                             ? `Зона босса`
@@ -28,13 +33,13 @@ export function useCellInfo() {
                 }
             case 'descend':
                 return {
-                    icon: '🔽',
+                    icon: moveDown,
                     title: `Проверка на ${labelByCharacteristic.get(event.characteristic)} - ${event.check}`,
                     subtitle: `Переход на ${event.destinationCell} при успехе`,
                 }
             case 'ascend':
                 return {
-                    icon: '🔼',
+                    icon: moveUp,
                     title: `Проверка на ${labelByCharacteristic.get(event.characteristic)} - ${event.check}`,
                     subtitle: `Переход на ${event.destinationCell} при провале`,
                 }

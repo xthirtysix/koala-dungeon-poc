@@ -9,7 +9,8 @@ let timer: number | null = null
 
 const fetchData = async () => {
     loading.value = true
-    marathon.value = await marathonApi.fetchMarathon()
+    const result = await marathonApi.getMarathon()
+    marathon.value = result.data
     loading.value = false
 }
 
@@ -101,7 +102,7 @@ defineExpose({
         <div class="flex flex-col items-center gap-4 py-6">
             <div
                 v-if="loading"
-                class="h-8 w-64 animate-pulse rounded bg-gray-200 dark:bg-gray-700"
+                class="h-8 w-64 animate-pulse rounded bg-gray-100 dark:bg-gray-700"
             />
             <template v-else>
                 <div v-if="status">

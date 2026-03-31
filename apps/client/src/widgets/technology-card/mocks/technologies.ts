@@ -1,24 +1,29 @@
 import type { Technology } from '@/widgets/technology-card'
 
 export const technologies: Technology[] = [
-    // {
-    //     name: 'Nuxt.js',
-    //     icon: 'i-simple-icons:nuxtdotjs',
-    //     color: '#00DC82',
-    // },
     {
         name: 'Vue.js',
-        icon: 'i-simple-icons:vuedotjs',
+        icon: 'logos:vue',
         color: '#42B883',
     },
     {
         name: 'TypeScript',
-        icon: 'i-simple-icons:typescript',
+        icon: 'logos:typescript-icon',
         color: '#3178C6',
+    },
+    {
+        name: 'Pinia',
+        icon: 'logos:pinia',
+        color: '#38BDF8',
     },
     {
         name: 'Tailwind CSS',
         icon: 'i-simple-icons:tailwindcss',
         color: '#38BDF8',
     },
+    {
+        name: 'Strapi',
+        icon: 'logos:strapi-icon',
+        color: '#FF4088',
+    }
 ]

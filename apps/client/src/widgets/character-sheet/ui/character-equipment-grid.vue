@@ -11,7 +11,7 @@ const character = useCharacter()
 </script>
 
 <template>
-    <ul class="grid grid-flow-col grid-cols-subgrid grid-rows-subgrid gap-4">
+    <ul class="grid grid-flow-row grid-cols-subgrid grid-rows-subgrid gap-4">
         <li v-for="(item, idx) in equipment" :key="`slot-${idx}`">
             <character-equipment-slot
                 v-if="item"

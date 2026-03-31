@@ -7,18 +7,20 @@ export function useRolls() {
 
     const addRollAndSave = async (rollResult: RollResult): Promise<string> => {
         const rollId = store.addRoll(rollResult)
+
         try {
             await store.saveRoll(rollId)
         } catch (error) {
             console.error('Ошибка при сохранении броска:', error)
-            // Бросок остается в store как несохраненный
         }
+
         return rollId
     }
 
     const addRollOnly = (rollResult: RollResult): string => {
         return store.addRoll(rollResult)
     }
+
 
     return {
         // State - используем computed для реактивности

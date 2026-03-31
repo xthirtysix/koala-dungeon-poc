@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useMutation, useQuery, useQueryCache } from '@pinia/colada'
+import { Dice } from '@/shared/tools/dice'
 import { useMapStore } from '@/entities/map'
-import { Cell } from '@/entities/cell'
+import { marathonApi } from '@/entities/marathon'
+import { characterApi } from '@/entities/character'
+import { pathMock } from '@/widgets/path'
 import { MapCanvas } from '@/widgets/map-canvas'
-import { CellInfo } from '@/widgets/cell-info'
-import { CellMarks } from '@/widgets/cell-marks'
-import { FastDice } from '@/widgets/fast-dice'
-import { useUserStore } from '@/entities/user'
 import { CharacterSheet } from '@/widgets/character-sheet'
+import { MapPlaceholder } from '@/widgets/map-placeholder'
 import { RollConfirmAction } from '@/widgets/roll-confirm'
-import { Dice } from '@/entities/dice'
 import {
     RollsJournal,
     rollDice,
@@ -18,27 +18,39 @@ import {
     rollDiceWithDisadvantage,
     RollResult,
     useRolls,
+    useDiceModal,
 } from '@/features/dice'
-import { PlaceTokenButton } from '@/features/place-token'
-import { useMarathon } from '@/entities/marathon'
-import { MapPlaceholder } from '@/widgets/map-placeholder'
+import {
+    MapToolbar,
+    MapToolbarActions,
+    type HandleCheckRollParams,
+} from '@/features/map-toolbar'
+import { MoveTokenOptions, useMapMovement } from '@/features/token'
+import { DYNAMIC_STYLES } from '../consts/map.consts'
+import { useStorage } from '@vueuse/core'
+import { STORAGE_KEY } from '@/features/map-toolbar/config/compact-toolbar.flag'
 
 const route = useRoute()
+const diceModal = useDiceModal()
+const queryCache = useQueryCache()
 const mapStore = useMapStore()
-const userStore = useUserStore()
 const { addRollAndSave } = useRolls()
-const { marathon, isLoading: marathonLoading } = useMarathon()
-const map = ref<InstanceType<typeof MapCanvas> | null>(null)
-const showCellInfo = ref(false)
-const isMapReady = ref(false)
+const { movementStrategy, teleport, walk } = useMapMovement({ path: pathMock })
 
-onMounted(async () => {
-    await mapStore.loadCustomMarksFromServer()
+const map = ref<InstanceType<typeof MapCanvas> | null>(null)
+const mapPageContainer = ref<HTMLDivElement | null>(null)
+const isMapReady = ref(false)
+const isMapLocked = ref(false)
+const isToolbarCompact = useStorage(STORAGE_KEY, false)
+
+const { data: marathon, isLoading } = useQuery({
+    key: ['marathon'],
+    query: () => marathonApi.getMarathon(),
 })
 
 const rollStrategiesMap = new Map<
     RollConfirmAction,
-    (dice: Dice) => RollResult | void
+    (dice: Dice, bonus?: number) => RollResult | void
 >([
     ['forward', rollDice],
     ['backward', rollDice],
@@ -48,10 +60,6 @@ const rollStrategiesMap = new Map<
     ['cancel', () => {}],
 ])
 
-const currentCell = computed<Cell>(
-    () => mapStore.enrichedCells[mapStore.currentCell],
-)
-
 const isMapAvailable = computed(() => {
     if (route.query.map === 'enabled') {
         return true
@@ -60,21 +68,26 @@ const isMapAvailable = computed(() => {
     if (!marathon.value) return false
 
     return (
-        marathon.value?.isActive &&
-        new Date(marathon.value?.startTime).getTime() < Date.now()
+        marathon.value?.data.isActive &&
+        new Date(marathon.value?.data.startTime).getTime() < Date.now()
     )
 })
 
-function handlePageClick(event: MouseEvent) {
+function onPageClick(event: MouseEvent) {
     if (event.target instanceof SVGCircleElement) return
-    showCellInfo.value = false
+    mapStore.currentCell = -1
 }
 
-function handleMapClick() {
-    showCellInfo.value = true
+async function onMoveToken(index: number, { teleport }: MoveTokenOptions) {
+    try {
+        isMapLocked.value = true
+        await movementStrategy.get(teleport)?.(index)
+    } finally {
+        isMapLocked.value = false
+    }
 }
 
-async function handleRoll(result: { action: RollConfirmAction; dice?: Dice }) {
+async function onDiceRoll(result: { action: RollConfirmAction; dice?: Dice }) {
     if (!result.dice) return
 
     const rollResult = rollStrategiesMap.get(result.action)?.(result.dice)
@@ -87,89 +100,145 @@ async function handleRoll(result: { action: RollConfirmAction; dice?: Dice }) {
         console.error('Ошибка при сохранении результата броска:', error)
     }
 }
+
+const { mutate: unlockMovement } = useMutation({
+    mutation: () => characterApi.unlockMovement(),
+    onSuccess: () => {
+        queryCache.invalidateQueries({ key: ['main-character'] })
+    },
+    onError: (error) => {
+        console.error('Ошибка при разблокировке движения:', error)
+    },
+})
+
+async function onCheckRoll({
+    rollData,
+    checkData,
+    bonus,
+}: HandleCheckRollParams) {
+    if (!rollData.dice) return
+
+    const rollResult = rollStrategiesMap.get(rollData.action)?.(
+        rollData.dice,
+        bonus,
+    )
+
+    if (!rollResult) return
+
+    try {
+        await addRollAndSave(rollResult)
+        const destinationIndex = checkData.destination - 1
+
+        const shallMove =
+            mapStore.tokenCell > destinationIndex
+                ? rollResult.result < checkData.check
+                : rollResult.result >= checkData.check
+
+        if (shallMove) {
+            await teleport(destinationIndex)
+            return
+        }
+
+        unlockMovement()
+    } catch (error) {
+        console.error('Ошибка при разблокировке движения:', error)
+    }
+}
+
+async function onDiceSelect(dice: Dice) {
+    const rollData = await diceModal.openRollConfirm(dice)
+
+    onDiceRoll(rollData)
+}
+
+watch(isToolbarCompact, () => {
+    if (!mapPageContainer.value) return
+
+    const handleTransitionEnd = (event: TransitionEvent) => {
+        if (event.propertyName === 'grid-template-columns') {
+            map.value?.updateImageMetrics()
+            mapPageContainer.value?.removeEventListener('transitionend', handleTransitionEnd)
+        }
+    }
+
+    mapPageContainer.value.addEventListener('transitionend', handleTransitionEnd)
+})
 </script>
 
 <template>
     <div
-        v-if="marathonLoading"
-        class="relative flex h-full flex-col items-start justify-start gap-4 md:grid md:grid-cols-[2fr_1fr]"
+        v-if="isLoading"
+        class="relative flex h-full flex-col items-start justify-start gap-3 [transition:grid-template-columns_300ms_ease] md:grid"
+        :class="
+            isToolbarCompact
+                ? DYNAMIC_STYLES.GRID_COMPACT
+                : DYNAMIC_STYLES.GRID_FULL
+        "
     >
-        <u-skeleton class="h-full w-full rounded-3xl" />
-        <div class="grid h-full w-full gap-4 md:grid-rows-[606px_auto]">
-            <u-skeleton class="row-span-1 w-full rounded-3xl" />
-            <u-skeleton class="row-span-1 w-full rounded-3xl" />
+        <u-skeleton class="h-full w-full rounded-xl" />
+        <u-skeleton class="h-full w-full rounded-xl" />
+        <div class="grid h-full w-full gap-3 md:grid-rows-2">
+            <u-skeleton class="row-span-1 w-full rounded-xl" />
+            <u-skeleton class="row-span-1 w-full rounded-xl" />
         </div>
     </div>
 
     <map-placeholder v-else-if="!isMapAvailable" :marathon="marathon" />
 
     <div
+        ref="mapPageContainer"
         v-else
-        class="relative flex flex-col h-full items-start justify-start gap-4 md:grid md:grid-cols-[2fr_1fr]"
+        :class="
+            isToolbarCompact
+                ? DYNAMIC_STYLES.GRID_COMPACT
+                : DYNAMIC_STYLES.GRID_FULL
+        "
+        class="relative flex h-full flex-col items-start justify-start gap-3 [transition:grid-template-columns_300ms_ease] md:grid"
     >
-        <div class="relative container h-[600px] md:h-full w-full">
-            <div class="h-full overflow-auto rounded-3xl rounded-b-[2.5rem]">
+        <map-toolbar
+            class="overflow-hidden"
+            @token-cell-click="map?.focusToken"
+            @roll-dice="onDiceRoll"
+            @check-dice="onCheckRoll"
+            @move-token="onMoveToken"
+        >
+            <template #actions>
+                <map-toolbar-actions
+                    @find-token="map?.focusToken"
+                    @roll-dice="onDiceSelect"
+                />
+            </template>
+        </map-toolbar>
+
+        <div class="relative container h-[600px] w-full md:h-full">
+            <div class="h-full overflow-auto rounded-xl">
                 <map-canvas
                     ref="map"
-                    @cell-click="handleMapClick"
-                    @click.capture="handlePageClick"
+                    @click.capture="onPageClick"
                     @map-ready="isMapReady = true"
                 />
-                <transition name="fade-scale" appear mode="out-in">
-                    <cell-info
-                        v-if="showCellInfo"
-                        :events="
-                            currentCell.events?.length
-                                ? currentCell.events
-                                : [{ type: null }]
-                        "
-                        :cell-number="mapStore.currentCell"
-                        class="absolute top-auto bottom-2 left-2 z-100"
-                        @click.stop
-                    >
-                        <template #default="{ cellNumber }">
-                            <place-token-button
-                                class="z-1"
-                                @click="map?.moveTokenTo(cellNumber)"
-                            />
-                            <cell-marks :cell-number="cellNumber" />
-                        </template>
-                    </cell-info>
-                </transition>
             </div>
-            <fast-dice
-                v-if="userStore.user && isMapReady"
-                class="absolute right-2 bottom-2 z-100"
-                @roll="handleRoll"
-            />
         </div>
+
         <div
-            class="@container/char grid h-full w-full grid-rows-[max-content_1fr] gap-4 sm:max-h-[calc(100vh-8.5rem)]"
+            class="@container/char grid h-full w-full grid-rows-[max-content_1fr] gap-3 sm:max-h-[calc(100vh-7.1rem)]"
         >
-            <character-sheet @token-click="map?.focusToken()" />
             <u-card
                 :ui="{
-                    root: 'col-span-full rounded-3xl overflow-y-auto h-[300px] md:h-full',
-                    body: 'p-2 sm:p-2 overflow-y-auto',
+                    root: 'rounded-xl',
+                    body: 'p-2 sm:p-2',
                 }"
             >
-                <rolls-journal @move-button-click="map?.moveTokenTo($event)" />
+                <character-sheet @token-click="map?.focusToken()" />
+            </u-card>
+            <u-card
+                :ui="{
+                    root: 'rounded-xl overflow-y-auto h-[300px] md:h-full',
+                    body: 'p-2 sm:p-2',
+                }"
+            >
+                <rolls-journal @move-button-click="walk($event)" />
             </u-card>
         </div>
     </div>
 </template>
-
-<style scoped>
-.fade-scale-enter-active,
-.fade-scale-leave-active {
-    @apply transition-all duration-300;
-}
-.fade-scale-enter-from,
-.fade-scale-leave-to {
-    @apply scale-90 opacity-0;
-}
-.fade-scale-enter-to,
-.fade-scale-leave-from {
-    @apply opacity-100;
-}
-</style>

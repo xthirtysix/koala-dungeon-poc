@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import type {
+    ProgressbarBackground,
+    ProgressbarForeground,
+} from '@/shared/model/colors.types'
+
 withDefaults(
     defineProps<{
         value: number
         max: number
-        color?: string
+        color?: ProgressbarForeground
+        backgroundColor?: ProgressbarBackground
     }>(),
     {
-        color: 'green',
+        color: '[&::-webkit-progress-value]:bg-green-500',
+        backgroundColor: '[&::-webkit-progress-bar]:bg-green-100',
         value: 0,
         max: 100,
     },
@@ -15,7 +22,7 @@ withDefaults(
 
 <template>
     <progress
-        :class="`relative h-4 w-full overflow-hidden rounded-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-${color}-100 [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-${color}-500 before:absolute before:top-0 before:left-0 before:h-full before:w-full before:bg-[linear-gradient(180deg,rgba(255,255,255,0.7)_0%,rgba(255,255,255,0.15)_40%,rgba(255,255,255,0)_100%)]`"
+        :class="`dark:[&::-webkit-progress-bar]:bg-elevated relative h-2 w-full overflow-hidden rounded-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-value]:rounded-lg ${backgroundColor} ${color}`"
         :value="value"
         :max="max"
     />

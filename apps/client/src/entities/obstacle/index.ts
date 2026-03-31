@@ -1,7 +1,6 @@
 export * from './model/types'
 export * from './model/mocks'
 export * from './model/obstacles-filter'
-export * from './lib/obstacle-colors.util.ts'
 export { default as ObstacleCard } from './ui/obstacle-card.vue'
 export { LOADING_LABELS } from './consts/loadingLabels.ts'
-export { default as obstaclesApi } from './api/obstacles.ts'
+export { default as obstaclesApi } from './api/obstacles.api.ts'

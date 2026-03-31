@@ -11,8 +11,8 @@ export const useMarathonStore = defineStore('marathon', () => {
         try {
             isLoading.value = true
             error.value = null
-            const result = await marathonApi.fetchMarathon()
-            marathon.value = result
+            const result = await marathonApi.getMarathon()
+            marathon.value = result.data
         } catch (e) {
             error.value =
                 e instanceof Error ? e.message : 'Ошибка загрузки марафона'

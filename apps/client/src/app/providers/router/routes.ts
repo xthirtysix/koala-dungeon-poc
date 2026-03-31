@@ -1,4 +1,4 @@
-import { DefaultLayout, GameLayout } from '@/shared/ui/layouts'
+import { DefaultLayout, GameLayout, SidebarLayout } from '@/shared/ui/layouts'
 
 export const routes = [
     {
@@ -69,6 +69,14 @@ export const routes = [
         path: '/auth',
         name: 'auth',
         component: () => import('@/pages/auth'),
+        meta: {
+            layout: DefaultLayout,
+        },
+    },
+    {
+        path: '/auction/:id',
+        name: 'auction',
+        component: () => import('@/pages/auction'),
         meta: {
             layout: DefaultLayout,
         },

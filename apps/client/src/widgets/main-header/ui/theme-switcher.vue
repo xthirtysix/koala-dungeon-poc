@@ -18,10 +18,10 @@ const isDark = computed({
 
 <template>
     <u-button
-        :icon="isDark ? 'i-lucide:sun' : 'i-lucide:moon'"
+        :icon="isDark ? 'i-ph:sun' : 'i-ph:moon-stars'"
         color="neutral"
         variant="ghost"
-        class="rounded-xl text-muted hover:text-highlighted"
+        class="rounded-xl hover:text-highlighted"
         @click="isDark = !isDark"
     />
 </template>

@@ -20,4 +20,11 @@ export const footerLinks: FooterLink[] = [
         icon: 'i-simple-icons:boosty',
         color: 'text-orange-500',
     },
+    {
+        name: 'movies.aloekoala.ru',
+        href: 'https://movies.aloekoala.ru',
+        icon: 'i-mdi:koala',
+        color: 'text-gray-500',
+    },
+
 ]

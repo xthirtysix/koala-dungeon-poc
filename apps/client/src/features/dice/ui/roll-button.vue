@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Dice } from '@/entities/dice'
+import { Dice } from '@/shared/tools/dice'
 import {
     type RollResult,
     rollDice,

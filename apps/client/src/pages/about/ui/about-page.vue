@@ -20,6 +20,6 @@ defineOptions({
         </div>
 
         <team-members-list title="Команда разработчиков" :members="team" />
-        <technologies-list title="Технологии" :technologies="technologies" />
+        <technologies-list title="Разработано с помощью" :technologies="technologies" />
     </div>
 </template>

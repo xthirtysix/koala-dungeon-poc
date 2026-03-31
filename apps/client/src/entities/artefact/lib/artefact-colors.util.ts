@@ -5,7 +5,7 @@ export const colorByArtefactSlot = new Map<ArtefactSlot, TailwindLiteralColor>([
     [ArtefactSlot.Weapon, 'red'],
     [ArtefactSlot.Head, 'green'],
     [ArtefactSlot.Chest, 'blue'],
-    [ArtefactSlot.Hands, 'purple'],
-    [ArtefactSlot.Feet, 'orange'],
-    [ArtefactSlot.Belt, 'stone'],
+    [ArtefactSlot.Hands, 'violet'],
+    [ArtefactSlot.Feet, 'yellow'],
+    [ArtefactSlot.Belt, 'gray'],
 ])

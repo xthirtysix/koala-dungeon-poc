@@ -53,7 +53,7 @@ const onSubmit = async () => {
     <div class="flex items-center justify-center">
         <u-card
             :ui="{
-                root: 'rounded-lg bg-white dark:bg-gray-800 shadow-sm transition-all duration-200 border-0 w-full max-w-md',
+                root: 'rounded-lg shadow-sm duration-200 border-0 w-full max-w-md',
                 body: 'p-8 grid items-center justify-center',
             }"
         >

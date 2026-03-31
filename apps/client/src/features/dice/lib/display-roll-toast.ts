@@ -1,5 +1,5 @@
-import { Dice, DiceIcon } from '@/entities/dice'
-import { type RollResult } from '@/features/dice'
+import { Dice, DiceIcon } from '@/shared/tools/dice'
+import type { RollResult } from '../model/roll-result.type'
 
 const TOAST_DURATION = 10_000
 

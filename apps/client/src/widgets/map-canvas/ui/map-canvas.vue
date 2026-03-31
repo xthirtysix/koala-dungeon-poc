@@ -11,9 +11,11 @@ import {
 import { HeroToken } from '@/entities/token'
 import { useMapStore } from '@/entities/map'
 import { MapPath, pathMock } from '@/widgets/path'
-import { useCharacter, characterApi } from '@/entities/character'
+import { useCharacter } from '@/entities/character'
 import { storeToRefs } from 'pinia'
-import mapBackground from '@/app/assets/images/map_autumn_25.webp'
+import mapBackgroundImage from '@/app/assets/images/map_autumn_25.webp'
+import { useMapMovement } from '@/features/token'
+const mapBackground = mapBackgroundImage
 
 const DEV_MODE = false
 
@@ -32,13 +34,15 @@ const isImageLoaded = ref<boolean>(false)
 
 const { tokenCell: currentCellIndex } = storeToRefs(useMapStore())
 
+const { walk } = useMapMovement({ path: pathPoints.value })
+
 const emit = defineEmits<{
     (e: 'cell-click'): void
     (e: 'map-ready'): void
 }>()
 
 const mapStore = useMapStore()
-const { setMoveInterval, clearMoveInterval } = mapStore
+const { clearMoveInterval } = mapStore
 
 let resizeHandler: WatchStopHandle | null = null
 
@@ -88,38 +92,6 @@ const pointsPx = computed(() => {
     }))
 })
 
-async function moveTokenTo(targetIndex: number) {
-    const clampedIndex = Math.max(
-        0,
-        Math.min(targetIndex, pathPoints.value.length - 1),
-    )
-    if (clampedIndex === currentCellIndex.value) return
-    clearMoveInterval()
-    const step = clampedIndex > currentCellIndex.value ? 1 : -1
-
-    // Отправляем PUT запрос для обновления позиции персонажа
-    try {
-        await characterApi.updateMapPlacement(clampedIndex + 1)
-    } catch (error) {
-        console.error('Ошибка при обновлении позиции персонажа:', error)
-    }
-
-    // Если разница между targetIndex и currentCellIndex > 20, просто обновляем currentCellIndex и выходим
-    if (Math.abs(clampedIndex - currentCellIndex.value) >= 20) {
-        currentCellIndex.value = targetIndex
-        return
-    }
-
-    setMoveInterval(setInterval(async () => {
-        currentCellIndex.value += step
-        if (currentCellIndex.value === clampedIndex) {
-            clearMoveInterval()
-            await nextTick()
-            focusToken()
-        }
-    }, 250))
-}
-
 function cleanup() {
     clearMoveInterval()
     if (mapContainer.value) {
@@ -143,7 +115,7 @@ const { data: character } = useCharacter()
 
 watch(
     () => character.value?.map_placement,
-    (
+    async (
         newMapPlacement: number | null | undefined,
         oldMapPlacement: number | null | undefined,
     ) => {
@@ -158,7 +130,7 @@ watch(
         }
 
         if (newMapPlacement !== undefined && newMapPlacement !== null) {
-            moveTokenTo(newMapPlacement - 1)
+            await walk(newMapPlacement - 1)
         }
     },
     { immediate: true },
@@ -201,8 +173,8 @@ onUnmounted(() => {
 })
 
 defineExpose({
-    moveTokenTo,
     focusToken,
+    updateImageMetrics,
 })
 </script>
 
@@ -227,7 +199,7 @@ defineExpose({
             <hero-token
                 ref="token"
                 :current-cell="pointsPx[currentCellIndex]"
-                name="AloeKoala"
+                player-name="AloeKoala"
             />
             <map-path
                 :path="mapStore.enrichedCells"
@@ -242,10 +214,10 @@ defineExpose({
             ref="mapImg"
             :src="mapBackground"
             alt="Карта Подземелья"
-            class="pointer-events-auto absolute z-10 block w-full cursor-crosshair object-contain select-none"
+            class="pointer-events-auto absolute z-10 block w-full cursor-crosshair object-contain brightness-80 select-none"
             draggable="false"
             @click="handleMapClick"
         />
     </div>
-    <u-skeleton v-else class="h-full w-full rounded-3xl" />
+    <u-skeleton v-else class="h-full w-full rounded-xl" />
 </template>

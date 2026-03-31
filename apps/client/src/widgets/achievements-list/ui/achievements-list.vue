@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { achievementApi, type Achievement } from '@/entities/achievement'
-import { AchievementCard } from '@/widgets/achievements-list'
+import AchievementCard from './achievement-card.vue'
+
 const emit = defineEmits<{
     (e: 'close'): void
 }>()
@@ -14,12 +15,12 @@ const loadAchievements = async () => {
     isLoading.value = true
     error.value = null
     try {
-        const { achievements: fetchedAchievements } =
-            await achievementApi.fetchAchievements({
+        const { data } =
+            await achievementApi.getAchievements({
                 pageSize: 100,
                 isHidden: false,
             })
-        achievements.value = fetchedAchievements
+        achievements.value = data
     } catch (e: any) {
         error.value = 'Ошибка загрузки ачивок'
         console.error('Ошибка при загрузке ачивок:', e)

@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import { ref, shallowRef, onMounted, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import type { TabsItem } from '@nuxt/ui'
+import { LOADING_LABELS } from '../consts/loadingLabels'
 import { spiritApi, type Spirit } from '@/entities/spirit'
-import { fetchCatchers } from '@/entities/catcher'
-import type { Catcher } from '@/entities/catcher/model/types'
 import { AdvertisingBanner } from '@/entities/banner'
 import { usePageBanner } from '@/entities/banner/model/usePageBanner'
-import { LeaderCard } from '@/widgets/leader-card'
 import { SpiritList } from '@/widgets/spirit-list'
+import { SpiritCard } from '@/widgets/spirit-card'
 import { AchievementsList } from '@/widgets/achievements-list'
 import { PageName } from '@/shared/config'
 import { useLoadingLabels } from '@/shared/composables'
-import { LOADING_LABELS } from '@/pages/leaderboard'
-import { useRoute, useRouter } from 'vue-router'
-import type { TabsItem } from '@nuxt/ui'
-import { CatchersList } from '@/widgets/catchers-list'
 
 const PAGE_SIZE = 25
 const currentPage = ref(1)
@@ -25,10 +22,6 @@ const error = ref<string | null>(null)
 const isAchievementsDrawerOpen = ref(false)
 const route = useRoute()
 const router = useRouter()
-
-const catchers = ref<Catcher[]>([])
-const catchersLoading = ref(false)
-const catchersError = ref<string | null>(null)
 
 const tabs: TabsItem[] = [
     {
@@ -52,37 +45,23 @@ const loadPage = async (page: number, append = false) => {
     else isLoadingMore.value = true
     error.value = null
     try {
-        const { spirits, pagination } = await spiritApi.fetchSpirits({
+        const response = await spiritApi.getSpirits({
             page,
             pageSize: PAGE_SIZE,
             isHidden: false,
         })
         if (append) {
-            allSpirits.value = [...allSpirits.value, ...spirits]
+            allSpirits.value = [...allSpirits.value, ...response.data]
         } else {
-            allSpirits.value = spirits
+            allSpirits.value = response.data
         }
-        hasNextPage.value = pagination.total > page * PAGE_SIZE
+        hasNextPage.value = response.meta?.pagination?.total > page * PAGE_SIZE
         currentPage.value = page
     } catch (e: any) {
         error.value = 'Ошибка загрузки'
     } finally {
         isLoading.value = false
         isLoadingMore.value = false
-    }
-}
-
-const loadCatchers = async () => {
-    try {
-        catchersLoading.value = true
-        catchersError.value = null
-        const result = await fetchCatchers.fetch({ page: 1, pageSize: 20 })
-        catchers.value = result.catchers
-    } catch (err) {
-        catchersError.value = err instanceof Error ? err.message : 'Произошла ошибка при загрузке данных'
-        console.error('Ошибка загрузки ловцов:', err)
-    } finally {
-        catchersLoading.value = false
     }
 }
 
@@ -128,10 +107,7 @@ function openAchievementsDrawer() {
 }
 
 onMounted(async () => {
-    await Promise.all([
-        loadPage(1),
-        loadCatchers()
-    ])
+    await loadPage(1)
 })
 </script>
 
@@ -139,7 +115,7 @@ onMounted(async () => {
     <div class="mb-8 flex items-baseline justify-between">
         <h1 class="kd-h1 mb-0">Зал славы</h1>
         <u-button
-            icon="i-game-icons:trophy"
+            icon="i-solar:medal-star-linear"
             label="Ачивки"
             variant="solid"
             color="primary"
@@ -150,7 +126,7 @@ onMounted(async () => {
             }"
         />
     </div>
-    <u-tabs
+    <!-- <u-tabs
         v-model="active"
         :items="tabs"
         :ui="{
@@ -162,40 +138,44 @@ onMounted(async () => {
         }"
         size="lg"
     >
-        <template #top_spirits>
-            <div
-                v-if="isLoading"
-                class="font-amatic py-10 text-center text-4xl font-bold"
-            >
-                Загрузка...
-            </div>
-            <div v-else-if="error" class="py-10 text-center text-red-500">
-                {{ error }}
-            </div>
-            <u-container v-else class="px-0 md:px-0 lg:px-0">
-                <h3 class="font-amatic mb-4 text-3xl font-bold">Топ духов</h3>
-                <div :class="topThreeClasses">
-                    <advertising-banner
-                        v-if="leaderboardsBanner"
-                        :banner="leaderboardsBanner"
-                        :width="190"
-                    />
+        <template #top_spirits> -->
+    <div
+        v-if="isLoading"
+        class="font-amatic py-10 text-center text-4xl font-bold"
+    >
+        Загрузка...
+    </div>
+    <div v-else-if="error" class="py-10 text-center text-red-500">
+        {{ error }}
+    </div>
+    <u-container v-else class="px-0 md:px-0 lg:px-0">
+        <h3 class="font-amatic mb-4 text-3xl font-bold">Топ духов</h3>
+        <div :class="topThreeClasses">
+            <advertising-banner
+                v-if="leaderboardsBanner"
+                :banner="leaderboardsBanner"
+                :width="190"
+            />
 
-                    <leader-card
-                        v-for="(hero, index) in topHeroes"
-                        :key="hero.id"
-                        v-bind="getLeaderCardProps(hero, index)"
-                    />
-                </div>
+            <spirit-card
+                v-for="(hero, index) in topHeroes"
+                :key="hero.id"
+                :spirit="hero"
+                :place="index + 1"
+                achievements
+                vertical
+                with-data
+            />
+        </div>
 
-                <spirit-list
-                    :spirits="allSpirits"
-                    :is-loading-more="isLoadingMore"
-                    :loading-label="loadingLabel"
-                    @load-more="loadPage(currentPage + 1, true)"
-                />
-            </u-container>
-        </template>
+        <spirit-list
+            :spirits="allSpirits"
+            :is-loading-more="isLoadingMore"
+            :loading-label="loadingLabel"
+            @load-more="loadPage(currentPage + 1, true)"
+        />
+    </u-container>
+    <!-- </template>
         <template #catch_koala>
             <div>
                 <h3 class="font-amatic mb-4 text-3xl font-bold">
@@ -209,7 +189,7 @@ onMounted(async () => {
                 />
             </div>
         </template>
-    </u-tabs>
+    </u-tabs> -->
 
     <u-drawer
         v-model:open="isAchievementsDrawerOpen"

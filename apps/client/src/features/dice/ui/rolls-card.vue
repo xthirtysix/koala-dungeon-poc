@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Dice, DiceIcon } from '@/entities/dice'
+import { Dice, DiceIcon } from '@/shared/tools/dice'
 import { ref } from 'vue'
 
 interface Props {
@@ -43,11 +43,12 @@ const getDiceName = (dice: number) => {
     return Dice[dice] || `d${dice}`
 }
 
-const getDiceIconBgColor = (roll: any) => {
-    if (roll.isAdvantage) return 'bg-green-100/40 dark:bg-green-300/40'
-    if (roll.isDisadvantage) return 'bg-red-100/40 dark:bg-red-300/40'
+const getResultColorByRollType = (roll: any) => {
+    if (roll.isNatural) return 'text-yellow-500'
+    if (roll.isAdvantage) return 'text-green-400'
+    if (roll.isDisadvantage) return 'text-red-400'
 
-    return 'bg-blue-100/40 dark:bg-blue-300/40'
+    return 'text-muted'
 }
 
 const getRemainingRoll = (roll: any) => {
@@ -76,20 +77,19 @@ const getMaxDiceValue = (rollResult: any) => {
 <template>
     <u-card
         :ui="{
-            root: 'relative overflow-hidden rounded-2xl bg-stone-50/20 p-0 shadow-sm duration-200 hover:shadow-md',
-            body: 'flex items-start gap-2 p-2 sm:p-2 sm:pr-4',
+            root: 'relative overflow-hidden rounded-lg p-0',
+            body: 'flex items-center gap-2 p-2 sm:p-2 sm:pr-4',
         }"
         @click="isPopoverOpened = true"
     >
         <u-icon
-            class="relative z-1 flex h-12 w-12 items-center justify-center rounded-xl p-1.5 text-xl shadow-inner"
-            :class="getDiceIconBgColor(roll.rollResult)"
+            class="relative z-1 flex h-11 w-11 items-center justify-center rounded-md bg-neutral-100 p-1.5 text-xl text-gray-500 dark:bg-gray-700 dark:text-gray-400"
             :name="getDiceIcon(getMaxDiceValue(roll.rollResult))"
         />
 
         <div class="min-w-0">
             <p
-                class="min-w-0 pb-2 text-sm font-medium text-gray-900 dark:text-gray-100"
+                class="min-w-0 pb-0 text-sm font-medium text-gray-900 dark:text-gray-100"
             >
                 {{ getDiceName(getMaxDiceValue(roll.rollResult)) }}
             </p>
@@ -101,20 +101,19 @@ const getMaxDiceValue = (rollResult: any) => {
             </time>
         </div>
 
-        <div
-            class="ml-auto grid justify-end self-center text-right leading-tight"
-        >
+        <p class="ml-auto flex">
             <span
-                class="text-xl font-bold text-gray-900 sm:text-xl dark:text-gray-100"
+                class="font-amatic text-3xl font-bold"
+                :class="getResultColorByRollType(roll.rollResult)"
             >
                 {{ roll.rollResult.result }}
             </span>
             <span
                 v-if="getRemainingRoll(roll.rollResult)"
-                class="text-sm text-gray-500 dark:text-gray-400"
+                class="font-amatic text-2xl font-bold text-gray-500 dark:text-gray-400"
             >
-                {{ getRemainingRoll(roll.rollResult) }}
+                / {{ getRemainingRoll(roll.rollResult) }}
             </span>
-        </div>
+        </p>
     </u-card>
 </template>

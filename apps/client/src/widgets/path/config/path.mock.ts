@@ -114,7 +114,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'ascend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 11,
                 destinationCell: 13,
             },
@@ -127,7 +127,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'descend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 11,
                 destinationCell: 25,
             },
@@ -294,7 +294,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'descend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 12,
                 destinationCell: 50,
             },
@@ -439,7 +439,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'ascend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 14,
                 destinationCell: 57,
             },
@@ -694,7 +694,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'descend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 16,
                 destinationCell: 108,
             },
@@ -707,7 +707,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'ascend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 16,
                 destinationCell: 102,
             },
@@ -821,7 +821,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'ascend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 17,
                 destinationCell: 115,
             },
@@ -862,7 +862,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'descend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 17,
                 destinationCell: 130,
             },
@@ -1196,7 +1196,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'descend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 19,
                 destinationCell: 180,
             },
@@ -1280,7 +1280,7 @@ export const pathMock: Cell[] = [
             },
             {
                 type: 'ascend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 20,
                 destinationCell: 184,
             },
@@ -1510,7 +1510,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'ascend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 22,
                 destinationCell: 219,
             },
@@ -1619,7 +1619,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'ascend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 22,
                 destinationCell: 236,
             },
@@ -1632,7 +1632,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'descend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 22,
                 destinationCell: 245,
             },
@@ -1837,7 +1837,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'descend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 24,
                 destinationCell: 276,
             },
@@ -1966,7 +1966,7 @@ export const pathMock: Cell[] = [
         events: [
             {
                 type: 'ascend',
-                characteristic: 'agility',
+                characteristic: 'dexterity',
                 check: 25,
                 destinationCell: 286,
             },

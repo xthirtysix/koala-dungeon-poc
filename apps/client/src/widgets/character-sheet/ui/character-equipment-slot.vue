@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { type Artefact } from '@/entities/artefact'
-import strengthIcon from '@/app/assets/images/characteristics/0_strength.webp'
-import constitutionIcon from '@/app/assets/images/characteristics/1_constitution.webp'
-import dexterityIcon from '@/app/assets/images/characteristics/2_dexterity.webp'
-import wisdomIcon from '@/app/assets/images/characteristics/3_wisdom.webp'
-import durabilityIcon from '@/app/assets/images/characteristics/curse_icon.webp'
+import { PropertyBadge } from '@/widgets/property-badge'
+import {
+    useArtefactProperties,
+    type FilteredArtefactProperties,
+    type Artefact,
+} from '@/entities/artefact'
 import { type CharacterSlot } from '@/entities/character'
 
 const props = defineProps<{
@@ -14,38 +14,23 @@ const props = defineProps<{
     usages?: number
 }>()
 
-const charIcons: Record<string, string> = {
-    сила: strengthIcon,
-    телосложение: constitutionIcon,
-    ловкость: dexterityIcon,
-    мудрость: wisdomIcon,
-}
+const { propertiesLong, getPropertyClass } = useArtefactProperties(
+    props.artefact as Artefact | null,
+)
 
-const getArtefactDetails = computed(() => {
-    if (!props.artefact) return []
-    const details = []
-    if (props.artefact.bonus && Array.isArray(props.artefact.bonus)) {
-        details.push(
-            ...props.artefact.bonus.map((bonus: any) => ({
-                type: 'bonus',
-                ...bonus,
-            })),
-        )
-    }
-    if (typeof props.artefact.durability !== 'undefined') {
-        details.push({
-            type: 'durability',
-            value: props.artefact.durability,
-        })
-    }
-    return details
+const filteredPropertiesLong = computed<FilteredArtefactProperties>(() => {
+    if (!propertiesLong.value) return
+
+    const { price, ...filteredProperties } = propertiesLong.value
+
+    return filteredProperties
 })
 
-const popoverLabel = computed<string | undefined>(() => {
+const durabilityLabel = computed<string | undefined>(() => {
     if (!props.artefact || !props.slot) return undefined
 
-    return props.artefact?.durability
-        ? `Прочность ${Math.max(props.artefact.durability - (props.usages ?? 0), 0)}`
+    return props.artefact?.properties?.durability
+        ? `Прочность ${Math.max(props.artefact.properties.durability - (props.usages ?? 0), 0)} из ${props.artefact.properties.durability}`
         : 'Не ломается'
 })
 
@@ -77,7 +62,7 @@ const labelBySlot = computed<string>(() => {
         }"
     >
         <figure
-            class="border-inverted relative flex min-h-0 w-auto items-center justify-center rounded-3xl border bg-gray-200 text-gray-400 capitalize dark:bg-gray-700"
+            class="relative flex min-h-20 w-auto items-center justify-center rounded-3xl bg-gray-100 py-1 text-gray-400 capitalize ring-1 ring-gray-300 dark:bg-gray-700 dark:ring-gray-500"
             :class="{
                 'cursor-help': !!artefact,
                 'border-dashed': !artefact,
@@ -85,11 +70,11 @@ const labelBySlot = computed<string>(() => {
         >
             <img
                 v-if="artefact"
-                class="h-auto w-[75%]"
+                class="h-auto max-h-18 w-auto"
                 :src="artefact?.image?.url"
-                :alt="artefact?.image?.alt"
+                :alt="artefact?.name"
             />
-            <span v-else class="font-amatic text-2xl font-bold">
+            <span v-else class="font-amatic mx-2 truncate text-2xl font-bold">
                 {{ labelBySlot }}
             </span>
         </figure>
@@ -97,62 +82,34 @@ const labelBySlot = computed<string>(() => {
         <template #content>
             <article
                 v-if="artefact"
-                class="bg-base flex max-w-70 flex-col items-center justify-center p-4 text-base"
+                class="bg-base flex max-w-70 flex-col justify-center p-4 text-base"
             >
-                <h4 class="font-amatic mb-3 text-center text-3xl font-bold">
+                <h4 class="font-amatic mb-3 text-3xl font-bold">
                     {{ artefact?.name }}
                 </h4>
                 <div
-                    v-if="getArtefactDetails.length"
                     class="flex flex-col items-start justify-start gap-1 font-bold"
                 >
-                    <div
-                        v-for="detail in getArtefactDetails"
-                        :key="
-                            detail.type === 'bonus' ? detail.id : 'durability'
-                        "
-                        class="z-20 flex items-center justify-center gap-2 text-sm"
-                    >
-                        <template v-if="detail.type === 'bonus'">
-                            <img
-                                :src="
-                                    charIcons[
-                                        detail.characteristic.toLowerCase()
-                                    ]
-                                "
-                                :alt="detail.characteristic"
-                                class="h-7 w-7"
-                            />
-                            <span
-                                :class="
-                                    detail.isNegative
-                                        ? 'text-red-400'
-                                        : 'text-green-400'
-                                "
-                            >
-                                {{ detail.isNegative ? '-' : '+' }}
-                                {{ detail.value }}
-                                {{ detail.characteristic.toUpperCase() }}
-                            </span>
-                        </template>
-                    </div>
-
-                    <div
-                        class="durability-badge flex items-center gap-1 rounded p-0"
-                    >
-                        <img
-                            :src="durabilityIcon"
-                            alt="Прочность"
-                            class="h-7 w-7"
-                        />
-                        <p
-                            class="inline-flex items-center gap-2 text-sm font-bold text-black uppercase dark:text-white"
+                    <ul v-if="filteredPropertiesLong">
+                        <li
+                            v-for="(value, key) in filteredPropertiesLong"
+                            :key="key"
+                            class="z-20 flex gap-2 text-sm"
                         >
-                            {{ popoverLabel }}
-                        </p>
-                    </div>
+                            <property-badge
+                                :property="key"
+                                :class="getPropertyClass(value ?? '')"
+                            >
+                                {{
+                                    key === 'durability'
+                                        ? durabilityLabel
+                                        : value
+                                }}
+                            </property-badge>
+                        </li>
+                    </ul>
 
-                    <p class="mt-3 text-base font-medium">
+                    <p class="mt-3 text-justify text-base font-medium">
                         {{ artefact.description }}
                     </p>
                 </div>

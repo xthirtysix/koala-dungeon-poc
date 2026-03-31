@@ -1,133 +1,164 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Spirit } from '@/entities/spirit'
+import {
+    type Spirit,
+    BG_PRIMARY_BY_PLACE,
+    BG_SECONDARY_BY_PLACE,
+    ICON_BY_PLACE,
+    RING_BY_PLACE,
+} from '@/entities/spirit'
+import { KdCard } from '@/shared/ui/kd-card'
 import { AchievementBadge } from '@/entities/achievement'
-import { colorByPlacement } from '@/widgets/leader-card'
-import first from '@/app/assets/images/placements/first.webp'
-import second from '@/app/assets/images/placements/second.webp'
-import third from '@/app/assets/images/placements/third.webp'
-import fourth from '@/app/assets/images/placements/fourth.webp'
-import fifth from '@/app/assets/images/placements/fifth.webp'
+import { useSpiritData } from '../model/use-spirit-data.composable'
 
 const props = defineProps<{
     spirit: Spirit
-    index: number
-    showAchievements?: boolean
+    place: number
+    withData?: boolean
+    vertical?: boolean
+    achievements?: boolean
 }>()
 
-type SpiritStats = {
-    label: string
-    value: number
-}
-
-const cardColor = computed<string>(() => {
-    if (!colorByPlacement.has(props.index + 1)) return 'bg-stone-50/20'
-
-    return `bg-${colorByPlacement.get(props.index + 1)}-100/90`
+const { stats, borderColor } = useSpiritData({
+    spirit: props.withData ? props.spirit : null,
+    place: props.place > 3 ? 0 : props.place,
 })
 
-const stats = computed<SpiritStats[]>(() => {
-    return [
-        { label: 'Помехи', value: props.spirit.obstacleSpins || 0 },
-        { label: 'Помощь', value: props.spirit.helpSpins || 0 },
-        { label: 'Отложено', value: props.spirit.scheduledSpins || 0 },
-        { label: 'Рероллы', value: props.spirit.reroll || 0 },
-        { label: 'Донаты', value: props.spirit.amount || 0 },
-        { label: 'Достижения', value: props.spirit.achievements?.length || 0 },
+const rootClasses = computed(() => {
+    const classes = [
+        props.vertical
+            ? 'gap-3 grid-cols-[1fr_max-content]'
+            : 'grid-cols-[1fr_max-content] items-center',
+        `${BG_PRIMARY_BY_PLACE.get(props.place) ?? 'bg-gray-50/20'} dark:text-gray-400  relative grid  min-h-0 w-auto grid-rows-[min-content_1fr] border-0 justify-stretch rounded-3xl shadow-md sm:p-3`,
     ]
+
+    return classes.filter(Boolean).join(' ')
 })
 
-const medalIcon = computed(() => {
-    switch (props.index + 1) {
-        case 1:
-            return first
-        case 2:
-            return second
-        case 3:
-            return third
-        case 4:
-            return fourth
-        case 5:
-            return fifth
-        default:
-            return ''
+const headerClasses = computed(() => {
+    const classes = [
+        props.vertical ? 'col-span-full' : '',
+        props.withData ? 'flex-row-reverse justify-end' : '',
+        'dark:text-default flex gap-3 items-center kd-h3 mb-0 h-auto shrink-1 border-0 font-amatic text-2xl leading-none text-gray-800 sm:p-0',
+    ]
+    return classes.filter(Boolean).join(' ')
+})
+
+const bodyClasses = computed(() => {
+    const classes = [
+        props.vertical
+            ? `${RING_BY_PLACE.get(props.place) ?? ''} text-default ring-1 rounded-2xl bg-white/90 dark:bg-gray-900/80 x-4 sm:py-8`
+            : 'sm:p-0 sm:pr-3',
+        'card__stats grid w-full text-sm text-default font-bold capitalize',
+    ]
+    return classes.filter(Boolean).join(' ')
+})
+
+const footerClasses = computed(() => {
+    const classes = [
+        !props.vertical && props.withData ? 'sm:mt-3' : '',
+        props.vertical
+            ? ''
+            : `col-span-full ${BG_SECONDARY_BY_PLACE.get(props.place) ?? 'bg-gray-100/30 dark:bg-gray-800/30'} border-t border-t-1 sm:-mx-3 sm:-mb-3`,
+        props.place < 4
+            ? `${borderColor?.value || ''}`
+            : ' border-gray-200 dark:border-gray-800',
+        'relative items-center pl-3 flex sm:p-0',
+    ]
+    return classes.filter(Boolean).join(' ')
+})
+
+const cardClasses = computed(() => ({
+    root: rootClasses.value,
+    header: headerClasses.value,
+    body: bodyClasses.value,
+    footer: footerClasses.value,
+}))
+
+const carouselUiClasses = computed(() => {
+    const arrowsClasses = `${borderColor?.value} bg-gray-100 size-8 cursor-pointer border-1 ring-0 dark:bg-gray-800/80 disabled:hidden`
+
+    return {
+        root: 'h-full content-center w-full items-start justify-start z-2',
+        container: props.vertical ? 'h-[300px]' : 'h-auto py-2 sm:mx-1',
+        item: props.vertical ? 'basis-1/3' : 'basis-1/8',
+        prev: [
+            props.vertical
+                ? 'left-1/2 -translate-x-1/2 translate-y-12 '
+                : 'bottom-1/2 -translate-y-1/2 start-3 sm:start-3',
+            arrowsClasses,
+        ].join(' '),
+        next: [
+            props.vertical
+                ? 'bottom-2 left-1/2  -translate-x-1/2 -translate-y-12'
+                : 'bottom-1/2 -translate-y-1/2 end-3 sm:end-3',
+            arrowsClasses,
+        ].join(' '),
     }
 })
 </script>
 
 <template>
-    <div
-        :class="[
-            'overflow-hidden rounded-3xl ring-1 ring-neutral-200 transition-all duration-300 dark:ring-neutral-800',
-            cardColor,
-        ]"
-    >
-        <!-- Основная информация -->
-        <div
-            class="relative flex items-center justify-between overflow-hidden p-4"
-            :class="{ 'kd-spirits': index < 3 }"
-        >
-            <div
-                class="kd-gradient pointer-events-none absolute top-0 left-0 h-4 w-full rounded-lg"
-                :class="{ 'opacity-15': index >= 3 }"
+    <kd-card :ui="cardClasses">
+        <template #header>
+            <h3 class="leading-[50px]">{{ spirit.nickname }}</h3>
+            <img
+                v-if="ICON_BY_PLACE.has(place)"
+                :src="ICON_BY_PLACE.get(place)"
+                width="50"
+                height="50"
+                class="-order-1"
             />
-            <div class="flex w-[300px] items-center gap-4">
-                <div class="flex items-center gap-2">
-                    <span
-                        class="w-8 text-gray-900"
-                        :class="{ 'dark:text-gray-200': index >= 3 }"
-                    >
-                        {{ index + 1 }}
-                    </span>
-                </div>
-                <div
-                    class="font-amatic truncate text-2xl font-bold text-gray-900"
-                    :class="{ 'dark:text-gray-200': index >= 3 }"
-                >
-                    {{ spirit.nickname }}
-                </div>
-                <img
-                    v-if="index < 5"
-                    :src="medalIcon"
-                    width="50"
-                    height="50"
-                    class="opacity-80"
-                />
-            </div>
+        </template>
 
+        <template v-if="stats && stats.length">
             <dl
-                class="hidden items-center md:grid md:grid-flow-col md:grid-cols-5 md:grid-rows-2 md:items-center md:justify-items-center md:gap-x-4"
+                :class="
+                    vertical
+                        ? 'grid grid-cols-[min-content_1fr] items-baseline gap-x-4 gap-y-8'
+                        : `hidden md:grid md:grid-flow-col md:grid-cols-6 md:grid-rows-2 md:justify-items-start md:gap-x-3`
+                "
             >
-                <template v-for="stat of stats" :key="stat.label">
-                    <dt
-                        class="text-sm text-gray-900"
-                        :class="{ 'dark:text-gray-200': index >= 3 }"
-                    >
-                        {{ stat.label }}
-                    </dt>
-                    <dd
-                        class="font-bold text-gray-900"
-                        :class="{ 'dark:text-gray-200': index >= 3 }"
-                    >
+                <template v-for="stat in stats" :key="stat.label">
+                    <dt class="font-normal">{{ stat.label }}</dt>
+                    <dd class="text-right text-lg">
                         {{ stat.value }}
                     </dd>
                 </template>
             </dl>
-        </div>
+        </template>
 
-        <!-- Трофеи -->
-        <div
-            v-if="showAchievements && spirit.achievements?.length"
-            class="flex justify-start gap-3 border-t border-gray-200 bg-gray-100/50 px-15 py-2 dark:bg-gray-100/10"
-            :class="index < 3 ? 'dark:border-gray-300' : 'dark:border-gray-800'"
-        >
-            <achievement-badge
-                v-for="achievement in spirit.achievements"
-                :key="achievement.id"
-                :achievement="achievement"
-                size="lg"
-                hint
-            />
-        </div>
-    </div>
+        <template v-if="achievements && !!spirit.achievements?.length" #footer>
+            <h4 class="sr-only">Достижения</h4>
+            <u-carousel
+                v-slot="{ item }"
+                :items="spirit.achievements"
+                :autoplay="{
+                    delay: 4000,
+                    stopOnInteraction: true,
+                    stopOnMouseEnter: true,
+                }"
+                :arrows="
+                    vertical
+                        ? spirit.achievements.length > 3
+                        : spirit.achievements.length > 8
+                "
+                :options="{
+                    duration: 10,
+                    skipSnaps: true,
+                    dragFree: true,
+                }"
+                :ui="carouselUiClasses"
+                loop
+                :orientation="vertical ? 'vertical' : 'horizontal'"
+            >
+                <achievement-badge
+                    :achievement="item"
+                    size="lg"
+                    side="top"
+                    hint
+                />
+            </u-carousel>
+        </template>
+    </kd-card>
 </template>

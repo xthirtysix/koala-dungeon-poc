@@ -17,14 +17,14 @@ onMounted(async () => {
     isLoading.value = true
     isError.value = false
     try {
-        const [journalRes, obstaclesRes, spiritsRes] = await Promise.all([
-            journalApi.fetchEntries({ page: 1, pageSize: 7 }),
-            obstaclesApi.fetchActiveObstacles(),
-            spiritApi.fetchSpirits({ page: 1, pageSize: 5, isHidden: false }),
+        const [journalResponse, obstaclesResponse, spiritsResponse] = await Promise.all([
+            journalApi.getEntries({ page: 1, pageSize: 7 }),
+            obstaclesApi.getActiveObstacles(),
+            spiritApi.getSpirits({ page: 1, pageSize: 5, isHidden: false }),
         ])
-        journalEntries.value = journalRes.entries
-        obstacles.value = obstaclesRes
-        spirits.value = spiritsRes.spirits
+        journalEntries.value = journalResponse.data
+        obstacles.value = obstaclesResponse.data
+        spirits.value = spiritsResponse.data
     } catch (e) {
         isError.value = true
     } finally {

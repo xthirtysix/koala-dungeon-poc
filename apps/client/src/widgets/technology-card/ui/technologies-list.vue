@@ -10,7 +10,7 @@ defineProps<{
 <template>
     <h2 class="kd-h2">{{ title }}</h2>
 
-    <ul class="grid grid-cols-1 gap-4 md:grid-cols-3">
+    <ul class="flex">
         <li v-for="technology in technologies" :key="technology.name">
             <technology-card :technology="technology" />
         </li>

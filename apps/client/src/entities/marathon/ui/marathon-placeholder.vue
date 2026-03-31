@@ -83,6 +83,7 @@ const formatDuration = (totalTime: number) => {
         <u-button
           color="primary"
           size="lg"
+          width="full"
           block
           @click="$router.push('/')"
         >

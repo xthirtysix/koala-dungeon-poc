@@ -3,7 +3,7 @@ import { ref, shallowRef, onMounted } from 'vue'
 import { type JournalEntry, journalApi } from '@/entities/journal'
 import { JournalList } from '@/widgets/journal'
 import { useLoadingLabels } from '@/shared/composables'
-import { LOADING_LABELS } from '@/pages/journal'
+import { LOADING_LABELS } from '../consts/loadingLabels'
 
 const PAGE_SIZE = 50
 const currentPage = ref(1)
@@ -19,18 +19,19 @@ const loadPage = async (page: number, append = false) => {
     if (page === 1) isLoading.value = true
     else isLoadingMore.value = true
     error.value = null
+
     try {
-        const { entries, pagination } = await journalApi.fetchEntries({
+        const { data, meta} = await journalApi.getEntries({
             page,
             pageSize: PAGE_SIZE,
         })
 
         if (append) {
-            allEntries.value = [...allEntries.value, ...entries]
+            allEntries.value = [...allEntries.value, ...data]
         } else {
-            allEntries.value = entries
+            allEntries.value = data
         }
-        hasNextPage.value = pagination.total > page * PAGE_SIZE
+        hasNextPage.value = meta.pagination.total > page * PAGE_SIZE
         currentPage.value = page
     } catch (e: any) {
         error.value = 'Ошибка загрузки'

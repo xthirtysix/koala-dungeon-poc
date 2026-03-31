@@ -16,9 +16,8 @@ export function useUser() {
             const response = await loginUser(params)
             localStorage.setItem('jwt', response.jwt)
 
-            const userResponse = await getCurrentUser(response.jwt)
-
-            const user = { ...userResponse, avatar: userResponse.avatar.url }
+            const userResponse = await getCurrentUser()
+            const user = { ...userResponse, avatar: userResponse.avatar.url || '' }
             userStore.setUser(user)
 
             return user

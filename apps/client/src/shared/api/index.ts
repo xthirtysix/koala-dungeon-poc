@@ -1,1 +1,2 @@
-export * from './build-query'
+export * from './errors'
+export * from './instances'

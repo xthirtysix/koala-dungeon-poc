@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { type DropdownMenuItem } from '@nuxt/ui'
 import { DicePool } from '@/widgets/dice-pool'
-import { DiceIcon } from '@/entities/dice';
+import { DiceIcon } from '@/shared/tools/dice';
 
 const emit = defineEmits<{
     (e: 'roll-dice', value: number): void

@@ -26,7 +26,7 @@ const { indicator, isActive, scrollToHeading, activeElementsClass } =
 
             <div
                 v-if="indicator"
-                class="bg-primary-500 absolute left-0 z-10 w-0.5 rounded-sm transition-all duration-200 ease-in-out"
+                class="bg-primary-500 absolute left-0 z-10 w-0.5 rounded-sm duration-200 ease-in-out"
                 :style="{
                     top: `${indicator.top}px`,
                     height: `${indicator.height}px`,

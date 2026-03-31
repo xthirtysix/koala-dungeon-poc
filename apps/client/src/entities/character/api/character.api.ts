@@ -1,94 +1,66 @@
-import { buildQuery } from '@/shared/api/build-query'
-import { API_URL } from '@/shared/config'
-import { BELT_SLOTS, Character, MAIN_CHARACTER_ID } from '@/entities/character'
-import { ArtefactSlot } from '@/entities/artefact'
-
-interface FetchCharacterResult {
-    data: Character
-    meta: unknown
-}
-
-interface UpdateMapPlacementResponse {
-    data: unknown
-    meta: unknown
-}
+import { MAIN_CHARACTER_ID, Character, UpdateMapPlacementParams } from '@/entities/character'
+import { publicApi, privateApi } from '@/shared/api'
+import type { StrapiResponse } from '@/shared/model/strapi.type'
+import qs from 'qs'
 
 export const characterApi = {
-    fetchMain: async (): Promise<FetchCharacterResult> => {
-        const artefactsParams = Object.keys(ArtefactSlot).reduce(
-            (acc, slot) => {
-                if (slot === 'Belt') {
-                    for (let i = 1; i <= BELT_SLOTS; i++) {
-                        acc[`populate[${slot.toLowerCase()}${i}][populate]`] =
-                            '*'
+    getMain: async () => {
+        return publicApi.get<StrapiResponse<Character>>(
+            `characters/${MAIN_CHARACTER_ID}`,
+            {
+                searchParams: qs.stringify({
+                    populate: {
+                        head: {
+                            populate: '*',
+                        },
+                        chest: {
+                            populate: '*',
+                        },
+                        hands: {
+                            populate: '*',
+                        },
+                        feet: {
+                            populate: '*',
+                        },
+                        weapon: {
+                            populate: '*',
+                        },
+                        belt1: {
+                            populate: '*',
+                        },
+                        belt2: {
+                            populate: '*',
+                        },
+                        belt3: {
+                            populate: '*',
+                        },
                     }
-                    return acc
-                } else {
-                    acc[`populate[${slot.toLowerCase()}][populate]`] = '*'
-                    return acc
-                }
+                })
             },
-            {} as Record<string, string>,
         )
-        const query = buildQuery(artefactsParams)
-        const url = query
-            ? `${API_URL}/characters/${MAIN_CHARACTER_ID}?${query}`
-            : `${API_URL}/characters/${MAIN_CHARACTER_ID}`
-
-        try {
-            const res = await fetch(url)
-
-            if (!res.ok) throw new Error('Ошибка загрузки персонажа')
-
-            const response = await res.json()
-
-            return {
-                data: response.data ?? response,
-                meta: response.meta ?? null,
-            }
-        } catch (error) {
-            console.error('Ошибка при загрузке персонажа:', error)
-            throw error
-        }
     },
 
-    updateMapPlacement: async (
-        mapPlacement: number
-    ): Promise<UpdateMapPlacementResponse> => {
-        const jwt = localStorage.getItem('jwt')
-        if (!jwt) {
-            throw new Error('JWT токен не найден')
-        }
-
-        try {
-            const res = await fetch(`${API_URL}/characters/${MAIN_CHARACTER_ID}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${jwt}`,
+    unlockMovement: async () => {
+        return privateApi.put(`characters/${MAIN_CHARACTER_ID}`, {
+            json: {
+                data: {
+                    is_movement_locked: false,
                 },
-                body: JSON.stringify({
-                    data: {
-                        map_placement: mapPlacement,
-                    }
-                }),
-            })
+            },
+        })
+    },
 
-            if (!res.ok) {
-                const error = await res.json()
-                throw new Error(error?.error?.message || 'Ошибка обновления позиции персонажа')
-            }
-
-            const response = await res.json()
-            console.log(response)
-
-            return {
-                data: response.data ?? response,
-                meta: response.meta ?? null,
-            }
-        } catch (error) {
-            console.error('Ошибка при обновлении позиции персонажа:', error)
-            throw error
-        }
+    updateMapPlacement: async ({
+        mapPlacement,
+        isMovementLocked = false,
+    }: UpdateMapPlacementParams) => {
+        return privateApi.put<StrapiResponse<Character>>(`characters/${MAIN_CHARACTER_ID}`, {
+            json: {
+                data: {
+                    map_placement: mapPlacement,
+                    is_movement_locked: isMovementLocked,
+                },
+            },
+        })
     },
 }

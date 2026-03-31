@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { getCellColorByEvent, type CellEvent } from '@/entities/cell'
+import { getCellColorByEvent, type CellEvent } from '@/entities/map'
 import { useCellInfo, type CellEventInfo } from '@/widgets/cell-info'
 
 const props = defineProps<{ events?: CellEvent[]; cellNumber?: number }>()
@@ -21,7 +21,7 @@ const info = computed<CellEventInfo[]>(() =>
     >
         <h4
             v-if="cellNumber !== undefined"
-            class="font-amatic relative z-20 flex h-14 w-14 items-center justify-center rounded-full border border-white bg-stone-200 text-4xl font-bold text-gray-900 drop-shadow"
+            class="font-amatic relative z-20 flex h-14 w-14 items-center justify-center rounded-full border border-white bg-gray-100 text-4xl font-bold text-gray-900 drop-shadow"
         >
             {{ cellNumber + 1 }}
         </h4>
@@ -39,7 +39,7 @@ const info = computed<CellEventInfo[]>(() =>
                     v-if="info[index]?.icon"
                     class="relative z-10 text-3xl font-bold drop-shadow"
                 >
-                    {{ info[index].icon }}
+                    <img :src="info[index].icon" class="h-10 w-10" />
                 </span>
                 <div class="relative z-10 grid font-sans">
                     <h5 class="kd-h5 text-base font-bold text-gray-900">

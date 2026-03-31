@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { type RollEntry } from './rolls-store.types'
 import { type RollResult } from '@/features/dice'
-import { saveRollResult, fetchRolls, type FetchRollsParams } from '@/features/dice'
+import { diceApi, FetchRollsParams } from '../api/dice.api'
 
 export const useRollsStore = defineStore('rolls', () => {
     // State
@@ -29,7 +29,7 @@ export const useRollsStore = defineStore('rolls', () => {
 
     // Actions
     function addRoll(rollResult: RollResult): string {
-        const id = `roll_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+        const id = `roll_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
         const newRoll: RollEntry = {
             id,
             rollResult,
@@ -55,7 +55,7 @@ export const useRollsStore = defineStore('rolls', () => {
             isLoading.value = true
             error.value = null
 
-            await saveRollResult(roll.rollResult)
+            await diceApi.saveRollResult(roll.rollResult)
             roll.saved = true
         } catch (err) {
             error.value = err instanceof Error ? err.message : 'Ошибка сохранения броска'
@@ -74,7 +74,7 @@ export const useRollsStore = defineStore('rolls', () => {
             error.value = null
 
             for (const roll of unsaved) {
-                await saveRollResult(roll.rollResult)
+                await diceApi.saveRollResult(roll.rollResult)
                 roll.saved = true
             }
         } catch (err) {
@@ -106,7 +106,7 @@ export const useRollsStore = defineStore('rolls', () => {
             isLoading.value = true
             error.value = null
 
-            const result = await fetchRolls(params)
+            const result = await diceApi.fetchRolls(params)
             rolls.value = result.rolls
             pagination.value = result.pagination
         } catch (err) {
@@ -127,7 +127,7 @@ export const useRollsStore = defineStore('rolls', () => {
             isLoading.value = true
             error.value = null
 
-            const result = await fetchRolls({
+            const result = await diceApi.fetchRolls({
                 page: nextPage,
                 pageSize: pagination.value.pageSize,
                 sort: 'date:desc',

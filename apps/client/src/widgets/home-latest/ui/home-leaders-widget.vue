@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Spirit } from '@/entities/spirit'
-import { LeaderCard } from '@/widgets/leader-card'
+import { type Spirit } from '@/entities/spirit'
+import { SpiritCard } from '@/widgets/spirit-card'
 
 defineProps<{
     spirits: Spirit[]
@@ -22,25 +22,15 @@ const gridClasses = 'grid grid-cols-1 gap-6'
         </ul>
 
         <div
-            v-else-if="spirits.length === 0"
+            v-else-if="!spirits.length"
             class="font-amatic text-center text-2xl font-bold text-gray-500"
         >
             Призываем духов 👻
         </div>
 
         <ul v-else :class="gridClasses">
-            <li v-for="(spirit, idx) in spirits" :key="spirit.id">
-                <leader-card
-                    :place="idx + 1"
-                    :name="spirit.nickname"
-                    :interference-wheel-spins="spirit.obstacleSpins ?? 0"
-                    :help-wheel-spins="spirit.helpSpins ?? 0"
-                    :deferred-interferences="spirit.scheduledSpins ?? 0"
-                    :total-donations="spirit.amount ?? 0"
-                    :achievements="spirit.achievements ?? []"
-                    :rerolls="spirit.reroll ?? 0"
-                    compact
-                />
+            <li v-for="(spirit, index) in spirits" :key="spirit.id">
+                <spirit-card :spirit="spirit" :place="index + 1" />
             </li>
         </ul>
     </div>

@@ -115,9 +115,10 @@ onBeforeUnmount(() => {
                     >
                         <spirit-card
                             v-if="spirits[virtualItem.index]"
-                            :spirit="spirits[virtualItem.index]!"
-                            :index="virtualItem.index"
-                            :show-achievements="showAchievements"
+                            :spirit="spirits[virtualItem.index]"
+                            :place="virtualItem.index + 1"
+                            :achievements="showAchievements"
+                            with-data
                         />
                     </li>
                 </ul>

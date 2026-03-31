@@ -1,5 +1,4 @@
 export * from './model/types'
-export { default as marathonApi } from './api/marathon'
+export { marathonApi } from './api/marathon'
 export { useMarathonStore } from './model/marathon.store'
-export { useMarathon } from './model/use-marathon'
 export { default as MarathonPlaceholder } from './ui/marathon-placeholder.vue'

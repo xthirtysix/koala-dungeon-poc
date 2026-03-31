@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, type ComponentPublicInstance, watch } from 'vue'
+import { computed, type ComponentPublicInstance, watch } from 'vue'
 import { useWindowVirtualizer } from '@tanstack/vue-virtual'
 import { type JournalEntry } from '@/entities/journal'
 import { JournalEntry as JournalEntryComponent } from '@/widgets/journal'
@@ -14,8 +14,6 @@ const emit = defineEmits<{
     (e: 'load-more'): void
 }>()
 
-const parentRef = ref<HTMLElement | null>(null)
-
 const SCROLL_MARGIN = 233
 const PADDING_END = 85
 
@@ -24,7 +22,7 @@ const virtualizerOptions = computed(() => ({
     estimateSize: () => 64,
     overscan: 5,
     scrollMargin: SCROLL_MARGIN,
-    gap: 16, // Отступ между элементами
+    gap: 16,
     paddingEnd: PADDING_END,
 }))
 
@@ -46,7 +44,6 @@ const measureElement = (el: Element | ComponentPublicInstance | null) => {
     virtualizer.value.measureElement(el)
 }
 
-// Эмитим событие, если последний видимый элемент — один из последних 5
 watch(
     () => virtualItems.value,
     (items) => {
@@ -57,7 +54,6 @@ watch(
             emit('load-more')
         }
     },
-    { deep: true },
 )
 </script>
 

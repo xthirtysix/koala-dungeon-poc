@@ -4,6 +4,7 @@ import {
     type Character,
     type CharacterResource,
     type CharacterAttribute,
+    type StatToBonusesMap,
     characterApi,
     XP_PER_LEVEL,
     CharacterSlot,
@@ -14,7 +15,8 @@ import strengthIcon from '@/app/assets/images/characteristics/0_strength.webp'
 import constitutionIcon from '@/app/assets/images/characteristics/1_constitution.webp'
 import dexterityIcon from '@/app/assets/images/characteristics/2_dexterity.webp'
 import wisdomIcon from '@/app/assets/images/characteristics/3_wisdom.webp'
-import { Artefact } from '@/entities/artefact'
+import { type Artefact } from '@/entities/artefact'
+import { STAT_KEYS } from '@/shared/consts/stats.consts'
 
 export function useCharacter() {
     const {
@@ -23,7 +25,7 @@ export function useCharacter() {
         isPending,
     } = useQuery({
         key: ['main-character'],
-        query: () => characterApi.fetchMain(),
+        query: () => characterApi.getMain(),
     })
 
     const character = computed<Character | null>(
@@ -39,14 +41,16 @@ export function useCharacter() {
             value: character.value?.health || 0,
             max: character.value?.maxHealth || 0,
             icon: healthIcon,
-            color: 'red',
+            color: '[&::-webkit-progress-value]:bg-red-500',
+            backgroundColor: '[&::-webkit-progress-bar]:bg-red-100',
         },
         {
             label: 'Опыт',
             value: character.value?.experience ?? 0,
             max: XP_PER_LEVEL,
             icon: levelIcon,
-            color: 'violet',
+            color: '[&::-webkit-progress-value]:bg-violet-500',
+            backgroundColor: '[&::-webkit-progress-bar]:bg-violet-100',
         },
     ])
 
@@ -96,6 +100,45 @@ export function useCharacter() {
         ]
     })
 
+    const equipmentBonusesByStat = computed<StatToBonusesMap>(() => {
+        const result: StatToBonusesMap = {}
+
+        for (const [, artefact] of equipment.value) {
+            if (!artefact) continue
+
+            for (const statKey of STAT_KEYS) {
+                const bonus = artefact.properties?.[statKey] ?? 0
+                if (!bonus) continue
+
+                const entry = (result[statKey] ??= {
+                    artefacts: [],
+                    totalBonus: 0,
+                })
+
+                entry.artefacts.push(artefact)
+                entry.totalBonus += bonus
+            }
+        }
+
+        return result
+    })
+
+    const strengthBonus = computed(() => {
+        return equipmentBonusesByStat.value.strength?.totalBonus ?? 0
+    })
+
+    const constitutionBonus = computed(() => {
+        return equipmentBonusesByStat.value.constitution?.totalBonus ?? 0
+    })
+
+    const dexterityBonus = computed(() => {
+        return equipmentBonusesByStat.value.dexterity?.totalBonus ?? 0
+    })
+
+    const wisdomBonus = computed(() => {
+        return equipmentBonusesByStat.value.wisdom?.totalBonus ?? 0
+    })
+
     return {
         data: character,
         attributes,
@@ -104,5 +147,10 @@ export function useCharacter() {
         error: errorMessage,
         resources,
         equipment,
+        equipmentBonusesByStat,
+        strengthBonus,
+        constitutionBonus,
+        dexterityBonus,
+        wisdomBonus,
     }
 }

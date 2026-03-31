@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue'
-import { Artefact, fetchArtefacts } from '@/entities/artefact'
+import {
+    ref,
+    computed,
+    watch,
+    onMounted,
+    type ComponentPublicInstance,
+} from 'vue'
+import { LOADING_LABELS } from '../consts/loadingLabels'
 import { ArtefactCard } from '@/widgets/artefact-card'
-import { LOADING_LABELS } from '@/pages/artefacts'
-import { useWindowVirtualizer } from '@tanstack/vue-virtual'
-import type { ComponentPublicInstance } from 'vue'
+import { Artefact, artefactsApi } from '@/entities/artefact'
 import { AdvertisingBanner } from '@/entities/banner'
 import { usePageBanner } from '@/entities/banner/model/usePageBanner'
 import { PageName } from '@/shared/config'
 import { useLoadingLabels } from '@/shared/composables'
+import { useWindowVirtualizer } from '@tanstack/vue-virtual'
 
 defineOptions({
     name: 'ArtefactsPage',
@@ -34,17 +39,18 @@ const fetchData = async (page = 1, append = false) => {
     else isLoadingMore.value = true
     error.value = null
     try {
-        const res = await fetchArtefacts.fetch({
+        const { data, meta } = await artefactsApi.get({
             page,
             pageSize: PAGE_SIZE,
         })
+
         if (append) {
-            artefacts.value = [...artefacts.value, ...res.artefacts]
+            artefacts.value = [...artefacts.value, ...data]
         } else {
-            artefacts.value = res.artefacts
+            artefacts.value = data
         }
-        pagination.value = res.pagination
-        total.value = res.pagination.total
+        pagination.value = meta.pagination
+        total.value = meta.pagination.total
         currentPage.value = page
     } catch (e: unknown) {
         if (e instanceof Error) {
@@ -68,7 +74,6 @@ const rowsCount = computed(() =>
     Math.ceil(artefacts.value.length / ITEMS_PER_ROW),
 )
 
-const parentRef = ref<HTMLDivElement | null>(null)
 const parentOffsetRef = ref(0)
 
 const rowVirtualizerOptions = computed(() => ({

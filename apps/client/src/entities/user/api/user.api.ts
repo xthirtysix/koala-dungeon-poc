@@ -1,44 +1,40 @@
 import { type AuthResponse } from '@/entities/user'
-import { buildQuery } from '@/shared/api'
-import { API_URL } from '@/shared/config/consts/api.consts'
+import { publicApi, privateApi } from '@/shared/api'
+import qs from 'qs'
 
 export interface LoginParams {
     identifier: string
     password: string
 }
 
+interface GetCurrentUserResponse {
+    id: number
+    username: string
+    email: string
+    avatar: {
+        url: string
+    }
+}
+
 export async function login({
     identifier,
     password,
 }: LoginParams): Promise<AuthResponse> {
-    const res = await fetch(`${API_URL}/auth/local`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ identifier, password }),
+    return publicApi.post<AuthResponse>('auth/local', {
+        json: { identifier, password },
     })
-
-    if (!res.ok) {
-        const error = await res.json()
-        throw new Error(error?.error?.message || 'Ошибка авторизации')
-    }
-
-    return res.json()
 }
 
-export async function getCurrentUser(jwt: string) {
-    const query = buildQuery({
-        'populate[avatar][fields][0]': 'url',
+export async function getCurrentUser() {
+    const response = await privateApi.get<GetCurrentUserResponse>('users/me', {
+        searchParams: qs.stringify({
+            populate: {
+                avatar: {
+                    fields: ['url'],
+                },
+            }
+        })
     })
-
-    const res = await fetch(`${API_URL}/users/me?${query}`, {
-        headers: {
-            Authorization: `Bearer ${jwt}`,
-        },
-    })
-    if (!res.ok) {
-        throw new Error('Ошибка получения пользователя')
-    }
-    return res.json()
+    return response
 }
+

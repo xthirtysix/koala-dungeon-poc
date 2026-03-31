@@ -19,8 +19,8 @@ const parse = useMarkdownParser()
 
 onBeforeMount(async () => {
     try {
-        const rules = await rulesApi.fetchRules()
-        md.value = rules[0]?.rules || ''
+        const rules = await rulesApi.getRules()
+        md.value = rules.data[0]?.rules || ''
         ast.value = await parse(md.value)
     } catch (e) {
         error.value = 'Ошибка загрузки правил'

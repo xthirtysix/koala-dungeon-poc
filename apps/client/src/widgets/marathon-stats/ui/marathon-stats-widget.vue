@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { fetchArtefacts, type Artefact } from '@/entities/artefact'
+import { artefactsApi, type ArtefactPreview } from '@/entities/artefact'
 import { heroImageByName } from '@/widgets/journal'
 
 defineOptions({
     name: 'MarathonStatsWidget',
 })
 
-const popularArtefactNames = ['Ходули Клеопольда', 'Бокал шампусика']
-const popularArtefacts = ref<Artefact[]>([])
+const popularArtefactNames = ['Бокал шампусика', 'Ходули Клеопольда']
+const popularArtefacts = ref<ArtefactPreview[]>([])
 const isLoadingArtefacts = ref(false)
 
 const popularHeroName = 'Змеиные глазки'
@@ -17,8 +17,9 @@ const heroImage = computed(() => heroImageByName.value.get(popularHeroName))
 onMounted(async () => {
     isLoadingArtefacts.value = true
     try {
-        const artefacts = await fetchArtefacts.fetchByNames(popularArtefactNames)
-        popularArtefacts.value = artefacts
+        const { data } =
+            await artefactsApi.getByNames(popularArtefactNames)
+        popularArtefacts.value = data
     } catch (error) {
         console.error('Ошибка загрузки популярных артефактов:', error)
     } finally {
@@ -31,17 +32,24 @@ onMounted(async () => {
     <div>
         <h2 class="kd-h2 mb-4">Результаты марафона "Осень 2025"</h2>
 
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-3" style="grid-template-rows: auto auto 1fr 1fr;">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
             <!-- Победитель марафона - большой блок -->
             <u-card
                 class="md:col-span-1 md:row-span-1"
-                :ui="{ root: 'rounded-3xl bg-gradient-to-br from-yellow-100/90 to-yellow-200/90 dark:from-yellow-700/50 dark:to-yellow-600/50', body: 'p-6' }"
+                :ui="{
+                    root: 'rounded-xl ring-1 ring-yellow-300 dark:ring-yellow-400/60 bg-yellow-300/90 dark:bg-yelow-600/80',
+                    body: 'p-6',
+                }"
             >
                 <div class="flex flex-col gap-2">
-                    <span class="font-amatic text-2xl font-bold text-gray-600 dark:text-gray-300">
+                    <span
+                        class="font-amatic text-main dark:text-inverted text-2xl font-bold"
+                    >
                         Победитель марафона
                     </span>
-                    <span class="font-amatic text-4xl font-bold text-yellow-700 dark:text-yellow-300">
+                    <span
+                        class="font-amatic text-4xl font-bold text-yellow-800"
+                    >
                         AloeKoala
                     </span>
                 </div>
@@ -49,20 +57,27 @@ onMounted(async () => {
 
             <!-- Самый популярный герой -->
             <u-card
-                class="md:col-span-1 md:row-span-1 relative overflow-hidden h-full"
-                :ui="{ root: 'rounded-3xl bg-stone-50/20 dark:bg-stone-900/20 h-full', body: 'p-6 relative z-10 h-full' }"
+                class="relative h-full overflow-hidden md:col-span-1 md:row-span-1"
+                :ui="{
+                    root: 'rounded-xl h-full ring-1 ring-zinc-300 dark:ring-zinc-400/60 bg-zinc-300/90 dark:bg-zinc-600/80',
+                    body: 'p-6 relative z-10 h-full',
+                }"
             >
                 <img
                     v-if="heroImage"
                     :src="heroImage"
                     :alt="popularHeroName"
-                    class="absolute inset-0 h-full w-full object-cover opacity-20 dark:opacity-10"
+                    class="absolute inset-0 h-full w-full object-cover opacity-20 grayscale"
                 />
-                <div class="flex flex-col gap-2 relative z-10 h-full">
-                    <span class="font-amatic text-2xl font-bold text-gray-600 dark:text-gray-300">
+                <div class="relative z-10 flex h-full flex-col gap-2">
+                    <span
+                        class="font-amatic text-main dark:text-inverted text-2xl font-bold"
+                    >
                         Самый популярный герой
                     </span>
-                    <span class="font-amatic text-4xl font-bold text-gray-700 dark:text-gray-200">
+                    <span
+                        class="font-amatic text-4xl font-bold text-gray-800 dark:text-gray-200"
+                    >
                         Змеиные глазки (4 игры)
                     </span>
                 </div>
@@ -71,23 +86,33 @@ onMounted(async () => {
             <!-- Самые популярные артефакты -->
             <u-card
                 class="md:col-span-1 md:row-span-2"
-                :ui="{ root: 'rounded-3xl bg-gradient-to-br from-purple-100/90 to-purple-200/90 dark:from-purple-700/50 dark:to-purple-600/50', body: 'p-6' }"
+                :ui="{
+                    root: 'rounded-xl h-full ring-1 ring-violet-300 dark:ring-violet-400/60 bg-violet-300/90 dark:bg-violet-600/80',
+                    body: 'p-6',
+                }"
             >
                 <div class="flex flex-col gap-4">
-                    <span class="font-amatic text-2xl font-bold text-gray-600 dark:text-gray-300">
+                    <span
+                        class="font-amatic text-main dark:text-inverted text-2xl font-bold"
+                    >
                         Самые популярные артефакты
                     </span>
                     <div v-if="isLoadingArtefacts" class="flex gap-4">
-                        <u-skeleton class="h-24 w-24 rounded-lg" />
-                        <u-skeleton class="h-24 w-24 rounded-lg" />
+                        <u-skeleton class="h-24 w-24 rounded-md" />
+                        <u-skeleton class="h-24 w-24 rounded-md" />
                     </div>
-                    <div v-else-if="popularArtefacts.length > 0" class="flex gap-4">
+                    <div
+                        v-else-if="popularArtefacts.length > 0"
+                        class="flex gap-4"
+                    >
                         <div
                             v-for="artefact in popularArtefacts"
                             :key="artefact.id"
                             class="flex flex-col items-center gap-2"
                         >
-                            <div class="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-lg bg-white/50 dark:bg-gray-800/50">
+                            <div
+                                class="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-md bg-white/60 dark:bg-gray-900/35"
+                            >
                                 <img
                                     v-if="artefact.image?.url"
                                     :src="artefact.image.url"
@@ -96,18 +121,12 @@ onMounted(async () => {
                                 />
                                 <u-skeleton v-else class="h-full w-full" />
                             </div>
-                            <span class="font-amatic text-lg font-bold text-purple-700 dark:text-purple-300 text-center">
+                            <span
+                                class="font-amatic text-center text-lg font-bold text-violet-800 dark:text-violet-200"
+                            >
                                 {{ artefact.name }}
                             </span>
                         </div>
-                    </div>
-                    <div v-else class="flex flex-col gap-1">
-                        <span class="font-amatic text-2xl font-bold text-purple-700 dark:text-purple-300">
-                            Ходули Клеопольда
-                        </span>
-                        <span class="font-amatic text-2xl font-bold text-purple-700 dark:text-purple-300">
-                            Бокал шампусика
-                        </span>
                     </div>
                 </div>
             </u-card>
@@ -115,13 +134,20 @@ onMounted(async () => {
             <!-- Лучший в помощи -->
             <u-card
                 class="md:col-span-1 md:row-span-1"
-                :ui="{ root: 'rounded-3xl bg-gradient-to-br from-green-100/90 to-green-200/90 dark:from-green-700/50 dark:to-green-600/50', body: 'p-6' }"
+                :ui="{
+                    root: 'rounded-xl h-full ring-1 ring-green-300 dark:ring-green-400/60 bg-green-300/90 dark:bg-green-600/80',
+                    body: 'p-6',
+                }"
             >
                 <div class="flex flex-col gap-2">
-                    <span class="font-amatic text-2xl font-bold text-gray-600 dark:text-gray-300">
+                    <span
+                        class="font-amatic text-main dark:text-inverted text-2xl font-bold"
+                    >
                         Лучший в помощи
                     </span>
-                    <span class="font-amatic text-4xl font-bold text-green-700 dark:text-green-300">
+                    <span
+                        class="font-amatic text-4xl font-bold text-green-800 dark:text-green-200"
+                    >
                         Zrun1
                     </span>
                 </div>
@@ -130,13 +156,20 @@ onMounted(async () => {
             <!-- Лучший в помехах -->
             <u-card
                 class="md:col-span-1 md:row-span-1"
-                :ui="{ root: 'rounded-3xl bg-gradient-to-br from-red-100/90 to-red-200/90 dark:from-red-700/50 dark:to-red-600/50', body: 'p-6' }"
+                :ui="{
+                    root: 'rounded-xl h-full ring-1 ring-red-300 dark:ring-red-400/60 bg-red-300/90 dark:bg-red-600/80',
+                    body: 'p-6',
+                }"
             >
                 <div class="flex flex-col gap-2">
-                    <span class="font-amatic text-2xl font-bold text-gray-600 dark:text-gray-300">
+                    <span
+                        class="font-amatic text-main dark:text-inverted text-2xl font-bold"
+                    >
                         Лучший в помехах
                     </span>
-                    <span class="font-amatic text-4xl font-bold text-red-700 dark:text-red-300">
+                    <span
+                        class="font-amatic text-4xl font-bold text-red-800 dark:text-red-200"
+                    >
                         Zrun1
                     </span>
                 </div>
@@ -145,13 +178,20 @@ onMounted(async () => {
             <!-- Количество помех -->
             <u-card
                 class="md:col-span-1 md:row-span-1"
-                :ui="{ root: 'rounded-3xl bg-gradient-to-br from-orange-100/90 to-orange-200/90 dark:from-orange-700/50 dark:to-orange-600/50', body: 'p-6' }"
+                :ui="{
+                    root: 'rounded-xl h-full ring-1 ring-orange-300 dark:ring-orange-300/60 bg-orange-300/90 dark:bg-orange-600/80',
+                    body: 'p-6',
+                }"
             >
                 <div class="flex flex-col gap-2">
-                    <span class="font-amatic text-2xl font-bold text-gray-600 dark:text-gray-300">
+                    <span
+                        class="font-amatic text-main dark:text-inverted text-2xl font-bold"
+                    >
                         Количество помех
                     </span>
-                    <span class="font-amatic text-4xl font-bold text-orange-700 dark:text-orange-300">
+                    <span
+                        class="font-amatic text-4xl font-bold text-orange-800 dark:text-orange-200"
+                    >
                         44
                     </span>
                 </div>
@@ -160,13 +200,20 @@ onMounted(async () => {
             <!-- Количество помощи -->
             <u-card
                 class="md:col-span-1 md:row-span-1"
-                :ui="{ root: 'rounded-3xl bg-gradient-to-br from-emerald-100/90 to-emerald-200/90 dark:from-emerald-700/50 dark:to-emerald-600/50', body: 'p-6' }"
+                :ui="{
+                    root: 'rounded-xl h-full ring-1 ring-blue-300 dark:ring-blue-400/60 bg-blue-300/90 dark:bg-blue-600/80',
+                    body: 'p-6',
+                }"
             >
                 <div class="flex flex-col gap-2">
-                    <span class="font-amatic text-2xl font-bold text-gray-600 dark:text-gray-300">
+                    <span
+                        class="font-amatic text-main dark:text-inverted text-2xl font-bold"
+                    >
                         Количество помощи
                     </span>
-                    <span class="font-amatic text-4xl font-bold text-emerald-700 dark:text-emerald-300">
+                    <span
+                        class="font-amatic text-4xl font-bold text-blue-800 dark:text-blue-200"
+                    >
                         21
                     </span>
                 </div>
@@ -175,13 +222,20 @@ onMounted(async () => {
             <!-- Ачивок собрано духами -->
             <u-card
                 class="md:col-span-1 md:row-span-1"
-                :ui="{ root: 'rounded-3xl bg-gradient-to-br from-indigo-100/90 to-indigo-200/90 dark:from-indigo-700/50 dark:to-indigo-600/50', body: 'p-6' }"
+                :ui="{
+                    root: 'rounded-xl h-full ring-1 ring-lime-300 dark:ring-lime-400/60 bg-lime-300/90 dark:bg-lime-600/80',
+                    body: 'p-6',
+                }"
             >
                 <div class="flex flex-col gap-2">
-                    <span class="font-amatic text-2xl font-bold text-gray-600 dark:text-gray-300">
+                    <span
+                        class="font-amatic text-main dark:text-inverted text-2xl font-bold"
+                    >
                         Ачивок собрано духами
                     </span>
-                    <span class="font-amatic text-4xl font-bold text-indigo-700 dark:text-indigo-300">
+                    <span
+                        class="font-amatic text-4xl font-bold text-lime-800 dark:text-lime-200"
+                    >
                         15
                     </span>
                 </div>
@@ -191,4 +245,3 @@ onMounted(async () => {
 </template>
 
 <style scoped></style>
-
