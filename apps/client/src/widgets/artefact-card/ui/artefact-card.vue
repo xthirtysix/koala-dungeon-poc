@@ -36,7 +36,7 @@ const { propertiesShort, propertiesLong, getPropertyClass } =
                 cardBackground,
             ].join(' '),
             body: 'z-2 align-center flex h-full w-full grow-1 flex-col gap-4 p-0 sm:p-0',
-            header: 'z-1 kd-h2 mb-0 h-auto shrink-1 border-0 font-amatic text-2xl leading-none sm:px-0 sm:py-2 sm:mb-2',
+            header: 'z-1 kd-h2 mb-0 h-auto shrink-1 border-0 font-amatic text-2xl leading-none pt-3 pb-5 sm:px-0 sm:py-2 sm:mb-2',
         }"
     >
         <template #header>

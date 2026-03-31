@@ -27,7 +27,7 @@ const { stats, borderColor } = useSpiritData({
 const rootClasses = computed(() => {
     const classes = [
         props.vertical
-            ? 'gap-3 grid-cols-[1fr_max-content]'
+            ? 'gap-3 grid-cols-[1fr_max-content] p-3'
             : 'grid-cols-[1fr_max-content] items-center',
         `${BG_PRIMARY_BY_PLACE.get(props.place) ?? 'bg-gray-50/20'} dark:text-gray-400  relative grid  min-h-0 w-auto grid-rows-[min-content_1fr] border-0 justify-stretch rounded-3xl shadow-md sm:p-3`,
     ]
@@ -37,7 +37,7 @@ const rootClasses = computed(() => {
 
 const headerClasses = computed(() => {
     const classes = [
-        props.vertical ? 'col-span-full' : '',
+        props.vertical ? 'col-span-full' : 'px-3',
         props.withData ? 'flex-row-reverse justify-end' : '',
         'dark:text-default flex gap-3 items-center kd-h3 mb-0 h-auto shrink-1 border-0 font-amatic text-2xl leading-none text-gray-800 sm:p-0',
     ]
@@ -47,7 +47,7 @@ const headerClasses = computed(() => {
 const bodyClasses = computed(() => {
     const classes = [
         props.vertical
-            ? `${RING_BY_PLACE.get(props.place) ?? ''} text-default ring-1 rounded-2xl bg-white/90 dark:bg-gray-900/80 x-4 sm:py-8`
+            ? `${RING_BY_PLACE.get(props.place) ?? ''} text-default ring-1 rounded-2xl bg-white/90 dark:bg-gray-900/80 x-4 p-3 sm:py-8`
             : 'sm:p-0 sm:pr-3',
         'card__stats grid w-full text-sm text-default font-bold capitalize',
     ]
