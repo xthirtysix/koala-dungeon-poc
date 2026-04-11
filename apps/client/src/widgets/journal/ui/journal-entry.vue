@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { JournalEntry } from '@/entities/journal'
-import { heroImageByName } from '@/widgets/journal'
+import { bgHeroesData, type JournalEntry } from '@/entities/journal'
 import { BG_BY_TYPE } from '../consts/journal-colors.consts'
+import {
+    FALLBACK_EVENT_ICON,
+    ICON_BY_EVENT_TYPE,
+} from '../consts/journal-icons.consts'
 
 interface Props {
     entry: JournalEntry
 }
 
 const props = defineProps<Props>()
+
+const heroImageByName = new Map(
+    bgHeroesData.map(({ name, image }) => [name, image]),
+)
 
 const hasHero = computed<boolean>(
     () => 'hero' in props.entry && props.entry.hero !== 'Нет',
@@ -25,27 +32,6 @@ const formatDate = (timestamp: number | string) => {
     }).format(date)
 }
 
-const getEventTypeIcon = (type: JournalEntry['type']) => {
-    switch (type) {
-        case 'dice':
-            return '🎲'
-        case 'game':
-            return '🎮'
-        case 'wheel':
-            return '🎡'
-        case 'gift':
-            return '🎁'
-        case 'shop':
-            return '🏪'
-        case 'boss':
-            return '👾'
-        case 'system':
-            return '⚙️'
-        default:
-            return '📝'
-    }
-}
-
 const badgeBackground = computed(() => {
     if ('hero' in props.entry && props.entry.hero === 'Heт') {
         return 'bg-blue-100/40 dark:bg-blue-300/40'
@@ -58,7 +44,7 @@ const badgeBackground = computed(() => {
 <template>
     <u-card
         :ui="{
-            root: 'relative overflow-hidden rounded-3xl bg-gray-50/20 p-0 shadow-md duration-200 hover:shadow-md',
+            root: 'relative overflow-hidden rounded-xl bg-gray-50/20 p-0 shadow-sm duration-200 hover:shadow-md ring-1 ring-gray-100 dark:ring-gray-600',
             body: 'flex items-start gap-3 p-4 sm:p-2',
         }"
     >
@@ -78,30 +64,31 @@ const badgeBackground = computed(() => {
         <div
             class="relative z-1 flex w-15 items-center justify-center p-2.5 text-xl"
             :class="{
-                [`rounded-2xl shadow-inner ${badgeBackground}`]: !hasHero,
+                [`rounded-lg inset-shadow-sm inset-shadow-gray-100 dark:inset-shadow-gray-800 ${badgeBackground}`]:
+                    !hasHero,
             }"
             :title="entry.type"
         >
             <span v-if="!hasHero">
-                {{ getEventTypeIcon(entry.type) }}
+                {{ ICON_BY_EVENT_TYPE.get(entry.type) ?? FALLBACK_EVENT_ICON }}
             </span>
         </div>
         <div class="relative z-1 flex-1">
             <div
                 class="flex flex-col gap-y-1 sm:flex-row sm:items-center sm:gap-x-2"
             >
-                <span
+                <u-badge
                     v-if="entry.time || entry.createdAt"
-                    class="rounded-full bg-gray-100 px-2 py-0.5 text-sm font-medium text-gray-600 dark:bg-gray-900/35 dark:text-gray-300"
-                >
-                    {{ formatDate(entry.time || entry.createdAt) }}
-                </span>
-                <span
+                    variant="subtle"
+                    color="neutral"
+                    :label="formatDate(entry.time || entry.createdAt)"
+                />
+                <u-badge
                     v-if="entry.cell"
-                    class="bg-primary/35 text-primary rounded-full px-2 py-0.5 text-sm font-medium"
-                >
-                    Клетка {{ entry.cell }}
-                </span>
+                    variant="subtle"
+                    color="primary"
+                    :label="` Клетка ${entry.cell} `"
+                />
             </div>
             <p class="mt-2 text-gray-700 sm:mt-0 dark:text-gray-200">
                 {{ entry.description }}

@@ -28,7 +28,7 @@ const borderColor = computed(() => {
                 `kd-obstacles relative flex ${obstacle.description || obstacle.isUnlocked ? 'md:aspect-[12/9]' : ''} h-full flex-col overflow-hidden rounded-3xl p-0 shadow-md ring-1 duration-200 sm:p-0`,
                 cardColor,
             ].join(' '),
-            header: 'relative z-1 md:min-h-[4rem] border-none text-gray-900 dark:text-gray-300 p-3 pt-5 sm:px-3 sm:pt-5',
+            header: `relative z-1 md:min-h-[4rem] border-none text-gray-900 dark:text-gray-300 p-3 ${obstacle.description || obstacle.isUnlocked ? 'pt-5' : ''} sm:px-3 sm:pt-5`,
             body: `grid h-full grid-rows-[1fr_min-content] overflow-hidden ${obstacle.description || obstacle.isUnlocked ? 'p-3 sm:p-3' : 'p-0 sm:p-0 sm:pt-2'}`,
             footer: 'none',
         }"

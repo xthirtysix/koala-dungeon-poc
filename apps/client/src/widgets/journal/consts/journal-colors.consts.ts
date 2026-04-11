@@ -3,12 +3,12 @@ import { JournalBadgeBackground } from '../model/journal-entry.types'
 
 export const BG_BY_TYPE = new Map<JournalEntry['type'], JournalBadgeBackground>(
     [
-        ['game', 'bg-violet-100/40 dark:bg-violet-300/40'],
-        ['dice', 'bg-blue-100/40 dark:bg-blue-300/40'],
-        ['wheel', 'bg-lime-100/40 dark:bg-lime-300/40'],
-        ['gift', 'bg-green-100/40 dark:bg-green-300/40'],
-        ['shop', 'bg-orange-100/40 dark:bg-orange-300/40'],
-        ['boss', 'bg-red-100/40 dark:bg-red-300/40'],
-        ['system', 'bg-gray-100/40 dark:bg-gray-300/40'],
+        ['game', 'bg-orange-200/40 dark:bg-orange-600/60'],
+        ['dice', 'bg-green-200/40 dark:bg-green-600/60'],
+        ['wheel', 'bg-violet-200/40 dark:bg-violet-600/60'],
+        ['gift', 'bg-blue-200/40 dark:bg-blue-600/60'],
+        ['shop', 'bg-yellow-200/40 dark:bg-yellow-600/60'],
+        ['boss', 'bg-red-200/40 dark:bg-red-600/60'],
+        ['system', 'bg-gray-200/40 dark:bg-gray-600/60'],
     ],
 )

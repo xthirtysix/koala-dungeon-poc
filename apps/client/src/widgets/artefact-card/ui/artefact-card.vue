@@ -32,7 +32,7 @@ const { propertiesShort, propertiesLong, getPropertyClass } =
     <kd-card
         :ui="{
             root: [
-                'kd-artefacts transition-background relative grid min-h-0 w-auto grid-rows-[min-content_1fr] justify-stretch rounded-3xl p-3 shadow-md',
+                'kd-artefacts relative grid min-h-0 w-auto grid-rows-[min-content_1fr] justify-stretch rounded-3xl p-3 duration-200 shadow-md hover:shadow-lg',
                 cardBackground,
             ].join(' '),
             body: 'z-2 align-center flex h-full w-full grow-1 flex-col gap-4 p-0 sm:p-0',

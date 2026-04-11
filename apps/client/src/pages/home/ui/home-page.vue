@@ -20,7 +20,7 @@ const showHomeLatest = computed(() => {
         const timer = marathonTimerRef.value
         if (!timer) return false
         const status = timer.status
-        return  !status
+        return !status
     } catch {
         return false
     }
@@ -37,10 +37,13 @@ const showHomeLatest = computed(() => {
             class="mr-auto"
         />
 
-        <marathon-timer ref="marathonTimerRef" class="shrink-1" />
+        <marathon-timer
+            ref="marathonTimerRef"
+            class="marathon-timer shrink-1"
+        />
     </div>
 
-    <marathon-stats-widget class="mt-4" />
+    <marathon-stats-widget class="marathon-stats mt-4" />
 
-    <home-latest-widget v-if="showHomeLatest" class="mt-8" />
+    <home-latest-widget v-if="false && showHomeLatest" class="mt-8" />
 </template>

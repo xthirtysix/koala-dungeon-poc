@@ -53,6 +53,8 @@ function formatTime(sec: number) {
 
 const status = computed(() => {
     if (!marathon.value) return ''
+    debugger
+
     const nowSec = Math.floor(now.value / 1000)
     const startSec = Math.floor(startTime.value / 1000)
     const isBeforeStart = nowSec < startSec
@@ -97,12 +99,12 @@ defineExpose({
 
 <template>
     <div
-        class="font-amatic mx-auto mt-6 w-auto p-6 text-center text-3xl font-bold"
+        class="marathon-timer font-amatic mx-auto mt-6 w-auto p-6 text-center text-3xl font-bold"
     >
         <div class="flex flex-col items-center gap-4 py-6">
             <div
                 v-if="loading"
-                class="h-8 w-64 animate-pulse rounded bg-gray-100 dark:bg-gray-700"
+                class="my-[2px] min-h-8 w-128 animate-pulse rounded bg-gray-100 dark:bg-gray-700"
             />
             <template v-else>
                 <div v-if="status">

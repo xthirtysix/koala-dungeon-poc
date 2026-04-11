@@ -16,21 +16,24 @@ defineOptions({
         target="_blank"
         class="block"
     >
-        <u-card class="px-1 py-0.5 rounded-3xl">
-            <div>
-                <div class="flex items-center gap-2">
-                    <h3 class="text-xl font-bold">
-                        {{ member.name }}
-                    </h3>
-                    <u-icon
-                        name="i-simple-icons:twitch"
-                        class="text-sm text-[#9146FF]"
-                    />
-                </div>
-                <p class="text-sm text-gray-500">
-                    {{ member.role }}
-                </p>
-            </div>
+        <u-card
+            class="rounded-xl"
+            :ui="{
+                body: 'p-4 sm:p-4 grid grid-cols-[auto_1fr] items-baseline gap-2',
+            }"
+        >
+            <h3 class="flex text-xl font-bold">
+                {{ member.name }}
+            </h3>
+
+            <u-icon
+                name="i-simple-icons:twitch"
+                class="text-sm text-violet-500"
+            />
+
+            <p class="col-span-full text-sm">
+                {{ member.role }}
+            </p>
         </u-card>
     </a>
 </template>

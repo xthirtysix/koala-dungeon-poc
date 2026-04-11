@@ -219,7 +219,7 @@ const { loadingLabel } = useLoadingLabels(LOADING_LABELS, isLoadingMore)
         <h2  v-if="unlockedRowsCount > 0" class="kd-h2 font-amatic text-3xl font-bold first:pt-0">
             Открытые
         </h2>
-        <div v-if="unlockedRowsCount > 0" ref="unlockedListAnchorRef" class="relative mb-[5rem]">
+        <div v-if="unlockedRowsCount > 0" ref="unlockedListAnchorRef" class="relative mb-[3rem]">
             <div
                 :style="{
                     height: `${unlockedTotalSize}px`,

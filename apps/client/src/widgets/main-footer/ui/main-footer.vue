@@ -25,10 +25,10 @@ import { footerLinks } from '@/widgets/main-footer'
                     <u-icon
                         v-if="link.icon"
                         :name="link.icon"
-                        class="text-base"
                         :ui="{
                             base: 'inline-flex',
                         }"
+                        class="text-base"
                     />
                     {{ link.name }}
                 </a>
