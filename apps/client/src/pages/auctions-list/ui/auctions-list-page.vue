@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { auctionApi, AuctionCard, AUCTION_QUERY_KEY } from '@/entities/auction'
 import { AuctionAdd } from '@/features/auction'
-import { useQuery } from '@pinia/colada'
+import { useQuery } from '@tanstack/vue-query'
 
 const { data } = useQuery({
-    key: [AUCTION_QUERY_KEY],
-    query: () => auctionApi.fetchAuctions(),
+    queryKey: [AUCTION_QUERY_KEY],
+    queryFn: () => auctionApi.fetchAuctions(),
 })
 </script>
 

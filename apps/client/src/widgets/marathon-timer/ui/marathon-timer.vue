@@ -53,7 +53,6 @@ function formatTime(sec: number) {
 
 const status = computed(() => {
     if (!marathon.value) return ''
-    debugger
 
     const nowSec = Math.floor(now.value / 1000)
     const startSec = Math.floor(startTime.value / 1000)

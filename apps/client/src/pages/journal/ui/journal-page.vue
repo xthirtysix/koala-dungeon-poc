@@ -1,74 +1,61 @@
 <script setup lang="ts">
-import { ref, shallowRef, onMounted } from 'vue'
-import { type JournalEntry, journalApi } from '@/entities/journal'
+import { computed } from 'vue'
+import { useInfiniteQuery } from '@tanstack/vue-query'
+import { type JournalEntry } from '@/entities/journal'
 import { JournalList } from '@/widgets/journal'
-import { useLoadingLabels } from '@/shared/composables'
-import { LOADING_LABELS } from '../consts/loadingLabels'
+import { useJournal } from '../api/journal-page.loader'
+import { journalPageQueryOptions } from '../api/journal-page.query'
+import JournalPageSkeleton from './journal-page-skeleton.vue'
+import JournalListSkeleton from './journal-list-skeleton.vue'
+import { SKELETON_COUNT } from '../consts/journal-page.consts'
+useJournal()
 
-const PAGE_SIZE = 50
-const currentPage = ref(1)
-const isLoading = ref(false)
-const isLoadingMore = ref(false)
-const hasNextPage = ref(true)
-const allEntries = shallowRef<JournalEntry[]>([])
-const error = ref<string | null>(null)
+const {
+    data,
+    isFetching,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    error,
+} = useInfiniteQuery(journalPageQueryOptions())
 
-const loadPage = async (page: number, append = false) => {
-    if (isLoading.value || isLoadingMore.value || !hasNextPage.value) return
+const allEntries = computed<JournalEntry[]>(
+    () => data.value?.pages.flatMap((page) => page.data) ?? [],
+)
 
-    if (page === 1) isLoading.value = true
-    else isLoadingMore.value = true
-    error.value = null
-
-    try {
-        const { data, meta} = await journalApi.getEntries({
-            page,
-            pageSize: PAGE_SIZE,
-        })
-
-        if (append) {
-            allEntries.value = [...allEntries.value, ...data]
-        } else {
-            allEntries.value = data
-        }
-        hasNextPage.value = meta.pagination.total > page * PAGE_SIZE
-        currentPage.value = page
-    } catch (e: any) {
-        error.value = 'Ошибка загрузки'
-    } finally {
-        isLoading.value = false
-        isLoadingMore.value = false
+function onLoadMore() {
+    if (!hasNextPage.value || isFetchingNextPage.value || isFetching.value) {
+        return
     }
+
+    fetchNextPage()
 }
-
-const { loadingLabel } = useLoadingLabels(LOADING_LABELS, isLoadingMore)
-
-onMounted(async () => {
-    await loadPage(1)
-})
 </script>
 
 <template>
-    <h1 class="kd-h1">Журнал событий</h1>
-    <p class="mb-5">
-        В подземелье могут происходить различные события, которые влияют на ход
-        игры и создают уникальные ситуации.
-    </p>
-    <div
-        v-if="isLoading"
-        class="font-amatic py-10 text-center text-4xl font-bold"
-    >
-        Загрузка...
-    </div>
-    <div v-else-if="error" class="py-10 text-center text-red-500">
-        {{ error }}
-    </div>
-    <journal-list
-        v-else
-        class="mb-4 block"
-        :entries="allEntries"
-        :is-loading-more="isLoadingMore"
-        :loading-label="loadingLabel"
-        @load-more="loadPage(currentPage + 1, true)"
-    />
+    <journal-page-skeleton v-if="isFetching && !isFetchingNextPage" />
+
+    <template v-else>
+        <h1 class="kd-h1">Журнал событий</h1>
+        <p class="mb-5">
+            В подземелье могут происходить различные события, которые влияют на
+            ход игры и создают уникальные ситуации.
+        </p>
+        <div v-if="error" class="py-10 text-center text-red-500">
+            {{ error }}
+        </div>
+
+        <journal-list
+            v-else
+            class="mb-4 block"
+            :entries="allEntries"
+            @load-more="onLoadMore"
+        />
+
+        <journal-list-skeleton
+            v-if="isFetchingNextPage"
+            :count="SKELETON_COUNT"
+            class="-mt-30"
+        />
+    </template>
 </template>

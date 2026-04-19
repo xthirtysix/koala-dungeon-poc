@@ -1,44 +1,42 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { achievementApi, type Achievement } from '@/entities/achievement'
+import {  computed } from 'vue'
+import { useInfiniteQuery } from '@tanstack/vue-query';
+import { achievementApi } from '@/entities/achievement'
 import AchievementCard from './achievement-card.vue'
 
 const emit = defineEmits<{
     (e: 'close'): void
 }>()
 
-const achievements = ref<Achievement[]>([])
-const isLoading = ref(false)
-const error = ref<string | null>(null)
+const { data, isLoading, error } = useInfiniteQuery({
+    queryKey: ['achievements'],
+    initialPageParam: 1,
+    queryFn: () => achievementApi.getAchievements({
+        pageSize: 20,
+        isHidden: false,
+    }),
+    getNextPageParam: (lastPage) => {
+        const { page, pageCount } = lastPage.meta.pagination
 
-const loadAchievements = async () => {
-    isLoading.value = true
-    error.value = null
-    try {
-        const { data } =
-            await achievementApi.getAchievements({
-                pageSize: 100,
-                isHidden: false,
-            })
-        achievements.value = data
-    } catch (e: any) {
-        error.value = 'Ошибка загрузки ачивок'
-        console.error('Ошибка при загрузке ачивок:', e)
-    } finally {
-        isLoading.value = false
-    }
-}
+        if (page === pageCount) {
+            return undefined
+        }
 
-onMounted(() => {
-    loadAchievements()
+        return page + 1
+    },
+    staleTime: 1000 * 60 * 60 * 24,
+})
+
+const achievements = computed(() => {
+    return data.value?.pages.flatMap((page) => page.data) ?? []
 })
 </script>
 
 <template>
     <div class="flex flex-col gap-4">
-        <div v-if="isLoading" class="py-10 text-center">
-            <div class="font-amatic text-2xl font-bold">Загрузка ачивок...</div>
-        </div>
+        <template v-if="isLoading">
+            <u-skeleton v-for="i in 10" :key="i" class="h-16 rounded-3xl min-w-[37.625rem] min-h-[7.5rem] mb-4" />
+        </template>
 
         <div v-else-if="error" class="py-10 text-center text-red-500">
             {{ error }}

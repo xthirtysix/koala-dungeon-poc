@@ -4,10 +4,8 @@ import { useWindowVirtualizer } from '@tanstack/vue-virtual'
 import { type JournalEntry } from '@/entities/journal'
 import { JournalEntry as JournalEntryComponent } from '@/widgets/journal'
 
-const { entries, isLoadingMore, loadingLabel } = defineProps<{
+const { entries } = defineProps<{
     entries: JournalEntry[]
-    isLoadingMore: boolean
-    loadingLabel: string
 }>()
 
 const emit = defineEmits<{
@@ -48,9 +46,12 @@ watch(
     () => virtualItems.value,
     (items) => {
         if (!items?.length) return
+
         const lastVisibleIndex = items[items.length - 1]?.index
+
         if (typeof lastVisibleIndex !== 'number') return
-        if (lastVisibleIndex >= entries.length - 5 && !isLoadingMore) {
+
+        if (lastVisibleIndex >= entries.length - 5) {
             emit('load-more')
         }
     },
@@ -112,12 +113,6 @@ watch(
                         </template>
                     </li>
                 </ul>
-                <div
-                    v-if="isLoadingMore"
-                    class="font-amatic py-4 text-center text-2xl font-bold text-gray-500"
-                >
-                    {{ loadingLabel }}
-                </div>
             </div>
         </div>
     </div>

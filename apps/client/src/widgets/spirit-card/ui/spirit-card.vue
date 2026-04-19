@@ -80,7 +80,9 @@ const carouselUiClasses = computed(() => {
 
     return {
         root: 'h-full content-center w-full items-start justify-start z-2',
-        container: props.vertical ? 'h-[300px]' : 'h-auto py-2 sm:mx-1',
+        container: props.vertical
+            ? 'h-[300px]'
+            : 'h-auto py-2 sm:mx-1 min-h-[6.375rem]',
         item: props.vertical ? 'basis-1/3' : 'basis-1/8',
         prev: [
             props.vertical

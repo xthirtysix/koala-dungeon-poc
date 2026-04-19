@@ -1,23 +1,23 @@
 import { useRouter } from 'vue-router'
-import { useMutation, useQueryCache } from '@pinia/colada'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { auctionApi, AUCTION_QUERY_KEY, Auction } from '@/entities/auction'
 import { Persisted } from '@/shared/model/persisted.type'
 
 export function useAuction() {
-    const queryCache = useQueryCache()
+    const queryClient = useQueryClient()
     const router = useRouter()
 
     const {
         mutateAsync,
         data,
-        asyncStatus: createStatus,
+        status: createStatus,
     } = useMutation({
-        mutation: () => {
-            return auctionApi.createAuction()
+        mutationFn: () => {
+            return auctionApi.create()
         },
         onSettled: async () => {
-            await queryCache.invalidateQueries({
-                key: [AUCTION_QUERY_KEY],
+            await queryClient.invalidateQueries({
+                queryKey: [AUCTION_QUERY_KEY],
                 exact: true,
             })
 
@@ -28,7 +28,7 @@ export function useAuction() {
     })
 
     async function create() {
-        if (createStatus.value === 'loading') {
+        if (createStatus.value === 'pending') {
             return
         }
 
@@ -36,11 +36,11 @@ export function useAuction() {
     }
 
     const { mutate: updateTitle } = useMutation({
-        mutation: (params: { auction: Persisted<Auction>; title: string }) => {
+        mutationFn: (params: { auction: Persisted<Auction>; title: string }) => {
             return auctionApi.updateTitle(params.title, params.auction)
         },
         onMutate({ auction, title }) {
-            const oldAuction = queryCache.getQueryData<Persisted<Auction>>([
+            const oldAuction = queryClient.getQueryData<Persisted<Auction>>([
                 AUCTION_QUERY_KEY,
                 auction.documentId,
             ])
@@ -54,22 +54,26 @@ export function useAuction() {
                 title,
             }
 
-            queryCache.setQueryData<Persisted<Auction>>(
+            queryClient.setQueryData<Persisted<Auction>>(
                 [AUCTION_QUERY_KEY, auction.documentId],
                 newAuction,
             )
-            queryCache.cancelQueries({
-                key: [AUCTION_QUERY_KEY, auction.documentId],
+            queryClient.cancelQueries({
+                queryKey: [AUCTION_QUERY_KEY, auction.documentId],
             })
 
             return { oldAuction, newAuction }
         },
-        onError(_error, { auction }, { newAuction, oldAuction }) {
+        onError(_error, { auction }, context) {
+            if (!context) return
+
+            const { newAuction, oldAuction } = context
+
             if (
                 newAuction ===
-                queryCache.getQueryData([AUCTION_QUERY_KEY, auction.documentId])
+                queryClient.getQueryData([AUCTION_QUERY_KEY, auction.documentId])
             ) {
-                queryCache.setQueryData(
+                queryClient.setQueryData(
                     [AUCTION_QUERY_KEY, auction.documentId],
                     oldAuction,
                 )

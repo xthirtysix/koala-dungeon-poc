@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 import {
     BG_BY_TYPE,
     BORDER_BY_TYPE,
@@ -11,6 +11,23 @@ import { KdCard } from '@/shared/ui/kd-card'
 import { useArtefactProperties } from '@/entities/artefact/model/artefact-properties.composable'
 
 const props = defineProps<{ artefact: Artefact }>()
+
+const isLoading = ref(true)
+
+const image = new Image()
+image.src = props.artefact.image.url
+
+image.onload = () => {
+    isLoading.value = false
+}
+image.onerror = () => {
+    isLoading.value = false
+}
+
+onUnmounted(() => {
+    image.onload = null
+    image.onerror = null
+})
 
 const cardBackground = computed(() => {
     return BG_BY_TYPE.get(props.artefact.slot)
@@ -101,8 +118,9 @@ const { propertiesShort, propertiesLong, getPropertyClass } =
             class="relative z-0 order-1 mx-auto flex aspect-[20/15] w-full items-center justify-center rounded-t-2xl border bg-white/90 dark:bg-gray-900/80"
             :class="borderColor"
         >
+            <u-skeleton v-if="isLoading" class="h-64 w-full rounded-t-2xl" />
             <img
-                v-if="artefact.image?.url"
+                v-else
                 :src="artefact.image.url"
                 :alt="artefact.name"
                 class="obj z-10 h-64 w-full object-contain p-4"

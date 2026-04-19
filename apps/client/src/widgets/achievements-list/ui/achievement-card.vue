@@ -9,7 +9,10 @@ defineProps<{
 <template>
     <u-card
         tag="article"
-        :ui="{ root: 'rounded-3xl', body: 'flex gap-4 p-2 sm:p-2' }"
+        :ui="{
+            root: 'rounded-3xl  ',
+            body: 'flex min-w-[37.625rem] min-h-[7.5rem] gap-4 p-2 sm:p-2',
+        }"
     >
         <achievement-badge :achievement="achievement" side="top" size="lg" />
         <div class="grid gap-2">

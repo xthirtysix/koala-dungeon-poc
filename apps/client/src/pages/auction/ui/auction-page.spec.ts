@@ -34,8 +34,8 @@ const globalStubs = {
     },
 }
 
-vi.mock('@pinia/colada', () => ({
-    useQuery: (options: { query: () => Promise<void> }) => {
+vi.mock('@tanstack/vue-query', () => ({
+    useQuery: (options: { queryFn: () => Promise<void> }) => {
         queryCallback.value = options.query
 
         return {
@@ -43,7 +43,7 @@ vi.mock('@pinia/colada', () => ({
             status: ref('success'),
         }
     },
-    useQueryCache: () => ({
+    useQueryClient: () => ({
         getQueryData: mockGetQueryData,
         setQueryData: mockSetQueryData,
         cancelQueries: mockCancelQueries,

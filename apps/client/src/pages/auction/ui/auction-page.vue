@@ -2,23 +2,16 @@
 import { computed, nextTick, ref, shallowRef } from 'vue'
 import type { ComponentExposed } from 'vue-component-type-helpers'
 import { useRoute } from 'vue-router'
-import { useQuery } from '@pinia/colada'
+import { useQuery } from '@tanstack/vue-query'
 import { AUCTION_QUERY_KEY, auctionApi } from '@/entities/auction'
-import { createColorGenerator } from '@/shared/config'
-import { SlotDrum } from '@/widgets/slot-drum'
-import { RandomizerList } from '@/widgets/randomizer-list'
-import { AuctionClose } from '@/features/auction'
 
 const route = useRoute()
 
 const slotDrumRef = shallowRef<ComponentExposed<typeof SlotDrum>>()
-const isEditingTitle = ref(false)
-const editableTitle = ref('')
-const titleInputRef = ref<HTMLInputElement>()
 
 const { data: auction, status } = useQuery({
-    key: () => [AUCTION_QUERY_KEY, route.params.id],
-    query: () => {
+    queryKey: [AUCTION_QUERY_KEY, route.params.id],
+    queryFn: () => {
         return auctionApi.getAuction(route.params.id as string)
     },
 })

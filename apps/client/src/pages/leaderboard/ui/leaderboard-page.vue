@@ -1,84 +1,31 @@
 <script setup lang="ts">
-import { ref, shallowRef, onMounted, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import type { TabsItem } from '@nuxt/ui'
-import { LOADING_LABELS } from '../consts/loadingLabels'
-import { spiritApi, type Spirit } from '@/entities/spirit'
+import { ref, computed } from 'vue'
+import { type Spirit } from '@/entities/spirit'
 import { AdvertisingBanner } from '@/entities/banner'
 import { usePageBanner } from '@/entities/banner/model/usePageBanner'
-import { SpiritList } from '@/widgets/spirit-list'
+import { SpiritList, SpiritListSkeleton } from '@/widgets/spirit-list'
 import { SpiritCard } from '@/widgets/spirit-card'
 import { AchievementsList } from '@/widgets/achievements-list'
 import { PageName } from '@/shared/config'
-import { useLoadingLabels } from '@/shared/composables'
+import { useInfiniteQuery } from '@tanstack/vue-query'
+import LeaderboardPageSkeleton from './leaderboard-page-skeleton.vue'
+import { leaderboardsQueryOptions } from '../api/leaderboards.query'
+import { useLeaderboards } from '../api/leaderboard-page.loader'
 
-const PAGE_SIZE = 25
-const currentPage = ref(1)
-const isLoading = ref(false)
-const isLoadingMore = ref(false)
-const hasNextPage = ref(true)
-const allSpirits = shallowRef<Spirit[]>([])
-const error = ref<string | null>(null)
 const isAchievementsDrawerOpen = ref(false)
-const route = useRoute()
-const router = useRouter()
 
-const tabs: TabsItem[] = [
-    {
-        label: 'Духи подземелья',
-        icon: 'i-token:spirit',
-        slot: 'top_spirits',
-        value: 'top_spirits',
-    },
-    {
-        label: 'Поймай коалу',
-        icon: 'i-game-icons:koala',
-        slot: 'catch_koala',
-        value: 'catch_koala',
-    },
-]
+useLeaderboards()
 
-const loadPage = async (page: number, append = false) => {
-    if (isLoading.value || isLoadingMore.value || !hasNextPage.value) return
+const { data, fetchNextPage, isFetching, isFetchingNextPage } =
+    useInfiniteQuery(leaderboardsQueryOptions())
 
-    if (page === 1) isLoading.value = true
-    else isLoadingMore.value = true
-    error.value = null
-    try {
-        const response = await spiritApi.getSpirits({
-            page,
-            pageSize: PAGE_SIZE,
-            isHidden: false,
-        })
-        if (append) {
-            allSpirits.value = [...allSpirits.value, ...response.data]
-        } else {
-            allSpirits.value = response.data
-        }
-        hasNextPage.value = response.meta?.pagination?.total > page * PAGE_SIZE
-        currentPage.value = page
-    } catch (e: any) {
-        error.value = 'Ошибка загрузки'
-    } finally {
-        isLoading.value = false
-        isLoadingMore.value = false
-    }
-}
+const topHeroes = computed<Spirit[]>(
+    () => data.value?.pages.flatMap((page) => page.data).slice(0, 3) ?? [],
+)
 
-const { loadingLabel } = useLoadingLabels(LOADING_LABELS, isLoadingMore)
-
-const topHeroes = computed<Spirit[]>(() => allSpirits.value.slice(0, 3))
-
-const getLeaderCardProps = (spirit: Spirit, index: number) => ({
-    place: index + 1,
-    name: spirit.nickname,
-    interferenceWheelSpins: spirit.obstacleSpins ?? 0,
-    helpWheelSpins: spirit.helpSpins ?? 0,
-    deferredInterferences: spirit.scheduledSpins ?? 0,
-    totalDonations: spirit.amount ?? 0,
-    achievements: spirit.achievements ?? [],
-    rerolls: spirit.reroll ?? 0,
-})
+const allSpirits = computed<Spirit[]>(
+    () => data.value?.pages.flatMap((page) => page.data) ?? [],
+)
 
 const { pageBanner: leaderboardsBanner } = usePageBanner(PageName.LEADERBOARD)
 
@@ -88,120 +35,74 @@ const topThreeClasses = computed<string>(() => {
         : 'mb-8 grid grid-cols-1 gap-10 py-8 md:mb-16 md:grid-cols-3 md:gap-6'
 })
 
-const active = computed({
-    get() {
-        return (route.query.tab as string) || tabs[0].value
-    },
-    set(tab) {
-        // Hash is specified here to prevent the page from scrolling to the top
-        router.push({
-            path: '/leaderboard',
-            query: { tab },
-            hash: '#tab',
-        })
-    },
-})
-
 function openAchievementsDrawer() {
     isAchievementsDrawerOpen.value = true
 }
 
-onMounted(async () => {
-    await loadPage(1)
-})
+function onLoadMore() {
+    if (isFetchingNextPage.value) return
+
+    fetchNextPage()
+}
 </script>
 
 <template>
-    <div class="mb-8 flex items-baseline justify-between">
-        <h1 class="kd-h1 mb-0">Зал славы</h1>
-        <u-button
-            icon="i-solar:medal-star-linear"
-            label="Ачивки"
-            variant="solid"
-            color="primary"
-            size="lg"
-            @click="openAchievementsDrawer"
-            :ui="{
-                base: 'rounded-full',
-            }"
-        />
-    </div>
-    <!-- <u-tabs
-        v-model="active"
-        :items="tabs"
-        :ui="{
-            root: 'rounded-3xl',
-            list: 'rounded-3xl',
-            indicator: 'rounded-3xl',
-            trigger: 'rounded-3xl',
-            content: 'pt-4',
-        }"
-        size="lg"
-    >
-        <template #top_spirits> -->
-    <div
-        v-if="isLoading"
-        class="font-amatic py-10 text-center text-4xl font-bold"
-    >
-        Загрузка...
-    </div>
-    <div v-else-if="error" class="py-10 text-center text-red-500">
-        {{ error }}
-    </div>
-    <u-container v-else class="px-0 md:px-0 lg:px-0">
-        <h3 class="font-amatic mb-4 text-3xl font-bold">Топ духов</h3>
-        <div :class="topThreeClasses">
-            <advertising-banner
-                v-if="leaderboardsBanner"
-                :banner="leaderboardsBanner"
-                :width="190"
-            />
-
-            <spirit-card
-                v-for="(hero, index) in topHeroes"
-                :key="hero.id"
-                :spirit="hero"
-                :place="index + 1"
-                achievements
-                vertical
-                with-data
+    <leaderboard-page-skeleton v-if="isFetching && !isFetchingNextPage" />
+    <template v-else>
+        <div class="mb-8 flex items-baseline justify-between">
+            <h1 class="kd-h1 mb-0">Зал славы</h1>
+            <u-button
+                icon="i-solar:medal-star-linear"
+                label="Ачивки"
+                variant="solid"
+                color="primary"
+                size="lg"
+                @click="openAchievementsDrawer"
+                :ui="{
+                    base: 'rounded-full',
+                }"
             />
         </div>
+        <u-container class="px-0 md:px-0 lg:px-0">
+            <h3 class="font-amatic mb-4 text-3xl font-bold">Топ духов</h3>
+            <div :class="topThreeClasses">
+                <advertising-banner
+                    v-if="leaderboardsBanner"
+                    :banner="leaderboardsBanner"
+                    :width="190"
+                />
 
-        <spirit-list
-            :spirits="allSpirits"
-            :is-loading-more="isLoadingMore"
-            :loading-label="loadingLabel"
-            @load-more="loadPage(currentPage + 1, true)"
-        />
-    </u-container>
-    <!-- </template>
-        <template #catch_koala>
-            <div>
-                <h3 class="font-amatic mb-4 text-3xl font-bold">
-                    Топ ловцов
-                </h3>
-                <catchers-list
-                    :catchers="catchers"
-                    :loading="catchersLoading"
-                    :error="catchersError"
-                    @retry="loadCatchers"
+                <spirit-card
+                    v-for="(hero, index) in topHeroes"
+                    :key="hero.id"
+                    :spirit="hero"
+                    :place="index + 1"
+                    achievements
+                    vertical
+                    with-data
                 />
             </div>
-        </template>
-    </u-tabs> -->
 
-    <u-drawer
-        v-model:open="isAchievementsDrawerOpen"
-        title="Ачивки"
-        direction="right"
-        :handle="false"
-        :ui="{
-            title: 'text-3xl font-bold font-amatic',
-        }"
-    >
-        <template #body>
-            <achievements-list @close="isAchievementsDrawerOpen = false" />
-        </template>
-    </u-drawer>
+            <spirit-list :spirits="allSpirits" @load-more="onLoadMore" />
+            <spirit-list-skeleton
+                v-if="isFetchingNextPage"
+                expanded
+                class="pt-4"
+            />
+        </u-container>
+
+        <u-drawer
+            v-model:open="isAchievementsDrawerOpen"
+            title="Ачивки"
+            direction="right"
+            :handle="false"
+            :ui="{
+                title: 'text-3xl font-bold font-amatic',
+            }"
+        >
+            <template #body>
+                <achievements-list @close="isAchievementsDrawerOpen = false" />
+            </template>
+        </u-drawer>
+    </template>
 </template>

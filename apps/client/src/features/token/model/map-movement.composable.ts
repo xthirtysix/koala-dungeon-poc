@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useMutation, useQueryCache } from '@pinia/colada'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { useMapStore } from '@/entities/map'
 import {
     characterApi,
@@ -16,11 +16,11 @@ export function useMapMovement({ path }: UseMapMovementParams) {
     const { enrichedCells, tokenCell: currentCellIndex } =
         storeToRefs(useMapStore())
 
-    const queryCache = useQueryCache()
+    const queryClient = useQueryClient()
 
     const { mutate: updateMapPlacement, mutateAsync: updateMapPlacementAsync } =
         useMutation({
-            mutation: (params: UpdateMapPlacementParams) =>
+            mutationFn: (params: UpdateMapPlacementParams) =>
                 characterApi.updateMapPlacement(params),
             onError: (error) => {
                 console.error('Ошибка при обновлении позиции персонажа:', error)
@@ -53,8 +53,8 @@ export function useMapMovement({ path }: UseMapMovementParams) {
                 mapPlacement: clampedIndex + 1,
                 isMovementLocked: shallLockMovement,
             })
-            await queryCache.invalidateQueries({
-                key: ['main-character'],
+            await queryClient.invalidateQueries({
+                queryKey: ['main-character'],
             })
             return
         }
@@ -70,8 +70,8 @@ export function useMapMovement({ path }: UseMapMovementParams) {
                 if (currentCellIndex.value === clampedIndex) {
                     clearMoveInterval()
                     await nextTick()
-                    await queryCache.invalidateQueries({
-                        key: ['main-character'],
+                    await queryClient.invalidateQueries({
+                        queryKey: ['main-character'],
                     })
                 }
             }, 250),

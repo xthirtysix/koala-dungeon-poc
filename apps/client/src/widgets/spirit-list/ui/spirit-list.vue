@@ -7,8 +7,10 @@ import { SpiritCard } from '@/widgets/spirit-card'
 
 const props = defineProps<{
     spirits: Spirit[]
-    isLoadingMore?: boolean
-    loadingLabel?: string
+}>()
+
+const emit = defineEmits<{
+    (e: 'load-more'): void
 }>()
 
 const showAchievements = ref(true)
@@ -16,10 +18,14 @@ const showAchievements = ref(true)
 const parentRef = ref<HTMLElement | null>(null)
 const parentOffsetRef = ref(0)
 
+const ITEM_GAP = 16
+
 const virtualizerOptions = computed(() => ({
     count: props.spirits.length,
     estimateSize: () => 137,
     scrollMargin: parentOffsetRef.value,
+    gap: ITEM_GAP,
+    overscan: 5,
 }))
 
 const virtualizer = useWindowVirtualizer(virtualizerOptions)
@@ -32,6 +38,7 @@ const containerOffset = computed(() => {
     return firstItem.start - virtualizer.value.options.scrollMargin
 })
 
+
 const measureElement = (el: Element | ComponentPublicInstance | null) => {
     if (!el || !(el instanceof HTMLElement)) return
     virtualizer.value.measureElement(el)
@@ -41,15 +48,13 @@ const updateOffset = () => {
     parentOffsetRef.value = parentRef.value?.offsetTop ?? 0
 }
 
-const emit = defineEmits(['load-more'])
-
 // Следим за виртуальными элементами и вызываем load-more, если последний элемент видим
 watch(
     () => virtualItems.value,
     (items) => {
         if (!items.length) return
         const last = items[items.length - 1]
-        // Если последний элемент видим и это не пустой список
+
         if (last.index >= props.spirits.length - 1) {
             emit('load-more')
         }
@@ -67,7 +72,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div class="mb-4 flex items-center justify-between">
+    <div class="flex items-center justify-between">
         <h3 class="font-amatic text-3xl font-bold">Все участники</h3>
         <u-button
             color="neutral"
@@ -87,7 +92,7 @@ onBeforeUnmount(() => {
         </u-button>
     </div>
 
-    <div ref="parentRef" class="relative pb-32">
+    <div ref="parentRef" class="relative">
         <div
             :style="{
                 height: `${totalSize}px`,
@@ -105,13 +110,13 @@ onBeforeUnmount(() => {
                     transform: `translateY(${containerOffset}px)`,
                 }"
             >
-                <ul>
+                <ul class="flex flex-col gap-4">
                     <li
                         v-for="virtualItem in virtualItems"
                         :key="String(virtualItem.key)"
                         :ref="measureElement"
                         :data-index="virtualItem.index"
-                        class="mb-4 transition-transform duration-200 [&:last-child]:mb-8"
+                        class="transition-transform duration-200"
                     >
                         <spirit-card
                             v-if="spirits[virtualItem.index]"
@@ -122,12 +127,6 @@ onBeforeUnmount(() => {
                         />
                     </li>
                 </ul>
-                <div
-                    v-if="isLoadingMore"
-                    class="font-amatic py-4 text-center text-2xl font-bold text-gray-500"
-                >
-                    {{ loadingLabel }}
-                </div>
             </div>
         </div>
     </div>

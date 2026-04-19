@@ -1,40 +1,46 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
+import { watch, ref } from 'vue'
 import type { MDCParserResult } from '@nuxtjs/mdc'
 import MDCRenderer from '@nuxtjs/mdc/runtime/components/MDCRenderer.vue'
-import { rulesApi } from '@/entities/rules'
+import { useQuery } from '@tanstack/vue-query'
 import { TableOfContents } from '@/widgets/table-of-contents'
 import { useMarkdownParser } from '@/shared/composables'
+import { useMarathonRules } from '../api/rules-page.loader'
+import { rulesPageQueryOptions } from '../api/rules-page.query'
+import RulesPageSkeleton from './rules-page-skeleton.vue'
 
 defineOptions({
     name: 'rules-page',
 })
 
+useMarathonRules()
+
+const { data: rules, isLoading, error } = useQuery(rulesPageQueryOptions())
+
+const isParsing = ref(true)
+
 const md = ref('')
-const loading = ref(true)
-const error = ref<string | null>(null)
 
 const ast = ref<MDCParserResult | null>(null)
 const parse = useMarkdownParser()
 
-onBeforeMount(async () => {
-    try {
-        const rules = await rulesApi.getRules()
-        md.value = rules.data[0]?.rules || ''
-        ast.value = await parse(md.value)
-    } catch (e) {
-        error.value = 'Ошибка загрузки правил'
-    } finally {
-        loading.value = false
-    }
-})
+watch(
+    rules,
+    async () => {
+        try {
+            md.value = rules.value?.data[0]?.rules || ''
+            ast.value = await parse(md.value)
+        } finally {
+            isParsing.value = false
+        }
+    },
+    { immediate: true },
+)
 </script>
 
 <template>
     <h1 class="kd-h1 hidden">Правила марафона</h1>
-    <div v-if="loading" class="font-amatic py-8 text-center text-4xl font-bold">
-        Загрузка...
-    </div>
+    <rules-page-skeleton v-if="isLoading || isParsing" />
     <div v-else-if="error" class="py-8 text-red-500">{{ error }}</div>
     <div v-else class="grid w-full grid-cols-1 gap-8 lg:grid-cols-[1fr_250px]">
         <suspense>

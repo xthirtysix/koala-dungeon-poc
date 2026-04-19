@@ -24,13 +24,13 @@ vi.mock('@/entities/auction', () => ({
     AUCTION_QUERY_KEY: 'auctions',
 }))
 
-vi.mock('@pinia/colada', () => ({
+vi.mock('@tanstack/vue-query', () => ({
     useMutation: (options: {
         onSettled?: () => Promise<void>
-        mutation?: () => Promise<void>
+        mutationFn?: () => Promise<void>
     }) => ({
         mutate: async () => {
-            await options.mutation?.()
+            await options.mutationFn?.()
             await options.onSettled?.()
         },
         data: ref(mockData.value),

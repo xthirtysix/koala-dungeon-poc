@@ -17,6 +17,12 @@ export const technologies: Technology[] = [
         color: '#38BDF8',
     },
     {
+
+        name: 'Tanstack Vue Query',
+        icon: 'simple-icons:tanstack',
+        color: '#ff6900',
+    },
+    {
         name: 'Tailwind CSS',
         icon: 'i-simple-icons:tailwindcss',
         color: '#38BDF8',

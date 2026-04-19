@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useQuery } from '@pinia/colada'
+import { useQuery } from '@tanstack/vue-query'
 import {
     type Character,
     type CharacterResource,
@@ -24,8 +24,8 @@ export function useCharacter() {
         error,
         isPending,
     } = useQuery({
-        key: ['main-character'],
-        query: () => characterApi.getMain(),
+        queryKey: ['main-character'],
+        queryFn: () => characterApi.getMain(),
     })
 
     const character = computed<Character | null>(

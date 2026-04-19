@@ -1,4 +1,4 @@
-import { useMutation, useQueryCache } from '@pinia/colada'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { AUCTION_QUERY_KEY, auctionApi } from '@/entities/auction'
 import type {
     Auction,
@@ -9,10 +9,10 @@ import type { AuctionItemCreateParams } from './auction-item.types'
 import { computed } from 'vue'
 
 export function useAuctionItem() {
-    const queryCache = useQueryCache()
+    const queryClient = useQueryClient()
 
-    const { mutateAsync: createItem, asyncStatus: createStatus } = useMutation({
-        mutation({ auctionItem, auctionId }: AuctionItemCreateParams) {
+    const { mutateAsync: createItem, status: createStatus } = useMutation({
+        mutationFn({ auctionItem, auctionId }: AuctionItemCreateParams) {
             return auctionApi.addItem(auctionItem, auctionId)
         },
         onMutate({ auctionItem, auctionId }) {
@@ -21,7 +21,7 @@ export function useAuctionItem() {
                 id: Infinity,
                 documentId: crypto.randomUUID(),
             }
-            const auctionOld = queryCache.getQueryData<Persisted<Auction>>([
+            const auctionOld = queryClient.getQueryData<Persisted<Auction>>([
                 AUCTION_QUERY_KEY,
                 auctionId,
             ])!
@@ -29,24 +29,30 @@ export function useAuctionItem() {
                 ...auctionOld,
                 items: auctionOld.items?.concat(newAuctionItem),
             }
-            queryCache.setQueryData([AUCTION_QUERY_KEY, auctionId], auctionNew)
-            queryCache.cancelQueries({ key: [AUCTION_QUERY_KEY, auctionId] })
+            queryClient.setQueryData([AUCTION_QUERY_KEY, auctionId], auctionNew)
+            queryClient.cancelQueries({
+                queryKey: [AUCTION_QUERY_KEY, auctionId],
+            })
 
             return { auctionOld, auctionNew, newAuctionItem }
         },
-        onError(_error, { auctionId }, { auctionOld, auctionNew }) {
+        onError(_error, { auctionId }, context) {
+            if (!context) return
+
+            const { auctionOld, auctionNew } = context
+
             if (
                 auctionNew ===
-                queryCache.getQueryData([AUCTION_QUERY_KEY, auctionId])
+                queryClient.getQueryData([AUCTION_QUERY_KEY, auctionId])
             ) {
-                queryCache.setQueryData(
+                queryClient.setQueryData(
                     [AUCTION_QUERY_KEY, auctionId],
                     auctionOld,
                 )
             }
         },
-        onSuccess(auctionItem, { auctionId }, { auctionNew, newAuctionItem }) {
-            const auction = queryCache.getQueryData<Persisted<Auction>>([
+        onSuccess(_, { auctionId }, { auctionNew, newAuctionItem }) {
+            const auction = queryClient.getQueryData<Persisted<Auction>>([
                 AUCTION_QUERY_KEY,
                 auctionId,
             ])
@@ -54,7 +60,7 @@ export function useAuctionItem() {
             if (!auction) return
 
             if (!auction.items) {
-                queryCache.setQueryData([AUCTION_QUERY_KEY], auctionNew)
+                queryClient.setQueryData([AUCTION_QUERY_KEY], auctionNew)
                 return
             }
 
@@ -64,17 +70,17 @@ export function useAuctionItem() {
 
             if (auctionItemIndex !== -1) {
                 const itemsCopy = auction?.items?.slice()
-                itemsCopy.splice(auctionItemIndex, 1, auctionItem)
-                queryCache.setQueryData([AUCTION_QUERY_KEY, auctionId], {
+                itemsCopy?.splice(auctionItemIndex, 1, newAuctionItem)
+                queryClient.setQueryData([AUCTION_QUERY_KEY, auctionId], {
                     ...auctionNew,
-                    aution_items: itemsCopy,
+                    aution_items: itemsCopy ?? [],
                 })
             }
         },
     })
 
     const { mutateAsync: deleteItem } = useMutation({
-        mutation({
+        mutationFn({
             itemId,
             auctionId,
         }: {
@@ -84,7 +90,7 @@ export function useAuctionItem() {
             return auctionApi.deleteItem(itemId, auctionId)
         },
         onMutate({ itemId, auctionId }) {
-            const auctionOld = queryCache.getQueryData<Persisted<Auction>>([
+            const auctionOld = queryClient.getQueryData<Persisted<Auction>>([
                 AUCTION_QUERY_KEY,
                 auctionId,
             ])
@@ -95,21 +101,23 @@ export function useAuctionItem() {
                 items: auctionOld.items?.filter((item) => item.id !== itemId),
             }
 
-            queryCache.setQueryData([AUCTION_QUERY_KEY, auctionId], auctionNew)
-            queryCache.cancelQueries({ key: [AUCTION_QUERY_KEY, auctionId] })
+            queryClient.setQueryData([AUCTION_QUERY_KEY, auctionId], auctionNew)
+            queryClient.cancelQueries({
+                queryKey: [AUCTION_QUERY_KEY, auctionId],
+            })
 
             return { auctionOld }
         },
         onError(_error, { auctionId }, context) {
             if (!context) return
 
-            queryCache.setQueryData(
+            queryClient.setQueryData(
                 [AUCTION_QUERY_KEY, auctionId],
                 context.auctionOld,
             )
 
-            queryCache.invalidateQueries({
-                key: [AUCTION_QUERY_KEY, auctionId],
+            queryClient.invalidateQueries({
+                queryKey: [AUCTION_QUERY_KEY, auctionId],
             })
         },
     })
@@ -123,7 +131,7 @@ export function useAuctionItem() {
     }
 
     const isCreating = computed(() => {
-        return createStatus.value === 'loading'
+        return createStatus.value === 'pending'
     })
 
     return {

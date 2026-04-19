@@ -16,7 +16,7 @@
     "dependencies": {
         "@nuxt/ui": "^4.4.0",
         "@nuxtjs/mdc": "^0.16.1",
-        "@pinia/colada": "^0.17.1",
+        "@tanstack/vue-query": "^5.99.1",
         "@tanstack/vue-virtual": "^3.13.6",
         "@vueuse/core": "^13.6.0",
         "globals": "^16.4.0",
@@ -25,7 +25,7 @@
         "qs": "^6.15.0",
         "tailwindcss": "^4.0.14",
         "vue": "^3.5.22",
-        "vue-router": "^4.5.0"
+        "vue-router": "^5.0.4"
     },
     "devDependencies": {
         "@tailwindcss/typography": "^0.5.16",

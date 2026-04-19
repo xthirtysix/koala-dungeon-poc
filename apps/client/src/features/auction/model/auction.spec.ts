@@ -34,25 +34,25 @@ vi.mock('@/entities/auction', () => ({
     AUCTION_QUERY_KEY: 'auctions',
 }))
 
-vi.mock('@pinia/colada', () => ({
+vi.mock('@tanstack/vue-query', () => ({
     useMutation: (options: {
         onSettled?: () => Promise<void>
-        mutation?: () => Promise<void>
+        mutationFn?: () => Promise<void>
     }) => {
         onSettledCallback.value = options.onSettled
 
         return {
             mutateAsync: mutateMock.mockImplementation(async () => {
                 mockAsyncStatus.value = 'loading'
-                await options.mutation?.()
+                await options.mutationFn?.()
                 await options.onSettled?.()
                 mockAsyncStatus.value = 'idle'
             }),
             data: mockData,
-            asyncStatus: mockAsyncStatus,
+            status: mockAsyncStatus,
         }
     },
-    useQueryCache: () => ({
+    useQueryClient: () => ({
         invalidateQueries: invalidateQueriesMock,
     }),
 }))

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { useMutation, useQuery, useQueryCache } from '@pinia/colada'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { Dice } from '@/shared/tools/dice'
 import { useMapStore } from '@/entities/map'
 import { marathonApi } from '@/entities/marathon'
@@ -32,7 +32,7 @@ import { STORAGE_KEY } from '@/features/map-toolbar/config/compact-toolbar.flag'
 
 const route = useRoute()
 const diceModal = useDiceModal()
-const queryCache = useQueryCache()
+const queryClient = useQueryClient()
 const mapStore = useMapStore()
 const { addRollAndSave } = useRolls()
 const { movementStrategy, teleport, walk } = useMapMovement({ path: pathMock })
@@ -44,8 +44,8 @@ const isMapLocked = ref(false)
 const isToolbarCompact = useStorage(STORAGE_KEY, false)
 
 const { data: marathon, isLoading } = useQuery({
-    key: ['marathon'],
-    query: () => marathonApi.getMarathon(),
+    queryKey: ['marathon'],
+    queryFn: () => marathonApi.getMarathon(),
 })
 
 const rollStrategiesMap = new Map<
@@ -102,9 +102,9 @@ async function onDiceRoll(result: { action: RollConfirmAction; dice?: Dice }) {
 }
 
 const { mutate: unlockMovement } = useMutation({
-    mutation: () => characterApi.unlockMovement(),
+    mutationFn: () => characterApi.unlockMovement(),
     onSuccess: () => {
-        queryCache.invalidateQueries({ key: ['main-character'] })
+        queryClient.invalidateQueries({ queryKey: ['main-character'] })
     },
     onError: (error) => {
         console.error('Ошибка при разблокировке движения:', error)

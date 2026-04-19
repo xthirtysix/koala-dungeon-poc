@@ -46,7 +46,6 @@ const borderColor = computed(() => {
             :class="borderColor"
         >
             <p
-                v-else-
                 class="relative z-1 m-0 overflow-y-auto text-sm"
             >
                 {{ obstacle.description }}

@@ -8,7 +8,7 @@ interface GetSpiritsParams {
     isHidden?: boolean
 }
 
-interface GetSpiritsResponse {
+export interface GetSpiritsResponse {
     data: Spirit[]
     meta: {
         pagination: {
