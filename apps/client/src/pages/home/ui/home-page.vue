@@ -2,10 +2,10 @@
 import { ref, computed, type ComponentPublicInstance } from 'vue'
 import { MarathonTimer } from '@/widgets/marathon-timer'
 import { HomeLatestWidget } from '@/widgets/home-latest'
-import { MarathonStatsWidget } from '@/widgets/marathon-stats'
 import { AdvertisingBanner } from '@/entities/banner'
 import { usePageBanner } from '@/entities/banner/model/usePageBanner'
 import { PageName } from '@/shared/config'
+import { MarathonDashboard } from '@/widgets/marathon-dashboard'
 
 const { pageBanner: homeBanner } = usePageBanner(PageName.MAIN)
 
@@ -43,7 +43,7 @@ const showHomeLatest = computed(() => {
         />
     </div>
 
-    <marathon-stats-widget class="marathon-stats mt-4" />
+    <marathon-dashboard />
 
     <home-latest-widget v-if="false && showHomeLatest" class="mt-8" />
 </template>

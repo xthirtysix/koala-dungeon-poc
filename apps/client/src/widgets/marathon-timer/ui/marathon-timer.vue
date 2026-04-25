@@ -60,6 +60,7 @@ const status = computed(() => {
     const isAfterStart = nowSec >= startSec
     const pt = passedTime.value
     const tt = totalTime.value
+
     // 1. До старта, нет passedTime
     if (isBeforeStart && !pt) {
         return `Марафон начнется ${new Date(marathon.value.startTime).toLocaleString('ru-RU', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'long' })}`
@@ -86,7 +87,7 @@ const status = computed(() => {
     }
     // 6. Закончен
     if (pt === tt) {
-        return 'Марафон закончен! Но скоро нас ждут новые приключения!'
+        return 'Марафон "Осень 2025" завершен!'
     }
     return ''
 })
@@ -98,9 +99,9 @@ defineExpose({
 
 <template>
     <div
-        class="marathon-timer font-amatic mx-auto mt-6 w-auto p-6 text-center text-3xl font-bold"
+        class="marathon-timer font-amatic mx-auto mt-6 w-auto px-6 py-2 text-center text-3xl font-bold"
     >
-        <div class="flex flex-col items-center gap-4 py-6">
+        <div class="flex flex-col items-center gap-4 py-2">
             <div
                 v-if="loading"
                 class="my-[2px] min-h-8 w-128 animate-pulse rounded bg-gray-100 dark:bg-gray-700"

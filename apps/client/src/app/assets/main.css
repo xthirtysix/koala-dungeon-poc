@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
 @plugin '@tailwindcss/typography';
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @font-face {
   font-display: swap;
@@ -44,6 +45,20 @@
   font-weight: 700;
   src: url('./fonts/open-sans-v44-latin-700.woff2') format('woff2');
 }
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/inter-v20-cyrillic_latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/inter-v20-cyrillic_latin-700.woff2') format('woff2');
+}
 
 :root:not(.dark) {
     --ui-bg: var(--color-white);
@@ -52,6 +67,7 @@
 @theme static {
     --color-white: oklch(0.995 0.005 78);
     --font-amatic: 'Amatic SC', sans-serif;
+    --font-inter: 'Inter', sans-serif;
 
     /* Red - Warmer, more amber-toned */
     --color-red-50: oklch(0.98 0.015 35);
