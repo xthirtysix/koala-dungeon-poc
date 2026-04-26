@@ -3,7 +3,9 @@ import DashboardTile from './dashboard-tile.vue'
 import light from '@/app/assets/images/dashboard/bg-light.webp'
 import dark from '@/app/assets/images/dashboard/bg-dark.webp'
 import { useColorMode } from '@vueuse/core'
-import { ref, watch } from 'vue'
+import confetti from 'canvas-confetti'
+import type { CreateTypes } from 'canvas-confetti'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 defineProps<{
     name: string
@@ -14,8 +16,21 @@ const colorMode = useColorMode()
 
 const isLoadingBg = ref(true)
 const isLoadingFg = ref(true)
+const confettiCanvas = ref<HTMLCanvasElement | null>(null)
+const hasPlayedConfetti = ref(false)
 
 let bg: HTMLImageElement | undefined
+let fireConfetti: CreateTypes | null = null
+
+const launchConfetti = () => {
+    if (!fireConfetti) return
+
+    fireConfetti({
+        particleCount: 100,
+        spread: 160,
+        origin: { y: 1 },
+    })
+}
 
 watch(
     () => colorMode.value,
@@ -33,10 +48,44 @@ watch(
     },
     { immediate: true },
 )
+
+watch(
+    () => !isLoadingBg.value && !isLoadingFg.value,
+    (isReady) => {
+        if (!isReady || !fireConfetti || hasPlayedConfetti.value) return
+
+        launchConfetti()
+        hasPlayedConfetti.value = true
+    },
+    { immediate: true },
+)
+
+onMounted(() => {
+    if (!confettiCanvas.value) return
+
+    fireConfetti = confetti.create(confettiCanvas.value, {
+        resize: true,
+        useWorker: true,
+        disableForReducedMotion: true,
+    })
+})
+
+onBeforeUnmount(() => {
+    fireConfetti?.reset()
+    fireConfetti = null
+})
 </script>
 
 <template>
-    <dashboard-tile class="winner" :ui="{ body: 'min-h-[12rem] md:h-full' }">
+    <dashboard-tile
+        class="winner"
+        :ui="{ body: 'min-h-[12rem] md:h-full' }"
+        @mouseenter="launchConfetti"
+    >
+        <canvas
+            ref="confettiCanvas"
+            class="pointer-events-none absolute inset-0 z-30 h-full w-full"
+        />
         <u-skeleton v-if="isLoadingBg || isLoadingFg" class="h-full w-full" />
         <div
             v-else
@@ -51,7 +100,7 @@ watch(
         >
             <span class="font-inter font-bold">Победитель</span>
             <p
-                class="winner__name font-amatic text-4xl font-bold text-green-400 dark:text-green-300"
+                class="winner__name font-amatic text-4xl font-bold text-green-500 dark:text-green-400"
             >
                 {{ name || 'AloeKoala' }}
             </p>
@@ -75,7 +124,7 @@ watch(
     &::after {
         content: '';
         position: absolute;
-        top: 0;
+        top: -0.25rem;
         width: 2rem;
         height: 120%;
         background-image: url('@/app/assets/images/dashboard/branch.webp');

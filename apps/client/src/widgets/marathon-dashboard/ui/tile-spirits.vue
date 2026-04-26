@@ -29,7 +29,7 @@ defineProps<{
                 >
                     <u-icon name="ph:bomb-duotone" class="size-8" />
                 </div>
-                <p class="truncate w-full">Помех создано</p>
+                <p class="w-full truncate">Помех создано</p>
             </dt>
             <dd class="stats__desc font-amatic text-3xl font-bold">
                 {{ obstacleSpins }}
@@ -41,7 +41,7 @@ defineProps<{
                 >
                     <u-icon name="ph:hand-heart-duotone" class="size-8" />
                 </div>
-                <p class="truncate w-full">Помощи оказано</p>
+                <p class="w-full truncate">Помощи оказано</p>
             </dt>
             <dd class="stats__desc font-amatic text-3xl font-bold">
                 {{ helpSpins }}
@@ -56,7 +56,7 @@ defineProps<{
                         class="size-8 text-center"
                     />
                 </div>
-                <p class="truncate w-full">Ачивок заработано</p>
+                <p class="w-full truncate">Ачивок заработано</p>
             </dt>
             <dd class="stats__desc font-amatic text-3xl font-bold">
                 {{ achievements }}
